@@ -1,0 +1,13 @@
+# Archivos de caché y directorios generados por Python
+__pycache__/
+*.pyc
+
+# Directorio de dependencias (generalmente creado por pip)
+lib/
+
+# Logs y archivos temporales
+*.log
+*.swp
+
+# Carpeta de archivos compilados
+__pycache__/
