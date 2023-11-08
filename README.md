@@ -2,7 +2,7 @@
 
 **APRSint** is a powerful and user-friendly application designed to extract valuable intelligence from Automatic Packet Reporting System (APRS) signals. With APRSint, you can effortlessly analyze APRS data to gain insights, track assets, and make informed decisions. 
 
-![APRSint Logo](./app/media/logo.svg)
+![APRSint Logo](./app/media/logo.png){width=120px}
 
 ## Features
 
