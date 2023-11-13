@@ -5,7 +5,7 @@ import json
 
 class Aprs_client:
     def __init__(self, headless=True) -> None:
-        self._buffer = Buffer()
+        self._buffer = Buffer(debug=True, buffer_length=25)
         self._headless = False
         self._client = IS("N0CALL")
 

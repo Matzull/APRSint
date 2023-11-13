@@ -4,6 +4,8 @@ __pycache__/
 
 # Directorio de dependencias (generalmente creado por pip)
 lib/
+database/
+aprs-python/
 
 # Logs y archivos temporales
 *.log

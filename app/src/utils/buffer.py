@@ -25,22 +25,22 @@ class Buffer:
 
     def write_to_file(self, data):
         if self.buffers_in_file > self.max_buffers_per_file:
-            with open(f"./database/data_{self.iterations}.txt", "r") as f:
+            with open(f"./database/data_{self.iterations}.txt", "rb") as f:
                 with gzip.open(
-                    f"./database/data_{self.iterations}.txt.gz", "wt"
+                    f"./database/data_{self.iterations}.txt.gz", "wb"
                 ) as zip_file:
                     for line in f:
-                        zip_file.write(line)
+                       zip_file.write(line)
             os.remove(f"./database/data_{self.iterations}.txt")
             self.buffers_in_file = 0
             self.iterations += 1
-        with open(f"./database/data_{self.iterations}.txt", "a") as f:
+            if self.debug:
+                self.progress_bar.reset()
+                print("\033[4A\033[2K", end="")
+        with open(f"./database/data_{self.iterations}.txt", "ab") as f:
             for packet in data:
-                f.write(str(packet) + "\n")
+                f.write(packet + b'\n')
         self._flush()
-        if self.debug:
-            self.progress_bar.reset()
-            print("\033[4A\033[2K", end="")
 
     def _flush(self):
         self.data = []
