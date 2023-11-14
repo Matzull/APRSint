@@ -30,7 +30,7 @@ class Buffer:
                     f"./database/data_{self.iterations}.txt.gz", "wb"
                 ) as zip_file:
                     for line in f:
-                       zip_file.write(line)
+                        zip_file.write(line)
             os.remove(f"./database/data_{self.iterations}.txt")
             self.buffers_in_file = 0
             self.iterations += 1
@@ -39,7 +39,7 @@ class Buffer:
                 print("\033[4A\033[2K", end="")
         with open(f"./database/data_{self.iterations}.txt", "ab") as f:
             for packet in data:
-                f.write(packet + b'\n')
+                f.write(packet + b"\n")
         self._flush()
 
     def _flush(self):
