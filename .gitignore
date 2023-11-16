@@ -10,6 +10,6 @@ aprs-python/
 # Logs y archivos temporales
 *.log
 *.swp
-
+./Ci_Cd
 # Carpeta de archivos compilados
 __pycache__/

@@ -1,12 +1,10 @@
-import dash
-from dash import dcc
 from dash import html
-import pandas as pd
-from dash.dependencies import Input, Output, State
 
-def create_div(id, children=[], classname=[]):
+
+def create_div(id, children=[], classname="no-class"):
     div = html.Div(id=id, children=children, className=classname)
     return div
+
 
 def create_title(title, category=1):
     if category == 1:
@@ -19,8 +17,7 @@ def create_title(title, category=1):
         title = html.H4(children=title)
     return title
 
+
 def create_paragraph(text):
     paragraph = html.P(children=text)
     return paragraph
-
-def 

@@ -1,0 +1,42 @@
+************* Module app/src/web/test.py
+app/src/web/test.py:1:0: F0001: No module named app/src/web/test.py (fatal)
+************* Module dash-opioid-epidemic/app.py
+dash-opioid-epidemic/app.py:1:0: F0001: No module named dash-opioid-epidemic/app.py (fatal)
+************* Module dash-opioid-epidemic/src/__init__.py
+dash-opioid-epidemic/src/__init__.py:1:0: F0001: No module named dash-opioid-epidemic/src/__init__.py (fatal)
+************* Module dash-opioid-epidemic/src/dash_helper.py
+dash-opioid-epidemic/src/dash_helper.py:1:0: F0001: No module named dash-opioid-epidemic/src/dash_helper.py (fatal)
+************* Module main
+app/src/main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/main.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/main.py:2:0: C0411: standard import "import os" should be placed before "import services.aprs_client as aprs" (wrong-import-order)
+************* Module parse
+app/src/parse.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/parse.py:1:0: E0401: Unable to import 'aprslib' (import-error)
+app/src/parse.py:14:23: W0718: Catching too general exception Exception (broad-exception-caught)
+app/src/parse.py:2:0: C0411: standard import "import gzip as gz" should be placed before "import aprslib as aprs" (wrong-import-order)
+app/src/parse.py:3:0: C0411: standard import "import os" should be placed before "import aprslib as aprs" (wrong-import-order)
+************* Module services.aprs_client
+app/src/services/aprs_client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/services/aprs_client.py:2:0: E0401: Unable to import 'aprslib' (import-error)
+app/src/services/aprs_client.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+app/src/services/aprs_client.py:6:0: C0103: Class name "Aprs_client" doesn't conform to PascalCase naming style (invalid-name)
+app/src/services/aprs_client.py:7:23: W0613: Unused argument 'headless' (unused-argument)
+app/src/services/aprs_client.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/services/aprs_client.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/services/aprs_client.py:21:35: W0621: Redefining name 'parse' from outer scope (line 2) (redefined-outer-name)
+app/src/services/aprs_client.py:23:23: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+app/src/services/aprs_client.py:23:23: W0108: Lambda may not be necessary (unnecessary-lambda)
+app/src/services/aprs_client.py:3:0: C0411: standard import "import json" should be placed before "from utils.buffer import Buffer" (wrong-import-order)
+************* Module utils.buffer
+app/src/utils/buffer.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/utils/buffer.py:1:0: E0401: Unable to import 'tqdm' (import-error)
+app/src/utils/buffer.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+app/src/utils/buffer.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/utils/buffer.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/utils/buffer.py:2:0: C0411: standard import "import os" should be placed before "from tqdm import tqdm" (wrong-import-order)
+app/src/utils/buffer.py:3:0: C0411: standard import "import gzip" should be placed before "from tqdm import tqdm" (wrong-import-order)
+
+------------------------------------------------------------------
+Your code has been rated at 0.00/10 (previous run: 0.00/10, +0.00)
+

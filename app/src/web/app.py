@@ -86,144 +86,140 @@ mapbox_style = "mapbox://styles/plotlymapbox/cjvprkf3t1kns1cqjxuxmwixz"
 
 # App layout
 
-div_header = create_div(id = 'header', children = [create_title(title="APRSint Dashboard"), create_paragraph(text="This is a dashboard for APRSint")])
-div_navbar = create_div(id = 'nav-bar', children = [create_title(title="Menu", category=4), html.Li(html.A("Item 1", href="#")), html.Li(html.A("Item 2", href="#"))])
-div_map = create_div(id="left-column", children=[create_div(id="slider-container", children=[create_paragraph(text="Drag the slider to change the year:")])])
-div_app = create_div(id="app_container", )
-app.layout = create_div(id = 'root', children = [div_header, div_content])
+# Creación de divisiones modulares
+div_header = create_div(
+    id="header",
+    classname="container",
+    children=[
+        create_title(title="APRSint Dashboard"),
+        create_paragraph(
+            text="† Deaths are classified using the International Classification of Diseases, "
+            "Tenth Revision (ICD–10). Drug-poisoning deaths are defined as having ICD–10 underlying "
+            "cause-of-death codes X40–X44 (unintentional), X60–X64 (suicide), X85 (homicide), or Y10–Y14 "
+            "(undetermined intent)."
+        ),
+    ],
+)
 
-app.layout = html.Div(
+div_navbar = create_div(
+    id="nav-bar",
+    classname="container",
+    children=[
+        create_title(title="Menu", category=4),
+        html.Li(html.A("Item 1", href="#")),
+        html.Li(html.A("Item 2", href="#")),
+    ],
+)
+
+div_slider = create_div(
+    id="slider-container",
+    classname="container",
+    children=[
+        create_paragraph("Drag the slider to change the year:"),
+        dcc.Slider(
+            id="years-slider",
+            min=2000,
+            max=2020,
+            value=2020,
+            marks={
+                str(year): {
+                    "label": str(year),
+                    "style": {"color": "#7fafdf"},
+                }
+                for year in list(range(2000, 2020, 1))
+            },
+        ),
+    ],
+)
+
+div_heatmap = create_div(
+    id="heatmap-container",
+    classname="container",
+    children=[
+        create_paragraph(
+            "Heatmap of age adjusted mortality rates "
+            "from poisonings in year {0}".format(2000),
+        ),
+        dcc.Graph(
+            id="county-choropleth",
+            figure=dict(
+                layout=dict(
+                    mapbox=dict(
+                        layers=[],
+                        accesstoken=mapbox_access_token,
+                        style=mapbox_style,
+                        center=dict(lat=38.72490, lon=-95.61446),
+                        pitch=0,
+                        zoom=3.5,
+                    ),
+                    autosize=True,
+                ),
+            ),
+        ),
+    ],
+)
+
+div_graph = create_div(
+    id="graph-container",
+    classname="container",
+    children=[
+        create_paragraph("Select chart:"),
+        dcc.Dropdown(
+            options=[
+                {
+                    "label": "Histogram of total number of deaths (single year)",
+                    "value": "show_absolute_deaths_single_year",
+                },
+                {
+                    "label": "Histogram of total number of deaths (1999-2016)",
+                    "value": "absolute_deaths_all_time",
+                },
+                {
+                    "label": "Age-adjusted death rate (single year)",
+                    "value": "show_death_rate_single_year",
+                },
+                {
+                    "label": "Trends in age-adjusted death rate (1999-2016)",
+                    "value": "death_rate_all_time",
+                },
+            ],
+            value="show_death_rate_single_year",
+            id="chart-dropdown",
+        ),
+        dcc.Graph(
+            id="selected-data",
+            figure=dict(
+                data=[dict(x=0, y=0)],
+                layout=dict(
+                    paper_bgcolor="#F4F4F8",
+                    plot_bgcolor="#F4F4F8",
+                    autofill=True,
+                    margin=dict(t=75, r=50, b=100, l=50),
+                ),
+            ),
+        ),
+    ],
+)
+
+# Añadir divisiones modulares al layout
+app.layout = create_div(
     id="root",
     children=[
-        html.Div(
-            id="header",
-            className="rounded",
-            children=[
-                html.H1(children="APRSint Dashboard"),
-                html.P(
-                    id="description",
-                    children="† Deaths are classified using the International Classification of Diseases, \
-                    Tenth Revision (ICD–10). Drug-poisoning deaths are defined as having ICD–10 underlying \
-                    cause-of-death codes X40–X44 (unintentional), X60–X64 (suicide), X85 (homicide), or Y10–Y14 \
-                    (undetermined intent).",
-                ),
-            ],
-        ),
-        html.Div(
+        div_header,
+        create_div(
             id="content",
             children=[
-        html.Nav(
-            id="nav-bar",
-            className="rounded",
-            children=[
-                html.H4(children="Menu"),
-                html.Li(html.A("Item 1", href="#")),
-                html.Li(html.A("Item 2", href="#")),
-            ],
-        ),
-        html.Div(
-            id="app-container",
-            children=[
-                html.Div(
-                    id="left-column",
-                    className="rounded",
+                div_navbar,
+                create_div(
+                    id="app-container",
                     children=[
-                        html.Div(
-                            id="slider-container",
-                            children=[
-                                html.P(
-                                    id="slider-text",
-                                    children="Drag the slider to change the year:",
-                                ),
-                                dcc.Slider(
-                                    id="years-slider",
-                                    min=2000,
-                                    max=2020,
-                                    value=2020,
-                                    marks={
-                                        str(year): {
-                                            "label": str(year),
-                                            "style": {"color": "#7fafdf"},
-                                        }
-                                        for year in list(range(2000, 2020, 1))
-                                    },
-                                ),
-                            ],
-                        ),
-                        html.Div(
-                            id="heatmap-container",
-                            className="rounded",
-                            children=[
-                                html.P(
-                                    "Heatmap of age adjusted mortality rates \
-                            from poisonings in year {0}".format(2000),
-                                    id="heatmap-title",
-                                ),
-                                dcc.Graph(
-                                    id="county-choropleth",
-                                    figure=dict(
-                                        layout=dict(
-                                            mapbox=dict(
-                                                layers=[],
-                                                accesstoken=mapbox_access_token,
-                                                style=mapbox_style,
-                                                center=dict(
-                                                    lat=38.72490, lon=-95.61446
-                                                ),
-                                                pitch=0,
-                                                zoom=3.5,
-                                            ),
-                                            autosize=True,
-                                        ),
-                                    ),
-                                ),
-                            ],
-                        ),
-                    ],
-                ),
-                html.Div(
-                    id="graph-container",
-                    children=[
-                        html.P(id="chart-selector", children="Select chart:"),
-                        dcc.Dropdown(
-                            options=[
-                                {
-                                    "label": "Histogram of total number of deaths (single year)",
-                                    "value": "show_absolute_deaths_single_year",
-                                },
-                                {
-                                    "label": "Histogram of total number of deaths (1999-2016)",
-                                    "value": "absolute_deaths_all_time",
-                                },
-                                {
-                                    "label": "Age-adjusted death rate (single year)",
-                                    "value": "show_death_rate_single_year",
-                                },
-                                {
-                                    "label": "Trends in age-adjusted death rate (1999-2016)",
-                                    "value": "death_rate_all_time",
-                                },
-                            ],
-                            value="show_death_rate_single_year",
-                            id="chart-dropdown",
-                        ),
-                        dcc.Graph(
-                            id="selected-data",
-                            figure=dict(
-                                data=[dict(x=0, y=0)],
-                                layout=dict(
-                                    paper_bgcolor="#F4F4F8",
-                                    plot_bgcolor="#F4F4F8",
-                                    autofill=True,
-                                    margin=dict(t=75, r=50, b=100, l=50),
-                                ),
-                            ),
-                        ),
+                        div_slider,
+                        div_heatmap,
+                        div_graph,
                     ],
                 ),
             ],
         ),
-            ],),
     ],
 )
 
