@@ -1,14 +1,7 @@
-import dash
 from dash import html
-from src.dash_helper import *
-from dash import html
+from dash_svg import Svg
+import components.symbols as sy
 
-app = dash.Dash(
-    __name__,
-    meta_tags=[
-        {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
-    ],
-)
 # button data-bs-toggle='collapse', data-bs-target="#navbarSearch", aria-controls="navbarSearch", aria-expanded="false", aria-label="Toggle search",
 header = html.Header(
     className="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow",
@@ -27,11 +20,7 @@ header = html.Header(
                         html.Button(
                             className="nav-link px-3 text-white",
                             type="button",
-                            children=[
-                                html.svg(
-                                    className="bi", children=[html.use(href="#search")]
-                                )
-                            ],
+                            children=[sy.search],
                             **{
                                 "data-bs-toggle": "collapse",
                                 "data-bs-target": "#navbarSearch",
@@ -44,9 +33,7 @@ header = html.Header(
                 ),
                 html.Li(
                     className="nav-item text-nowrap",
-                    children=[
-                        html.A(className="placeholder", children="About", href="#")
-                    ],
+                    children=[sy.list],
                 ),
             ],
         ),
