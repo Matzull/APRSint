@@ -7,6 +7,7 @@ from dash import html
 
 import components.header as hd
 import components.theme_switcher as ts
+import components.navbar as nb
 
 app = dash.Dash(
     __name__,
@@ -21,7 +22,7 @@ server = app.server
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 
-app.layout = ts.theme_switcher
+app.layout = nb.navbar
 
 
 if __name__ == "__main__":

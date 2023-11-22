@@ -1,6 +1,6 @@
 from dash import html
 from dash_svg import Svg
-import components.symbols as sy
+from components.symbols import get_symbol
 
 # button data-bs-toggle='collapse', data-bs-target="#navbarSearch", aria-controls="navbarSearch", aria-expanded="false", aria-label="Toggle search",
 header = html.Header(
@@ -20,7 +20,7 @@ header = html.Header(
                         html.Button(
                             className="nav-link px-3 text-white",
                             type="button",
-                            children=[sy.search],
+                            children=[get_symbol("search", class_name="bi")],
                             **{
                                 "data-bs-toggle": "collapse",
                                 "data-bs-target": "#navbarSearch",
@@ -33,7 +33,7 @@ header = html.Header(
                 ),
                 html.Li(
                     className="nav-item text-nowrap",
-                    children=[sy.list],
+                    children=[get_symbol("list", class_name="bi")],
                 ),
             ],
         ),

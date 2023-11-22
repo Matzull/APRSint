@@ -1,7 +1,7 @@
 import dash
 from dash import html
-from src.dash_helper import *
-from dash import html
+
+from components.symbols import get_symbol
 
 app = dash.Dash(
     __name__,
@@ -10,7 +10,7 @@ app = dash.Dash(
     ],
 )
 
-html.Div(
+navbar = html.Div(
     className="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary",
     children=[
         html.Div(
@@ -46,15 +46,12 @@ html.Div(
                                             className="nav-link d-flex align-items-center gap-2 active",
                                             href="#",
                                             children=[
-                                                html.svg(
-                                                    className="bi",
-                                                    children=[
-                                                        html.use(href="#house-fill")
-                                                    ],
+                                                get_symbol(
+                                                    "house-fill", class_name="bi"
                                                 ),
                                                 "Dashboard",
-                                            ]
-                                            ** {"aria-current": "page"},
+                                            ],
+                                            **{"aria-current": "page"},
                                         ),
                                     ],
                                 ),
@@ -68,12 +65,9 @@ html.Div(
                                     className="link-secondary",
                                     href="#",
                                     children=[
-                                        html.svg(
-                                            className="bi",
-                                            children=[html.use(href="#plus-circle")],
-                                        )
-                                    ]
-                                    ** {"aria-label": "Add a new report"},
+                                        get_symbol("plus-circle", class_name="bi")
+                                    ],
+                                    **{"aria-label": "Add a new report"},
                                 ),
                             ],
                         ),
@@ -87,13 +81,8 @@ html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                html.svg(
-                                                    className="bi",
-                                                    children=[
-                                                        html.use(
-                                                            href="#file-earmark-text"
-                                                        )
-                                                    ],
+                                                get_symbol(
+                                                    "file-earmark-text", class_name="bi"
                                                 ),
                                                 "Current month",
                                             ],
@@ -107,13 +96,8 @@ html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                html.svg(
-                                                    className="bi",
-                                                    children=[
-                                                        html.use(
-                                                            href="#file-earmark-text"
-                                                        )
-                                                    ],
+                                                get_symbol(
+                                                    "file-earmark-text", class_name="bi"
                                                 ),
                                                 "Last quarter",
                                             ],
@@ -127,13 +111,8 @@ html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                html.svg(
-                                                    className="bi",
-                                                    children=[
-                                                        html.use(
-                                                            href="#file-earmark-text"
-                                                        )
-                                                    ],
+                                                get_symbol(
+                                                    "file-earmark-text", class_name="bi"
                                                 ),
                                                 "Social engagement",
                                             ],
@@ -153,13 +132,9 @@ html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                html.svg(
-                                                    className="bi",
-                                                    children=[
-                                                        html.use(
-                                                            href="#gear-wide-connected"
-                                                        )
-                                                    ],
+                                                get_symbol(
+                                                    "gear-wide-connected",
+                                                    class_name="bi",
                                                 ),
                                                 "Settings",
                                             ],
@@ -173,11 +148,8 @@ html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                html.svg(
-                                                    className="bi",
-                                                    children=[
-                                                        html.use(href="#door-closed")
-                                                    ],
+                                                get_symbol(
+                                                    "door-closed", class_name="bi"
                                                 ),
                                                 "Sign out",
                                             ],
