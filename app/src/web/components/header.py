@@ -1,5 +1,4 @@
 from dash import html
-from dash_svg import Svg
 from components.symbols import get_symbol
 
 # button data-bs-toggle='collapse', data-bs-target="#navbarSearch", aria-controls="navbarSearch", aria-expanded="false", aria-label="Toggle search",

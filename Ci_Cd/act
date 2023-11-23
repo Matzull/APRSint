@@ -1,0 +1,832 @@
+7[?25l8[0G[2K[1;92m? [0m[1;99mPlease choose the default image you want to use with act:
+  - Large size image: ca. 17GB download + 53.1GB storage, you will need 75GB of free disk space, snapshots of GitHub Hosted Runners without snap and pulled docker images
+  - Medium size image: ~500MB, includes only necessary tools to bootstrap actions and aims to be compatible with most actions
+  - Micro size image: <200MB, contains only NodeJS required to bootstrap actions, doesn't work with all actions
+
+Default image and other options can be changed manually in ~/.actrc (please refer to https://github.com/nektos/act#configuration for additional information about file structure)[0m  [36m[Use arrows to move, type to filter, ? for more help][0m
+[39m  Large[0m
+[1;36m> Medium[0m
+[39m  Micro[0m
+7[1A[0G[1A[0G8[?25h8[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1A[0G[2K[1;92m? [0m[1;99mPlease choose the default image you want to use with act:
+  - Large size image: ca. 17GB download + 53.1GB storage, you will need 75GB of free disk space, snapshots of GitHub Hosted Runners without snap and pulled docker images
+  - Medium size image: ~500MB, includes only necessary tools to bootstrap actions and aims to be compatible with most actions
+  - Micro size image: <200MB, contains only NodeJS required to bootstrap actions, doesn't work with all actions
+
+Default image and other options can be changed manually in ~/.actrc (please refer to https://github.com/nektos/act#configuration for additional information about file structure)[0m[36m Medium[0m
+[Pylint/build-2] 🚀  Start image=catthehacker/ubuntu:act-latest
+[Pylint/build-3] 🚀  Start image=catthehacker/ubuntu:act-latest
+[Pylint/build-1] 🚀  Start image=catthehacker/ubuntu:act-latest
+[Pylint/build-3]   🐳  docker pull image=catthehacker/ubuntu:act-latest platform= username= forcePull=true
+[Pylint/build-2]   🐳  docker pull image=catthehacker/ubuntu:act-latest platform= username= forcePull=true
+[Pylint/build-1]   🐳  docker pull image=catthehacker/ubuntu:act-latest platform= username= forcePull=true
+[Pylint/build-3]   🐳  docker create image=catthehacker/ubuntu:act-latest platform= entrypoint=["tail" "-f" "/dev/null"] cmd=[] network="host"
+[Pylint/build-1]   🐳  docker create image=catthehacker/ubuntu:act-latest platform= entrypoint=["tail" "-f" "/dev/null"] cmd=[] network="host"
+[Pylint/build-2]   🐳  docker create image=catthehacker/ubuntu:act-latest platform= entrypoint=["tail" "-f" "/dev/null"] cmd=[] network="host"
+[Pylint/build-3]   🐳  docker run image=catthehacker/ubuntu:act-latest platform= entrypoint=["tail" "-f" "/dev/null"] cmd=[] network="host"
+[Pylint/build-2]   🐳  docker run image=catthehacker/ubuntu:act-latest platform= entrypoint=["tail" "-f" "/dev/null"] cmd=[] network="host"
+[Pylint/build-1]   🐳  docker run image=catthehacker/ubuntu:act-latest platform= entrypoint=["tail" "-f" "/dev/null"] cmd=[] network="host"
+[Pylint/build-2]   ☁  git clone 'https://github.com/actions/setup-python' # ref=v3
+[Pylint/build-3]   ☁  git clone 'https://github.com/actions/setup-python' # ref=v3
+[Pylint/build-1]   ☁  git clone 'https://github.com/actions/setup-python' # ref=v3
+[Pylint/build-2] 🧪  Matrix: map[python-version:3.9]
+[Pylint/build-2] ⭐ Run Main actions/checkout@v3
+[Pylint/build-2]   🐳  docker cp src=/home/matzul/Documents/APRSint/. dst=/home/matzul/Documents/APRSint
+[Pylint/build-2]   ✅  Success - Main actions/checkout@v3
+[Pylint/build-2] ⭐ Run Main Set up Python 3.9
+[Pylint/build-3] 🧪  Matrix: map[python-version:3.10]
+[Pylint/build-2]   🐳  docker cp src=/root/.cache/act/actions-setup-python@v3/ dst=/var/run/act/actions/actions-setup-python@v3/
+[Pylint/build-3] ⭐ Run Main actions/checkout@v3
+[Pylint/build-3]   🐳  docker cp src=/home/matzul/Documents/APRSint/. dst=/home/matzul/Documents/APRSint
+[Pylint/build-3]   ✅  Success - Main actions/checkout@v3
+[Pylint/build-2]   🐳  docker exec cmd=[node /var/run/act/actions/actions-setup-python@v3/dist/setup/index.js] user= workdir=
+[Pylint/build-3] ⭐ Run Main Set up Python 3.10
+[Pylint/build-1] 🧪  Matrix: map[python-version:3.8]
+[Pylint/build-3]   🐳  docker cp src=/root/.cache/act/actions-setup-python@v3/ dst=/var/run/act/actions/actions-setup-python@v3/
+[Pylint/build-2]   💬  ::debug::Semantic version spec of 3.9 is 3.9
+[Pylint/build-2]   💬  ::debug::isExplicit: 
+[Pylint/build-2]   💬  ::debug::explicit? false
+[Pylint/build-2]   💬  ::debug::evaluating 0 versions
+[Pylint/build-2]   💬  ::debug::match not found
+[Pylint/build-2]   | Version 3.9 was not found in the local cache
+[Pylint/build-1] ⭐ Run Main actions/checkout@v3
+[Pylint/build-1]   🐳  docker cp src=/home/matzul/Documents/APRSint/. dst=/home/matzul/Documents/APRSint
+[Pylint/build-1]   ✅  Success - Main actions/checkout@v3
+[Pylint/build-3]   🐳  docker exec cmd=[node /var/run/act/actions/actions-setup-python@v3/dist/setup/index.js] user= workdir=
+[Pylint/build-1] ⭐ Run Main Set up Python 3.8
+[Pylint/build-1]   🐳  docker cp src=/root/.cache/act/actions-setup-python@v3/ dst=/var/run/act/actions/actions-setup-python@v3/
+[Pylint/build-3]   💬  ::debug::Semantic version spec of 3.10 is 3.10
+[Pylint/build-3]   💬  ::debug::isExplicit: 
+[Pylint/build-3]   💬  ::debug::explicit? false
+[Pylint/build-3]   💬  ::debug::evaluating 0 versions
+[Pylint/build-3]   💬  ::debug::match not found
+[Pylint/build-3]   | Version 3.10 was not found in the local cache
+[Pylint/build-1]   🐳  docker exec cmd=[node /var/run/act/actions/actions-setup-python@v3/dist/setup/index.js] user= workdir=
+[Pylint/build-1]   💬  ::debug::Semantic version spec of 3.8 is 3.8
+[Pylint/build-1]   💬  ::debug::isExplicit: 
+[Pylint/build-1]   💬  ::debug::explicit? false
+[Pylint/build-1]   💬  ::debug::evaluating 0 versions
+[Pylint/build-1]   💬  ::debug::match not found
+[Pylint/build-1]   | Version 3.8 was not found in the local cache
+[Pylint/build-2]   💬  ::debug::check 3.13.0-alpha.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.13.0-alpha.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-rc.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-rc.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-rc.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-beta.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-beta.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-beta.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-beta.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.7 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.6 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.5 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.12.0-alpha.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.6 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.5 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-rc.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-rc.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-beta.5 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-beta.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-beta.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-beta.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-beta.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.7 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.6 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.5 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.11.0-alpha.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.13 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.12 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.11 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.10 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.9 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.8 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.7 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.6 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.5 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-rc.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-rc.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-beta.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-beta.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-beta.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-beta.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.7 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.6 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.5 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.4 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.3 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.2 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.10.0-alpha.1 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::check 3.9.18 satisfies 3.9
+[Pylint/build-2]   💬  ::debug::x64===x64 && darwin===linux
+[Pylint/build-2]   💬  ::debug::x64===x64 && linux===linux
+[Pylint/build-2]   💬  ::debug::x64===x64 && linux===linux
+[Pylint/build-2]   💬  ::debug::matched 3.9.18
+[Pylint/build-2]   | Version 3.9 is available for downloading
+[Pylint/build-2]   | Download from "https://github.com/actions/python-versions/releases/download/3.9.18-5997508477/python-3.9.18-linux-22.04-x64.tar.gz"
+[Pylint/build-2]   💬  ::debug::Downloading https://github.com/actions/python-versions/releases/download/3.9.18-5997508477/python-3.9.18-linux-22.04-x64.tar.gz
+[Pylint/build-2]   💬  ::debug::Destination /tmp/00640e39-86be-488b-93b6-08d4437ed432
+[Pylint/build-3]   💬  ::debug::check 3.13.0-alpha.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.13.0-alpha.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-rc.3 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-rc.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-rc.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-beta.4 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-beta.3 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-beta.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-beta.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.7 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.6 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.5 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.4 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.3 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.12.0-alpha.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.6 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.5 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.4 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.3 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-rc.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-rc.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-beta.5 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-beta.4 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-beta.3 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-beta.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-beta.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.7 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.6 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.5 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.4 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.3 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.2 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.11.0-alpha.1 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::check 3.10.13 satisfies 3.10
+[Pylint/build-3]   💬  ::debug::x64===x64 && darwin===linux
+[Pylint/build-3]   💬  ::debug::x64===x64 && linux===linux
+[Pylint/build-3]   💬  ::debug::x64===x64 && linux===linux
+[Pylint/build-3]   💬  ::debug::matched 3.10.13
+[Pylint/build-3]   | Version 3.10 is available for downloading
+[Pylint/build-3]   | Download from "https://github.com/actions/python-versions/releases/download/3.10.13-5997403688/python-3.10.13-linux-22.04-x64.tar.gz"
+[Pylint/build-3]   💬  ::debug::Downloading https://github.com/actions/python-versions/releases/download/3.10.13-5997403688/python-3.10.13-linux-22.04-x64.tar.gz
+[Pylint/build-3]   💬  ::debug::Destination /tmp/784edc8a-fd4a-45dd-80b4-4b95bf793307
+[Pylint/build-1]   💬  ::debug::check 3.13.0-alpha.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.13.0-alpha.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-rc.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-rc.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-rc.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-beta.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-beta.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-beta.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-beta.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.7 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.6 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.12.0-alpha.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.6 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-rc.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-rc.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-beta.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-beta.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-beta.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-beta.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-beta.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.7 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.6 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.11.0-alpha.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.13 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.12 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.11 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.10 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.9 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.8 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.7 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.6 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-rc.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-rc.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-beta.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-beta.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-beta.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-beta.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.7 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.6 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.10.0-alpha.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.18 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.17 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.16 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.15 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.14 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.13 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.12 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.11 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.10 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.9 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.8 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.7 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.6 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.3 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.2-rc.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.1-rc.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.0 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.0-rc.2 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.0-rc.1 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.0-beta.5 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.9.0-beta.4 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::check 3.8.18 satisfies 3.8
+[Pylint/build-1]   💬  ::debug::x64===x64 && darwin===linux
+[Pylint/build-1]   💬  ::debug::x64===x64 && linux===linux
+[Pylint/build-1]   💬  ::debug::x64===x64 && linux===linux
+[Pylint/build-1]   💬  ::debug::matched 3.8.18
+[Pylint/build-1]   | Version 3.8 is available for downloading
+[Pylint/build-1]   | Download from "https://github.com/actions/python-versions/releases/download/3.8.18-5997368067/python-3.8.18-linux-22.04-x64.tar.gz"
+[Pylint/build-1]   💬  ::debug::Downloading https://github.com/actions/python-versions/releases/download/3.8.18-5997368067/python-3.8.18-linux-22.04-x64.tar.gz
+[Pylint/build-1]   💬  ::debug::Destination /tmp/0e5651c1-eeec-4beb-a752-f7d87e7c986f
+[Pylint/build-3]   💬  ::debug::download complete
+[Pylint/build-3]   | Extract downloaded archive
+[Pylint/build-3]   💬  ::debug::Checking tar --version
+[Pylint/build-3]   💬  ::debug::tar (GNU tar) 1.34%0ACopyright (C) 2021 Free Software Foundation, Inc.%0ALicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.%0AThis is free software: you are free to change and redistribute it.%0AThere is NO WARRANTY, to the extent permitted by law.%0A%0AWritten by John Gilmore and Jay Fenlason.
+[Pylint/build-3]   | [command]/usr/bin/tar xz --warning=no-unknown-keyword -C /tmp/fb3f5cc7-88db-4be7-bf8e-db5de4be3127 -f /tmp/784edc8a-fd4a-45dd-80b4-4b95bf793307
+[Pylint/build-3]   | Execute installation script
+[Pylint/build-3]   | Check if Python hostedtoolcache folder exist...
+[Pylint/build-3]   | Creating Python hostedtoolcache folder...
+[Pylint/build-3]   | Create Python 3.10.13 folder
+[Pylint/build-3]   | Copy Python binaries to hostedtoolcache folder
+[Pylint/build-2]   💬  ::debug::download complete
+[Pylint/build-2]   | Extract downloaded archive
+[Pylint/build-2]   💬  ::debug::Checking tar --version
+[Pylint/build-2]   💬  ::debug::tar (GNU tar) 1.34%0ACopyright (C) 2021 Free Software Foundation, Inc.%0ALicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.%0AThis is free software: you are free to change and redistribute it.%0AThere is NO WARRANTY, to the extent permitted by law.%0A%0AWritten by John Gilmore and Jay Fenlason.
+[Pylint/build-2]   | [command]/usr/bin/tar xz --warning=no-unknown-keyword -C /tmp/73b8e13e-e753-4cc1-97d3-1aee5cde3f71 -f /tmp/00640e39-86be-488b-93b6-08d4437ed432
+[Pylint/build-1]   💬  ::debug::download complete
+[Pylint/build-1]   | Extract downloaded archive
+[Pylint/build-1]   💬  ::debug::Checking tar --version
+[Pylint/build-1]   💬  ::debug::tar (GNU tar) 1.34%0ACopyright (C) 2021 Free Software Foundation, Inc.%0ALicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.%0AThis is free software: you are free to change and redistribute it.%0AThere is NO WARRANTY, to the extent permitted by law.%0A%0AWritten by John Gilmore and Jay Fenlason.
+[Pylint/build-1]   | [command]/usr/bin/tar xz --warning=no-unknown-keyword -C /tmp/b468ee34-d75e-4432-8436-a07f5c099b65 -f /tmp/0e5651c1-eeec-4beb-a752-f7d87e7c986f
+[Pylint/build-3]   | Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+[Pylint/build-3]   | Upgrading pip...
+[Pylint/build-2]   | Execute installation script
+[Pylint/build-2]   | Check if Python hostedtoolcache folder exist...
+[Pylint/build-2]   | Creating Python hostedtoolcache folder...
+[Pylint/build-2]   | Create Python 3.9.18 folder
+[Pylint/build-2]   | Copy Python binaries to hostedtoolcache folder
+[Pylint/build-1]   | Execute installation script
+[Pylint/build-1]   | Check if Python hostedtoolcache folder exist...
+[Pylint/build-1]   | Creating Python hostedtoolcache folder...
+[Pylint/build-1]   | Create Python 3.8.18 folder
+[Pylint/build-1]   | Copy Python binaries to hostedtoolcache folder
+[Pylint/build-2]   | Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+[Pylint/build-2]   | Upgrading pip...
+[Pylint/build-1]   | Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+[Pylint/build-1]   | Upgrading pip...
+[Pylint/build-3]   | Looking in links: /tmp/tmpcsx_0j8r
+[Pylint/build-3]   | Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages (65.5.0)
+[Pylint/build-3]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages (23.0.1)
+[Pylint/build-3]   ❗  ::error::WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-3]   | Collecting pip
+[Pylint/build-1]   | Looking in links: /tmp/tmpkgv_yxh7
+[Pylint/build-1]   | Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages (56.0.0)
+[Pylint/build-1]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages (23.0.1)
+[Pylint/build-1]   ❗  ::error::WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-2]   | Looking in links: /tmp/tmp00nysn0h
+[Pylint/build-2]   | Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages (58.1.0)
+[Pylint/build-2]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages (23.0.1)
+[Pylint/build-3]   | Downloading pip-23.3.1-py3-none-any.whl (2.1 MB)
+[Pylint/build-2]   ❗  ::error::WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-3]   | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 8.2 MB/s eta 0:00:00
+[Pylint/build-3]   | 
+[Pylint/build-3]   | Installing collected packages: pip
+[Pylint/build-1]   | Collecting pip
+[Pylint/build-2]   | Collecting pip
+[Pylint/build-1]   | Downloading pip-23.3.1-py3-none-any.whl (2.1 MB)
+[Pylint/build-3]   | Successfully installed pip-23.3.1
+[Pylint/build-2]   | Downloading pip-23.3.1-py3-none-any.whl (2.1 MB)
+[Pylint/build-3]   | Create complete file
+[Pylint/build-3]   💬  ::debug::isExplicit: 
+[Pylint/build-3]   💬  ::debug::explicit? false
+[Pylint/build-3]   💬  ::debug::isExplicit: 3.10.13
+[Pylint/build-3]   💬  ::debug::explicit? true
+[Pylint/build-3]   💬  ::debug::evaluating 1 versions
+[Pylint/build-3]   💬  ::debug::matched: 3.10.13
+[Pylint/build-3]   💬  ::debug::checking cache: /opt/hostedtoolcache/Python/3.10.13/x64
+[Pylint/build-3]   💬  ::debug::Found tool in cache Python 3.10.13 x64
+[Pylint/build-3]   | Successfully setup CPython (3.10.13)
+[Pylint/build-3]   ❓ add-matcher /run/act/actions/actions-setup-python@v3/.github/python.json
+[Pylint/build-3]   ✅  Success - Main Set up Python 3.10
+[Pylint/build-1]   | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 8.2 MB/s eta 0:00:00
+[Pylint/build-1]   | 
+[Pylint/build-1]   | Installing collected packages: pip
+[Pylint/build-3]   ⚙  ::set-env:: pythonLocation=/opt/hostedtoolcache/Python/3.10.13/x64
+[Pylint/build-3]   ⚙  ::set-env:: LD_LIBRARY_PATH=/opt/hostedtoolcache/Python/3.10.13/x64/lib
+[Pylint/build-3]   ⚙  ::set-output:: python-version=3.10.13
+[Pylint/build-2]   | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 7.2 MB/s eta 0:00:00
+[Pylint/build-2]   | 
+[Pylint/build-3]   ⚙  ::add-path:: /opt/hostedtoolcache/Python/3.10.13/x64
+[Pylint/build-3]   ⚙  ::add-path:: /opt/hostedtoolcache/Python/3.10.13/x64/bin
+[Pylint/build-2]   | Installing collected packages: pip
+[Pylint/build-3] ⭐ Run Main Install dependencies
+[Pylint/build-3]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/2] user= workdir=
+[Pylint/build-3]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.10.13/x64/lib/python3.10/site-packages (23.0.1)
+[Pylint/build-3]   | Collecting pip
+[Pylint/build-3]   |   Downloading pip-23.3.1-py3-none-any.whl.metadata (3.5 kB)
+[Pylint/build-3]   | Downloading pip-23.3.1-py3-none-any.whl (2.1 MB)
+[Pylint/build-1]   | Successfully installed pip-23.3.1
+[Pylint/build-1]   | Create complete file
+[Pylint/build-1]   💬  ::debug::isExplicit: 
+[Pylint/build-1]   💬  ::debug::explicit? false
+[Pylint/build-1]   💬  ::debug::isExplicit: 3.8.18
+[Pylint/build-1]   💬  ::debug::explicit? true
+[Pylint/build-1]   💬  ::debug::evaluating 1 versions
+[Pylint/build-1]   💬  ::debug::matched: 3.8.18
+[Pylint/build-1]   💬  ::debug::checking cache: /opt/hostedtoolcache/Python/3.8.18/x64
+[Pylint/build-1]   💬  ::debug::Found tool in cache Python 3.8.18 x64
+[Pylint/build-1]   | Successfully setup CPython (3.8.18)
+[Pylint/build-1]   ❓ add-matcher /run/act/actions/actions-setup-python@v3/.github/python.json
+[Pylint/build-1]   ✅  Success - Main Set up Python 3.8
+[Pylint/build-1]   ⚙  ::set-env:: pythonLocation=/opt/hostedtoolcache/Python/3.8.18/x64
+[Pylint/build-1]   ⚙  ::set-env:: LD_LIBRARY_PATH=/opt/hostedtoolcache/Python/3.8.18/x64/lib
+[Pylint/build-3]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 9.2 MB/s eta 0:00:00
+[Pylint/build-1]   ⚙  ::set-output:: python-version=3.8.18
+[Pylint/build-2]   | Successfully installed pip-23.3.1
+[Pylint/build-3]   | Installing collected packages: pip
+[Pylint/build-3]   |   Attempting uninstall: pip
+[Pylint/build-3]   |     Found existing installation: pip 23.0.1
+[Pylint/build-1]   ⚙  ::add-path:: /opt/hostedtoolcache/Python/3.8.18/x64
+[Pylint/build-1]   ⚙  ::add-path:: /opt/hostedtoolcache/Python/3.8.18/x64/bin
+[Pylint/build-1] ⭐ Run Main Install dependencies
+[Pylint/build-3]   |     Uninstalling pip-23.0.1:
+[Pylint/build-2]   | Create complete file
+[Pylint/build-2]   💬  ::debug::isExplicit: 
+[Pylint/build-2]   💬  ::debug::explicit? false
+[Pylint/build-2]   💬  ::debug::isExplicit: 3.9.18
+[Pylint/build-2]   💬  ::debug::explicit? true
+[Pylint/build-2]   💬  ::debug::evaluating 1 versions
+[Pylint/build-2]   💬  ::debug::matched: 3.9.18
+[Pylint/build-2]   💬  ::debug::checking cache: /opt/hostedtoolcache/Python/3.9.18/x64
+[Pylint/build-2]   💬  ::debug::Found tool in cache Python 3.9.18 x64
+[Pylint/build-2]   | Successfully setup CPython (3.9.18)
+[Pylint/build-2]   ❓ add-matcher /run/act/actions/actions-setup-python@v3/.github/python.json
+[Pylint/build-2]   ✅  Success - Main Set up Python 3.9
+[Pylint/build-1]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/2] user= workdir=
+[Pylint/build-3]   |       Successfully uninstalled pip-23.0.1
+[Pylint/build-2]   ⚙  ::set-env:: LD_LIBRARY_PATH=/opt/hostedtoolcache/Python/3.9.18/x64/lib
+[Pylint/build-2]   ⚙  ::set-env:: pythonLocation=/opt/hostedtoolcache/Python/3.9.18/x64
+[Pylint/build-2]   ⚙  ::set-output:: python-version=3.9.18
+[Pylint/build-2]   ⚙  ::add-path:: /opt/hostedtoolcache/Python/3.9.18/x64
+[Pylint/build-2]   ⚙  ::add-path:: /opt/hostedtoolcache/Python/3.9.18/x64/bin
+[Pylint/build-2] ⭐ Run Main Install dependencies
+[Pylint/build-2]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/2] user= workdir=
+[Pylint/build-1]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages (23.0.1)
+[Pylint/build-1]   | Collecting pip
+[Pylint/build-1]   |   Downloading pip-23.3.1-py3-none-any.whl.metadata (3.5 kB)
+[Pylint/build-1]   | Downloading pip-23.3.1-py3-none-any.whl (2.1 MB)
+[Pylint/build-2]   | Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.9.18/x64/lib/python3.9/site-packages (23.0.1)
+[Pylint/build-2]   | Collecting pip
+[Pylint/build-2]   |   Downloading pip-23.3.1-py3-none-any.whl.metadata (3.5 kB)
+[Pylint/build-2]   | Downloading pip-23.3.1-py3-none-any.whl (2.1 MB)
+[Pylint/build-1]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 5.6 MB/s eta 0:00:00
+[Pylint/build-3]   | Successfully installed pip-23.3.1
+[Pylint/build-3]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-1]   | Installing collected packages: pip
+[Pylint/build-1]   |   Attempting uninstall: pip
+[Pylint/build-1]   |     Found existing installation: pip 23.0.1
+[Pylint/build-1]   |     Uninstalling pip-23.0.1:
+[Pylint/build-1]   |       Successfully uninstalled pip-23.0.1
+[Pylint/build-2]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 7.6 MB/s eta 0:00:00
+[Pylint/build-2]   | Installing collected packages: pip
+[Pylint/build-2]   |   Attempting uninstall: pip
+[Pylint/build-2]   |     Found existing installation: pip 23.0.1
+[Pylint/build-2]   |     Uninstalling pip-23.0.1:
+[Pylint/build-2]   |       Successfully uninstalled pip-23.0.1
+[Pylint/build-3]   | Collecting pylint
+[Pylint/build-3]   |   Downloading pylint-3.0.2-py3-none-any.whl.metadata (12 kB)
+[Pylint/build-3]   | Collecting platformdirs>=2.2.0 (from pylint)
+[Pylint/build-3]   |   Downloading platformdirs-4.0.0-py3-none-any.whl.metadata (11 kB)
+[Pylint/build-3]   | Collecting astroid<=3.1.0-dev0,>=3.0.1 (from pylint)
+[Pylint/build-3]   |   Downloading astroid-3.0.1-py3-none-any.whl.metadata (4.5 kB)
+[Pylint/build-3]   | Collecting isort<6,>=4.2.5 (from pylint)
+[Pylint/build-3]   |   Downloading isort-5.12.0-py3-none-any.whl (91 kB)
+[Pylint/build-3]   |      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 3.7 MB/s eta 0:00:00
+[Pylint/build-3]   | Collecting mccabe<0.8,>=0.6 (from pylint)
+[Pylint/build-3]   |   Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+[Pylint/build-3]   | Collecting tomlkit>=0.10.1 (from pylint)
+[Pylint/build-3]   |   Downloading tomlkit-0.12.3-py3-none-any.whl.metadata (2.7 kB)
+[Pylint/build-1]   | Successfully installed pip-23.3.1
+[Pylint/build-1]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-3]   | Collecting dill>=0.2 (from pylint)
+[Pylint/build-3]   |   Downloading dill-0.3.7-py3-none-any.whl.metadata (9.9 kB)
+[Pylint/build-3]   | Collecting tomli>=1.1.0 (from pylint)
+[Pylint/build-3]   |   Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
+[Pylint/build-3]   | Collecting typing-extensions>=4.0.0 (from astroid<=3.1.0-dev0,>=3.0.1->pylint)
+[Pylint/build-3]   |   Downloading typing_extensions-4.8.0-py3-none-any.whl.metadata (3.0 kB)
+[Pylint/build-3]   | Downloading pylint-3.0.2-py3-none-any.whl (510 kB)
+[Pylint/build-3]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 510.6/510.6 kB 11.6 MB/s eta 0:00:00
+[Pylint/build-3]   | Downloading astroid-3.0.1-py3-none-any.whl (275 kB)
+[Pylint/build-2]   | Successfully installed pip-23.3.1
+[Pylint/build-2]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-3]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 275.2/275.2 kB 7.3 MB/s eta 0:00:00
+[Pylint/build-3]   | Downloading dill-0.3.7-py3-none-any.whl (115 kB)
+[Pylint/build-3]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 115.3/115.3 kB 6.4 MB/s eta 0:00:00
+[Pylint/build-3]   | Downloading platformdirs-4.0.0-py3-none-any.whl (17 kB)
+[Pylint/build-3]   | Downloading tomlkit-0.12.3-py3-none-any.whl (37 kB)
+[Pylint/build-3]   | Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
+[Pylint/build-3]   | Installing collected packages: typing-extensions, tomlkit, tomli, platformdirs, mccabe, isort, dill, astroid, pylint
+[Pylint/build-1]   | Collecting pylint
+[Pylint/build-1]   |   Downloading pylint-3.0.2-py3-none-any.whl.metadata (12 kB)
+[Pylint/build-1]   | Collecting platformdirs>=2.2.0 (from pylint)
+[Pylint/build-1]   |   Downloading platformdirs-4.0.0-py3-none-any.whl.metadata (11 kB)
+[Pylint/build-1]   | Collecting astroid<=3.1.0-dev0,>=3.0.1 (from pylint)
+[Pylint/build-1]   |   Downloading astroid-3.0.1-py3-none-any.whl.metadata (4.5 kB)
+[Pylint/build-2]   | Collecting pylint
+[Pylint/build-1]   | Collecting isort<6,>=4.2.5 (from pylint)
+[Pylint/build-1]   |   Downloading isort-5.12.0-py3-none-any.whl (91 kB)
+[Pylint/build-1]   |      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 4.2 MB/s eta 0:00:00
+[Pylint/build-1]   | Collecting mccabe<0.8,>=0.6 (from pylint)
+[Pylint/build-2]   |   Downloading pylint-3.0.2-py3-none-any.whl.metadata (12 kB)
+[Pylint/build-1]   |   Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+[Pylint/build-1]   | Collecting tomlkit>=0.10.1 (from pylint)
+[Pylint/build-2]   | Collecting platformdirs>=2.2.0 (from pylint)
+[Pylint/build-1]   |   Downloading tomlkit-0.12.3-py3-none-any.whl.metadata (2.7 kB)
+[Pylint/build-2]   |   Downloading platformdirs-4.0.0-py3-none-any.whl.metadata (11 kB)
+[Pylint/build-3]   | Successfully installed astroid-3.0.1 dill-0.3.7 isort-5.12.0 mccabe-0.7.0 platformdirs-4.0.0 pylint-3.0.2 tomli-2.0.1 tomlkit-0.12.3 typing-extensions-4.8.0
+[Pylint/build-3]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-1]   | Collecting typing-extensions>=3.10.0 (from pylint)
+[Pylint/build-1]   |   Downloading typing_extensions-4.8.0-py3-none-any.whl.metadata (3.0 kB)
+[Pylint/build-2]   | Collecting astroid<=3.1.0-dev0,>=3.0.1 (from pylint)
+[Pylint/build-1]   | Collecting dill>=0.2 (from pylint)
+[Pylint/build-2]   |   Downloading astroid-3.0.1-py3-none-any.whl.metadata (4.5 kB)
+[Pylint/build-1]   |   Downloading dill-0.3.7-py3-none-any.whl.metadata (9.9 kB)
+[Pylint/build-3]   ✅  Success - Main Install dependencies
+[Pylint/build-1]   | Collecting tomli>=1.1.0 (from pylint)
+[Pylint/build-1]   |   Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
+[Pylint/build-2]   | Collecting isort<6,>=4.2.5 (from pylint)
+[Pylint/build-2]   |   Downloading isort-5.12.0-py3-none-any.whl (91 kB)
+[Pylint/build-1]   | Downloading pylint-3.0.2-py3-none-any.whl (510 kB)
+[Pylint/build-2]   |      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 91.2/91.2 kB 1.6 MB/s eta 0:00:00
+[Pylint/build-3] ⭐ Run Main Analysing the code with pylint
+[Pylint/build-2]   | Collecting mccabe<0.8,>=0.6 (from pylint)
+[Pylint/build-2]   |   Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+[Pylint/build-1]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 510.6/510.6 kB 7.0 MB/s eta 0:00:00
+[Pylint/build-1]   | Downloading astroid-3.0.1-py3-none-any.whl (275 kB)
+[Pylint/build-1]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 275.2/275.2 kB 10.6 MB/s eta 0:00:00
+[Pylint/build-1]   | Downloading dill-0.3.7-py3-none-any.whl (115 kB)
+[Pylint/build-2]   | Collecting tomlkit>=0.10.1 (from pylint)
+[Pylint/build-1]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 115.3/115.3 kB 10.0 MB/s eta 0:00:00
+[Pylint/build-3]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/3] user= workdir=
+[Pylint/build-2]   |   Downloading tomlkit-0.12.3-py3-none-any.whl.metadata (2.7 kB)
+[Pylint/build-1]   | Downloading platformdirs-4.0.0-py3-none-any.whl (17 kB)
+[Pylint/build-2]   | Collecting typing-extensions>=3.10.0 (from pylint)
+[Pylint/build-2]   |   Downloading typing_extensions-4.8.0-py3-none-any.whl.metadata (3.0 kB)
+[Pylint/build-1]   | Downloading tomlkit-0.12.3-py3-none-any.whl (37 kB)
+[Pylint/build-2]   | Collecting dill>=0.2 (from pylint)
+[Pylint/build-2]   |   Downloading dill-0.3.7-py3-none-any.whl.metadata (9.9 kB)
+[Pylint/build-1]   | Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
+[Pylint/build-2]   | Collecting tomli>=1.1.0 (from pylint)
+[Pylint/build-2]   |   Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
+[Pylint/build-1]   | Installing collected packages: typing-extensions, tomlkit, tomli, platformdirs, mccabe, isort, dill, astroid, pylint
+[Pylint/build-2]   | Downloading pylint-3.0.2-py3-none-any.whl (510 kB)
+[Pylint/build-2]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 510.6/510.6 kB 8.5 MB/s eta 0:00:00
+[Pylint/build-2]   | Downloading astroid-3.0.1-py3-none-any.whl (275 kB)
+[Pylint/build-2]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 275.2/275.2 kB 1.0 MB/s eta 0:00:00
+[Pylint/build-2]   | Downloading dill-0.3.7-py3-none-any.whl (115 kB)
+[Pylint/build-2]   |    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 115.3/115.3 kB 4.7 MB/s eta 0:00:00
+[Pylint/build-2]   | Downloading platformdirs-4.0.0-py3-none-any.whl (17 kB)
+[Pylint/build-2]   | Downloading tomlkit-0.12.3-py3-none-any.whl (37 kB)
+[Pylint/build-2]   | Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
+[Pylint/build-2]   | Installing collected packages: typing-extensions, tomlkit, tomli, platformdirs, mccabe, isort, dill, astroid, pylint
+[Pylint/build-1]   | Successfully installed astroid-3.0.1 dill-0.3.7 isort-5.12.0 mccabe-0.7.0 platformdirs-4.0.0 pylint-3.0.2 tomli-2.0.1 tomlkit-0.12.3 typing-extensions-4.8.0
+[Pylint/build-1]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-1]   ✅  Success - Main Install dependencies
+[Pylint/build-3]   | ************* Module main
+[Pylint/build-3]   | app/src/main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/main.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | ************* Module parse
+[Pylint/build-3]   | app/src/parse.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/parse.py:1:0: E0401: Unable to import 'aprslib' (import-error)
+[Pylint/build-3]   | app/src/parse.py:14:23: W0718: Catching too general exception Exception (broad-exception-caught)
+[Pylint/build-3]   | app/src/parse.py:2:0: C0411: standard import "import gzip as gz" should be placed before "import aprslib as aprs" (wrong-import-order)
+[Pylint/build-3]   | app/src/parse.py:3:0: C0411: standard import "import os" should be placed before "import aprslib as aprs" (wrong-import-order)
+[Pylint/build-3]   | ************* Module services.aprs_client
+[Pylint/build-3]   | app/src/services/aprs_client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/services/aprs_client.py:2:0: E0401: Unable to import 'aprslib' (import-error)
+[Pylint/build-3]   | app/src/services/aprs_client.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+[Pylint/build-3]   | app/src/services/aprs_client.py:6:0: C0103: Class name "AprsClient" doesn't conform to PascalCase naming style (invalid-name)
+[Pylint/build-3]   | app/src/services/aprs_client.py:7:23: W0613: Unused argument 'headless' (unused-argument)
+[Pylint/build-3]   | app/src/services/aprs_client.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/services/aprs_client.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/services/aprs_client.py:21:35: W0621: Redefining name 'parse' from outer scope (line 2) (redefined-outer-name)
+[Pylint/build-3]   | app/src/services/aprs_client.py:23:23: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+[Pylint/build-3]   | app/src/services/aprs_client.py:23:23: W0108: Lambda may not be necessary (unnecessary-lambda)
+[Pylint/build-3]   | app/src/services/aprs_client.py:3:0: C0411: standard import "import json" should be placed before "from utils.buffer import Buffer" (wrong-import-order)
+[Pylint/build-3]   | ************* Module utils.buffer
+[Pylint/build-3]   | app/src/utils/buffer.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/utils/buffer.py:1:0: E0401: Unable to import 'tqdm' (import-error)
+[Pylint/build-3]   | app/src/utils/buffer.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+[Pylint/build-3]   | app/src/utils/buffer.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/utils/buffer.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/utils/buffer.py:2:0: C0411: standard import "import os" should be placed before "from tqdm import tqdm" (wrong-import-order)
+[Pylint/build-3]   | app/src/utils/buffer.py:3:0: C0411: standard import "import gzip" should be placed before "from tqdm import tqdm" (wrong-import-order)
+[Pylint/build-3]   | ************* Module app
+[Pylint/build-3]   | app/src/web/app.py:47:0: C0301: Line too long (152/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/app.py:57:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/app.py:61:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/app.py:67:0: C0301: Line too long (145/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/app.py:81:0: C0301: Line too long (152/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/web/app.py:3:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | app/src/web/app.py:4:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | app/src/web/app.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | ************* Module components.header
+[Pylint/build-3]   | app/src/web/components/header.py:4:0: C0301: Line too long (148/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/header.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/web/components/header.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | ************* Module components.navbar
+[Pylint/build-3]   | app/src/web/components/navbar.py:46:0: C0301: Line too long (104/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/navbar.py:61:0: C0301: Line too long (156/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/navbar.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/web/components/navbar.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | app/src/web/components/navbar.py:2:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | ************* Module components.symbols
+[Pylint/build-3]   | app/src/web/components/symbols.py:6:0: C0301: Line too long (201/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:9:0: C0301: Line too long (350/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:14:0: C0301: Line too long (394/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:19:0: C0301: Line too long (135/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:25:0: C0301: Line too long (112/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:31:0: C0301: Line too long (168/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:36:0: C0301: Line too long (179/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:39:0: C0301: Line too long (166/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:44:0: C0301: Line too long (1169/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:49:0: C0301: Line too long (210/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:55:0: C0301: Line too long (183/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:63:0: C0301: Line too long (197/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:69:0: C0301: Line too long (639/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:77:0: C0301: Line too long (118/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:82:0: C0301: Line too long (2651/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:87:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:90:0: C0301: Line too long (149/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:95:0: C0301: Line too long (142/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:103:0: C0301: Line too long (282/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:106:0: C0301: Line too long (613/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:111:0: C0301: Line too long (656/100) (line-too-long)
+[Pylint/build-3]   | app/src/web/components/symbols.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/web/components/symbols.py:1:0: E0401: Unable to import 'dash_svg' (import-error)
+[Pylint/build-3]   | app/src/web/components/symbols.py:117:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/web/components/symbols.py:117:63: C0103: Argument name "viewBox" doesn't conform to snake_case naming style (invalid-name)
+[Pylint/build-3]   | app/src/web/components/symbols.py:120:11: R1721: Unnecessary use of a comprehension, use list(symbol_path) instead. (unnecessary-comprehension)
+[Pylint/build-3]   | ************* Module components.theme_switcher
+[Pylint/build-3]   | app/src/web/components/theme_switcher.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/web/components/theme_switcher.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | ************* Module src.dash_helper
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:4:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:4:15: W0622: Redefining built-in 'id' (redefined-builtin)
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | app/src/web/src/dash_helper.py:21:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-3]   | 
+[Pylint/build-3]   | -----------------------------------
+[Pylint/build-3]   | Your code has been rated at 0.76/10
+[Pylint/build-3]   | 
+[Pylint/build-1] ⭐ Run Main Analysing the code with pylint
+[Pylint/build-1]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/3] user= workdir=
+[Pylint/build-2]   | Successfully installed astroid-3.0.1 dill-0.3.7 isort-5.12.0 mccabe-0.7.0 platformdirs-4.0.0 pylint-3.0.2 tomli-2.0.1 tomlkit-0.12.3 typing-extensions-4.8.0
+[Pylint/build-2]   | WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+[Pylint/build-3]   ❌  Failure - Main Analysing the code with pylint
+[Pylint/build-2]   ✅  Success - Main Install dependencies
+[Pylint/build-3] exitcode '30': failure
+[Pylint/build-3] 🏁  Job failed
+[Pylint/build-2] ⭐ Run Main Analysing the code with pylint
+[Pylint/build-2]   🐳  docker exec cmd=[bash --noprofile --norc -e -o pipefail /var/run/act/workflow/3] user= workdir=
+[Pylint/build-1]   | ************* Module main
+[Pylint/build-1]   | app/src/main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/main.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | ************* Module parse
+[Pylint/build-1]   | app/src/parse.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/parse.py:1:0: E0401: Unable to import 'aprslib' (import-error)
+[Pylint/build-1]   | app/src/parse.py:14:23: W0718: Catching too general exception Exception (broad-exception-caught)
+[Pylint/build-1]   | app/src/parse.py:2:0: C0411: standard import "import gzip as gz" should be placed before "import aprslib as aprs" (wrong-import-order)
+[Pylint/build-1]   | app/src/parse.py:3:0: C0411: standard import "import os" should be placed before "import aprslib as aprs" (wrong-import-order)
+[Pylint/build-1]   | ************* Module services.aprs_client
+[Pylint/build-1]   | app/src/services/aprs_client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/services/aprs_client.py:2:0: E0401: Unable to import 'aprslib' (import-error)
+[Pylint/build-1]   | app/src/services/aprs_client.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+[Pylint/build-1]   | app/src/services/aprs_client.py:6:0: C0103: Class name "AprsClient" doesn't conform to PascalCase naming style (invalid-name)
+[Pylint/build-1]   | app/src/services/aprs_client.py:7:23: W0613: Unused argument 'headless' (unused-argument)
+[Pylint/build-1]   | app/src/services/aprs_client.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/services/aprs_client.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/services/aprs_client.py:21:35: W0621: Redefining name 'parse' from outer scope (line 2) (redefined-outer-name)
+[Pylint/build-1]   | app/src/services/aprs_client.py:23:23: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+[Pylint/build-1]   | app/src/services/aprs_client.py:23:23: W0108: Lambda may not be necessary (unnecessary-lambda)
+[Pylint/build-1]   | app/src/services/aprs_client.py:3:0: C0411: standard import "import json" should be placed before "from utils.buffer import Buffer" (wrong-import-order)
+[Pylint/build-1]   | ************* Module utils.buffer
+[Pylint/build-1]   | app/src/utils/buffer.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/utils/buffer.py:1:0: E0401: Unable to import 'tqdm' (import-error)
+[Pylint/build-1]   | app/src/utils/buffer.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+[Pylint/build-1]   | app/src/utils/buffer.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/utils/buffer.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/utils/buffer.py:2:0: C0411: standard import "import os" should be placed before "from tqdm import tqdm" (wrong-import-order)
+[Pylint/build-1]   | app/src/utils/buffer.py:3:0: C0411: standard import "import gzip" should be placed before "from tqdm import tqdm" (wrong-import-order)
+[Pylint/build-1]   | ************* Module app
+[Pylint/build-1]   | app/src/web/app.py:47:0: C0301: Line too long (152/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/app.py:57:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/app.py:61:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/app.py:67:0: C0301: Line too long (145/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/app.py:81:0: C0301: Line too long (152/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/web/app.py:3:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | app/src/web/app.py:4:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | app/src/web/app.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | ************* Module components.header
+[Pylint/build-1]   | app/src/web/components/header.py:4:0: C0301: Line too long (148/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/header.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/web/components/header.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | ************* Module components.navbar
+[Pylint/build-1]   | app/src/web/components/navbar.py:46:0: C0301: Line too long (104/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/navbar.py:61:0: C0301: Line too long (156/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/navbar.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/web/components/navbar.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | app/src/web/components/navbar.py:2:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | ************* Module components.symbols
+[Pylint/build-1]   | app/src/web/components/symbols.py:6:0: C0301: Line too long (201/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:9:0: C0301: Line too long (350/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:14:0: C0301: Line too long (394/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:19:0: C0301: Line too long (135/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:25:0: C0301: Line too long (112/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:31:0: C0301: Line too long (168/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:36:0: C0301: Line too long (179/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:39:0: C0301: Line too long (166/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:44:0: C0301: Line too long (1169/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:49:0: C0301: Line too long (210/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:55:0: C0301: Line too long (183/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:63:0: C0301: Line too long (197/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:69:0: C0301: Line too long (639/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:77:0: C0301: Line too long (118/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:82:0: C0301: Line too long (2651/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:87:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:90:0: C0301: Line too long (149/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:95:0: C0301: Line too long (142/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:103:0: C0301: Line too long (282/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:106:0: C0301: Line too long (613/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:111:0: C0301: Line too long (656/100) (line-too-long)
+[Pylint/build-1]   | app/src/web/components/symbols.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/web/components/symbols.py:1:0: E0401: Unable to import 'dash_svg' (import-error)
+[Pylint/build-1]   | app/src/web/components/symbols.py:117:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/web/components/symbols.py:117:63: C0103: Argument name "viewBox" doesn't conform to snake_case naming style (invalid-name)
+[Pylint/build-1]   | app/src/web/components/symbols.py:120:11: R1721: Unnecessary use of a comprehension, use list(symbol_path) instead. (unnecessary-comprehension)
+[Pylint/build-1]   | ************* Module components.theme_switcher
+[Pylint/build-1]   | app/src/web/components/theme_switcher.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/web/components/theme_switcher.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | ************* Module src.dash_helper
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:4:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:4:15: W0622: Redefining built-in 'id' (redefined-builtin)
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | app/src/web/src/dash_helper.py:21:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-1]   | 
+[Pylint/build-1]   | -----------------------------------
+[Pylint/build-1]   | Your code has been rated at 0.76/10
+[Pylint/build-1]   | 
+[Pylint/build-1]   ❌  Failure - Main Analysing the code with pylint
+[Pylint/build-1] exitcode '30': failure
+[Pylint/build-1] 🏁  Job failed
+[Pylint/build-2]   | ************* Module main
+[Pylint/build-2]   | app/src/main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/main.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | ************* Module parse
+[Pylint/build-2]   | app/src/parse.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/parse.py:1:0: E0401: Unable to import 'aprslib' (import-error)
+[Pylint/build-2]   | app/src/parse.py:14:23: W0718: Catching too general exception Exception (broad-exception-caught)
+[Pylint/build-2]   | app/src/parse.py:2:0: C0411: standard import "import gzip as gz" should be placed before "import aprslib as aprs" (wrong-import-order)
+[Pylint/build-2]   | app/src/parse.py:3:0: C0411: standard import "import os" should be placed before "import aprslib as aprs" (wrong-import-order)
+[Pylint/build-2]   | ************* Module services.aprs_client
+[Pylint/build-2]   | app/src/services/aprs_client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/services/aprs_client.py:2:0: E0401: Unable to import 'aprslib' (import-error)
+[Pylint/build-2]   | app/src/services/aprs_client.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+[Pylint/build-2]   | app/src/services/aprs_client.py:6:0: C0103: Class name "AprsClient" doesn't conform to PascalCase naming style (invalid-name)
+[Pylint/build-2]   | app/src/services/aprs_client.py:7:23: W0613: Unused argument 'headless' (unused-argument)
+[Pylint/build-2]   | app/src/services/aprs_client.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/services/aprs_client.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/services/aprs_client.py:21:35: W0621: Redefining name 'parse' from outer scope (line 2) (redefined-outer-name)
+[Pylint/build-2]   | app/src/services/aprs_client.py:23:23: C3001: Lambda expression assigned to a variable. Define a function using the "def" keyword instead. (unnecessary-lambda-assignment)
+[Pylint/build-2]   | app/src/services/aprs_client.py:23:23: W0108: Lambda may not be necessary (unnecessary-lambda)
+[Pylint/build-2]   | app/src/services/aprs_client.py:3:0: C0411: standard import "import json" should be placed before "from utils.buffer import Buffer" (wrong-import-order)
+[Pylint/build-2]   | ************* Module utils.buffer
+[Pylint/build-2]   | app/src/utils/buffer.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/utils/buffer.py:1:0: E0401: Unable to import 'tqdm' (import-error)
+[Pylint/build-2]   | app/src/utils/buffer.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+[Pylint/build-2]   | app/src/utils/buffer.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/utils/buffer.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/utils/buffer.py:2:0: C0411: standard import "import os" should be placed before "from tqdm import tqdm" (wrong-import-order)
+[Pylint/build-2]   | app/src/utils/buffer.py:3:0: C0411: standard import "import gzip" should be placed before "from tqdm import tqdm" (wrong-import-order)
+[Pylint/build-2]   | ************* Module web.app
+[Pylint/build-2]   | app/src/web/app.py:47:0: C0301: Line too long (152/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/app.py:57:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/app.py:61:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/app.py:67:0: C0301: Line too long (145/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/app.py:81:0: C0301: Line too long (152/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/web/app.py:3:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | app/src/web/app.py:4:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | app/src/web/app.py:26:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | ************* Module web.components.header
+[Pylint/build-2]   | app/src/web/components/header.py:4:0: C0301: Line too long (148/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/header.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/web/components/header.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | ************* Module web.components.navbar
+[Pylint/build-2]   | app/src/web/components/navbar.py:46:0: C0301: Line too long (104/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/navbar.py:61:0: C0301: Line too long (156/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/navbar.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/web/components/navbar.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | app/src/web/components/navbar.py:2:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | ************* Module web.components.symbols
+[Pylint/build-2]   | app/src/web/components/symbols.py:6:0: C0301: Line too long (201/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:9:0: C0301: Line too long (350/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:14:0: C0301: Line too long (394/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:19:0: C0301: Line too long (135/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:25:0: C0301: Line too long (112/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:31:0: C0301: Line too long (168/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:36:0: C0301: Line too long (179/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:39:0: C0301: Line too long (166/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:44:0: C0301: Line too long (1169/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:49:0: C0301: Line too long (210/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:55:0: C0301: Line too long (183/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:63:0: C0301: Line too long (197/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:69:0: C0301: Line too long (639/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:77:0: C0301: Line too long (118/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:82:0: C0301: Line too long (2651/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:87:0: C0301: Line too long (105/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:90:0: C0301: Line too long (149/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:95:0: C0301: Line too long (142/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:103:0: C0301: Line too long (282/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:106:0: C0301: Line too long (613/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:111:0: C0301: Line too long (656/100) (line-too-long)
+[Pylint/build-2]   | app/src/web/components/symbols.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/web/components/symbols.py:1:0: E0401: Unable to import 'dash_svg' (import-error)
+[Pylint/build-2]   | app/src/web/components/symbols.py:117:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/web/components/symbols.py:117:63: C0103: Argument name "viewBox" doesn't conform to snake_case naming style (invalid-name)
+[Pylint/build-2]   | app/src/web/components/symbols.py:120:11: R1721: Unnecessary use of a comprehension, use list(symbol_path) instead. (unnecessary-comprehension)
+[Pylint/build-2]   | ************* Module web.components.theme_switcher
+[Pylint/build-2]   | app/src/web/components/theme_switcher.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/web/components/theme_switcher.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | ************* Module web.src.dash_helper
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:1:0: E0401: Unable to import 'dash' (import-error)
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:4:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:4:15: W0622: Redefining built-in 'id' (redefined-builtin)
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | app/src/web/src/dash_helper.py:21:0: C0116: Missing function or method docstring (missing-function-docstring)
+[Pylint/build-2]   | 
+[Pylint/build-2]   | -----------------------------------
+[Pylint/build-2]   | Your code has been rated at 0.76/10
+[Pylint/build-2]   | 
+[Pylint/build-2]   ❌  Failure - Main Analysing the code with pylint
+[Pylint/build-2] exitcode '30': failure
+[Pylint/build-2] 🏁  Job failed

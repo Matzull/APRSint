@@ -5,9 +5,7 @@ from components.symbols import get_symbol
 
 app = dash.Dash(
     __name__,
-    meta_tags=[
-        {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
-    ],
+    meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}],
 )
 
 navbar = html.Div(
@@ -46,9 +44,7 @@ navbar = html.Div(
                                             className="nav-link d-flex align-items-center gap-2 active",
                                             href="#",
                                             children=[
-                                                get_symbol(
-                                                    "house-fill", class_name="bi"
-                                                ),
+                                                get_symbol("house-fill", class_name="bi"),
                                                 "Dashboard",
                                             ],
                                             **{"aria-current": "page"},
@@ -64,9 +60,7 @@ navbar = html.Div(
                                 html.A(
                                     className="link-secondary",
                                     href="#",
-                                    children=[
-                                        get_symbol("plus-circle", class_name="bi")
-                                    ],
+                                    children=[get_symbol("plus-circle", class_name="bi")],
                                     **{"aria-label": "Add a new report"},
                                 ),
                             ],
@@ -81,9 +75,7 @@ navbar = html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                get_symbol(
-                                                    "file-earmark-text", class_name="bi"
-                                                ),
+                                                get_symbol("file-earmark-text", class_name="bi"),
                                                 "Current month",
                                             ],
                                         )
@@ -96,9 +88,7 @@ navbar = html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                get_symbol(
-                                                    "file-earmark-text", class_name="bi"
-                                                ),
+                                                get_symbol("file-earmark-text", class_name="bi"),
                                                 "Last quarter",
                                             ],
                                         )
@@ -111,9 +101,7 @@ navbar = html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                get_symbol(
-                                                    "file-earmark-text", class_name="bi"
-                                                ),
+                                                get_symbol("file-earmark-text", class_name="bi"),
                                                 "Social engagement",
                                             ],
                                         )
@@ -148,9 +136,7 @@ navbar = html.Div(
                                             className="nav-link d-flex align-items-center gap-2",
                                             href="#",
                                             children=[
-                                                get_symbol(
-                                                    "door-closed", class_name="bi"
-                                                ),
+                                                get_symbol("door-closed", class_name="bi"),
                                                 "Sign out",
                                             ],
                                         )

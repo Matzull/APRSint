@@ -1,10 +1,10 @@
-import services.aprs_client as aprs
 import os
+import services.aprs_client as aprs
 
 
 def main():
     os.system("cls")
-    aprsc = aprs.Aprs_client()
+    aprsc = aprs.AprsClient()
     aprsc.connect()
     aprsc.receive(debug=False, parse=False)
 

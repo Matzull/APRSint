@@ -1,6 +1,6 @@
-from tqdm import tqdm
 import os
 import gzip
+from tqdm import tqdm
 
 
 class Buffer:
@@ -26,9 +26,7 @@ class Buffer:
     def write_to_file(self, data):
         if self.buffers_in_file > self.max_buffers_per_file:
             with open(f"./database/data_{self.iterations}.txt", "rb") as f:
-                with gzip.open(
-                    f"./database/data_{self.iterations}.txt.gz", "wb"
-                ) as zip_file:
+                with gzip.open(f"./database/data_{self.iterations}.txt.gz", "wb") as zip_file:
                     for line in f:
                         zip_file.write(line)
             os.remove(f"./database/data_{self.iterations}.txt")

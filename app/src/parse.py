@@ -1,6 +1,6 @@
-import aprslib as aprs
-import gzip as gz
 import os
+import gzip as gz
+import aprslib as aprs
 
 DATA_PATH = "../../database"
 
@@ -11,5 +11,6 @@ for file in os.listdir(DATA_PATH):
             for line in f.readlines():
                 try:
                     packets.append(aprs.parse(line[:-1]))
+                # pylint: disable=broad-except
                 except Exception as e:
                     print("Error parsing line: " + line.decode("utf-8") + " " + str(e))
