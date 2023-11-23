@@ -12,6 +12,7 @@ app = dash.Dash(
     __name__,
     external_stylesheets=[
         "https://cdn.jsdelivr.net/npm/@docsearch/css@3",
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css"
     ],
     meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}],
 )
@@ -90,7 +91,6 @@ app.layout = html.Div(
             integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp",
             crossOrigin="anonymous",
         ),
-        html.Script(src="./assets/dashboard.js"),
     ]
 )
 

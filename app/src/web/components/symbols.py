@@ -254,7 +254,7 @@ paths = {
 def get_symbol(name, class_name=None, width=None, height=None, view_box="0 0 16 16"):
     symbol_path = paths.get(name)
     return Svg(
-        [G([list(symbol_path)])],
+        [G(list(symbol_path))],
         className=class_name,
         width=width,
         height=height,
