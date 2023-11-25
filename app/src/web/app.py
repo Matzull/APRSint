@@ -12,9 +12,11 @@ app = dash.Dash(
     __name__,
     external_stylesheets=[
         "https://cdn.jsdelivr.net/npm/@docsearch/css@3",
-        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css"
+        "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css",
     ],
-    meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1.0"}],
+    meta_tags=[
+        {"name": "viewport", "content": "width=device-width, initial-scale=1.0"}
+    ],
 )
 app.title = "APRSint Dashboard"
 server = app.server

@@ -20,6 +20,7 @@
   }
 
   const setTheme = theme => {
+    console.log('switching theme to', theme)
     if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-bs-theme', 'dark')
     } else {
@@ -37,9 +38,9 @@
     }
 
     const themeSwitcherText = document.querySelector('#bd-theme-text')
-    const activeThemeIcon = document.querySelector('.theme-icon-active use')
+    const activeThemeIcon = document.querySelector('.theme-icon-active')
     const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-    const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+    const svgOfActiveBtn = btnToActive.querySelector('svg')
 
     document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
       element.classList.remove('active')
@@ -48,7 +49,8 @@
 
     btnToActive.classList.add('active')
     btnToActive.setAttribute('aria-pressed', 'true')
-    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+    activeThemeIcon = svgOfActiveBtn.cloneNode(true)
+    // activeThemeIcon.setAttribute('g', svgOfActiveBtn.getAttribute('g'))
     const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
     themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
 
@@ -64,17 +66,43 @@
     }
   })
 
-  window.addEventListener('DOMContentLoaded', () => {
-    showActiveTheme(getPreferredTheme())
+  // window.addEventListener('DOMContentLoaded', () => {
+  //   showActiveTheme(getPreferredTheme())
+  //   console.log('DOMContentLoaded')
+  //   document.querySelectorAll('[data-bs-theme-value]')
+  //     .forEach(toggle => {
+  //       console.log('adding event listener')
+  //       toggle.addEventListener('click', () => {
+  //         const theme = toggle.getAttribute('data-bs-theme-value')
+  //         setStoredTheme(theme)
+  //         setTheme(theme)
+  //         showActiveTheme(theme, true)
+  //       })
+  //     })
+  // })
 
-    document.querySelectorAll('[data-bs-theme-value]')
-      .forEach(toggle => {
-        toggle.addEventListener('click', () => {
-          const theme = toggle.getAttribute('data-bs-theme-value')
-          setStoredTheme(theme)
-          setTheme(theme)
-          showActiveTheme(theme, true)
-        })
-      })
-  })
+  const observer = new MutationObserver(() => {
+    const toggles = document.querySelectorAll('[data-bs-theme-value]');
+  
+    toggles.forEach(toggle => {
+      console.log('adding event listener');
+      toggle.addEventListener('click', () => {
+        const theme = toggle.getAttribute('data-bs-theme-value');
+        setStoredTheme(theme);
+        setTheme(theme);
+        showActiveTheme(theme, true);
+      });
+    });
+  });
+  
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  window.addEventListener('DOMContentLoaded', () => {
+    showActiveTheme(getPreferredTheme());
+    console.log('DOMContentLoaded');
+  });
+
 })()

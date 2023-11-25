@@ -210,7 +210,9 @@ paths = {
             )
         )
     ],
-    "circle-half": [Path(d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z")],
+    "circle-half": [
+        Path(d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z")
+    ],
     "moon-stars-fill": [
         Path(
             d=(
@@ -255,6 +257,7 @@ def get_symbol(name, class_name=None, width=None, height=None, view_box="0 0 16 
     symbol_path = paths.get(name)
     return Svg(
         [G(list(symbol_path))],
+        id=name,
         className=class_name,
         width=width,
         height=height,
