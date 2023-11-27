@@ -7,6 +7,8 @@ import components.header as hd
 import components.theme_switcher as ts
 import components.navbar as nb
 import components.symbols as sy
+import plotly.express as px
+
 
 app = dash.Dash(
     __name__,
@@ -21,18 +23,26 @@ app = dash.Dash(
 app.title = "APRSint Dashboard"
 server = app.server
 
-# Load data
-
 
 def get_graph():
-    return html.Canvas(className="my-4 w-100", id="myChart", width="900", height="380")
+    # Sample data
+    df = px.data.iris()
+    return dash.dcc.Graph(
+        id="example-graph",
+        className="border",
+        figure=px.scatter(
+            df, x="sepal_width", y="sepal_length", color="species"
+        ).update_layout(template="plotly_dark"),
+        config={"displayModeBar": False},
+    )
 
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
-
+theme_switcher = ts.ThemeSwitcher(app)
+# TODO make graphs change theme
 app.layout = html.Div(
     children=[
-        ts.theme_switcher,
+        theme_switcher.get_theme_switcher(),
         hd.header,
         html.Div(
             className="container-fluid",
@@ -47,8 +57,7 @@ app.layout = html.Div(
                                 html.Div(
                                     className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom",
                                     children=[
-                                        html.H1(className="h2",
-                                                children="Dashboard"),
+                                        html.H1(className="h2", children="Dashboard"),
                                         html.Div(
                                             className="btn-toolbar mb-2 mb-md-0",
                                             children=[
@@ -81,7 +90,10 @@ app.layout = html.Div(
                                 ),
                                 html.Div(
                                     className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom",
-                                    children=[get_graph()],
+                                    children=[
+                                        html.H1(className="h2", children="Graph"),
+                                        get_graph(),
+                                    ],
                                 ),
                             ],
                         ),
@@ -96,7 +108,6 @@ app.layout = html.Div(
         ),
     ]
 )
-
 
 if __name__ == "__main__":
     app.run_server(debug=True)

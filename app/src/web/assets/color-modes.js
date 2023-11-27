@@ -40,7 +40,10 @@
     const themeSwitcherText = document.querySelector('#bd-theme-text')
     let activeThemeButton = document.querySelector('#bd-theme')
     const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-    const svgOfActiveBtn = btnToActive.querySelector('svg')
+    console.log('Button to active = ', btnToActive, 'theme = ', theme)
+    const svgOfActiveBtn = btnToActive.querySelector('svg').cloneNode(true)
+    svgOfActiveBtn.classList.remove('opacity-50')
+    console.log('svgOfActiveBtn = ', svgOfActiveBtn)
 
     document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
       element.classList.remove('active')
@@ -65,24 +68,9 @@
     }
   })
 
-  // window.addEventListener('DOMContentLoaded', () => {
-  //   showActiveTheme(getPreferredTheme())
-  //   console.log('DOMContentLoaded')
-  //   document.querySelectorAll('[data-bs-theme-value]')
-  //     .forEach(toggle => {
-  //       console.log('adding event listener')
-  //       toggle.addEventListener('click', () => {
-  //         const theme = toggle.getAttribute('data-bs-theme-value')
-  //         setStoredTheme(theme)
-  //         setTheme(theme)
-  //         showActiveTheme(theme, true)
-  //       })
-  //     })
-  // })
-
   const observer = new MutationObserver(() => {
     const toggles = document.querySelectorAll('[data-bs-theme-value]');
-  
+
     toggles.forEach(toggle => {
       console.log('adding event listener');
       toggle.addEventListener('click', () => {
@@ -93,12 +81,12 @@
       });
     });
   });
-  
+
   observer.observe(document.body, {
     childList: true,
     subtree: true
   });
-  
+
   window.addEventListener('DOMContentLoaded', () => {
     showActiveTheme(getPreferredTheme());
     console.log('DOMContentLoaded');

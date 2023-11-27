@@ -1,49 +1,30 @@
 ************* Module main
-app/src/main.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app/src/main.py:5:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module parse
-app/src/parse.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/parse.py:3:0: E0401: Unable to import 'aprslib' (import-error)
 ************* Module services.aprs_client
-app/src/services/aprs_client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app/src/services/aprs_client.py:6:0: C0115: Missing class docstring (missing-class-docstring)
-app/src/services/aprs_client.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
-app/src/services/aprs_client.py:24:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/services/aprs_client.py:3:0: E0401: Unable to import 'aprslib' (import-error)
 ************* Module utils.buffer
-app/src/utils/buffer.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app/src/utils/buffer.py:6:0: C0115: Missing class docstring (missing-class-docstring)
-app/src/utils/buffer.py:18:4: C0116: Missing function or method docstring (missing-function-docstring)
-app/src/utils/buffer.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module app
-app/src/web/app.py:45:0: C0301: Line too long (152/100) (line-too-long)
-app/src/web/app.py:55:0: C0301: Line too long (105/100) (line-too-long)
-app/src/web/app.py:59:0: C0301: Line too long (105/100) (line-too-long)
-app/src/web/app.py:65:0: C0301: Line too long (145/100) (line-too-long)
-app/src/web/app.py:79:0: C0301: Line too long (152/100) (line-too-long)
-app/src/web/app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app/src/web/app.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module components.header
+app/src/utils/buffer.py:3:0: E0401: Unable to import 'tqdm' (import-error)
+************* Module web.app
+app/src/web/app.py:58:0: C0301: Line too long (152/100) (line-too-long)
+app/src/web/app.py:68:0: C0301: Line too long (105/100) (line-too-long)
+app/src/web/app.py:72:0: C0301: Line too long (105/100) (line-too-long)
+app/src/web/app.py:78:0: C0301: Line too long (145/100) (line-too-long)
+app/src/web/app.py:92:0: C0301: Line too long (152/100) (line-too-long)
+app/src/web/app.py:42:1: W0511: TODO make graphs change theme (fixme)
+************* Module web.components.header
 app/src/web/components/header.py:4:0: C0301: Line too long (148/100) (line-too-long)
-app/src/web/components/header.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module components.navbar
-app/src/web/components/navbar.py:44:0: C0301: Line too long (104/100) (line-too-long)
-app/src/web/components/navbar.py:57:0: C0301: Line too long (156/100) (line-too-long)
-app/src/web/components/navbar.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module components.symbols
-app/src/web/components/symbols.py:45:0: C0301: Line too long (101/100) (line-too-long)
-app/src/web/components/symbols.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app/src/web/components/symbols.py:254:0: C0116: Missing function or method docstring (missing-function-docstring)
-app/src/web/components/symbols.py:254:63: C0103: Argument name "viewBox" doesn't conform to snake_case naming style (invalid-name)
-app/src/web/components/symbols.py:257:11: R1721: Unnecessary use of a comprehension, use list(symbol_path) instead. (unnecessary-comprehension)
-************* Module components.theme_switcher
-app/src/web/components/theme_switcher.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-************* Module src.dash_helper
-app/src/web/src/dash_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-app/src/web/src/dash_helper.py:4:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module web.components.navbar
+app/src/web/components/navbar.py:46:0: C0301: Line too long (104/100) (line-too-long)
+app/src/web/components/navbar.py:61:0: C0301: Line too long (156/100) (line-too-long)
+************* Module web.components.symbols
+************* Module web.components.theme_switcher
+app/src/web/components/theme_switcher.py:130:8: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app/src/web/components/theme_switcher.py:13:8: W0201: Attribute 'theme_switcher' defined outside __init__ (attribute-defined-outside-init)
+************* Module web.src.dash_helper
 app/src/web/src/dash_helper.py:4:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
 app/src/web/src/dash_helper.py:4:15: W0622: Redefining built-in 'id' (redefined-builtin)
-app/src/web/src/dash_helper.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
-app/src/web/src/dash_helper.py:21:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.41/10 (previous run: 5.93/10, +1.48)
+Your code has been rated at 6.60/10 (previous run: 6.43/10, +0.17)
 
