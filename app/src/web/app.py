@@ -27,13 +27,19 @@ server = app.server
 def get_graph():
     # Sample data
     df = px.data.iris()
-    return dash.dcc.Graph(
-        id="example-graph",
-        className="border",
-        figure=px.scatter(
-            df, x="sepal_width", y="sepal_length", color="species"
-        ).update_layout(template="plotly_dark"),
-        config={"displayModeBar": False},
+    return html.Div(
+        className="container",
+        children=[
+            html.H1(className="h2", children="Graph"),
+            dash.dcc.Graph(
+                id="example-graph",
+                className="border",
+                figure=px.scatter(
+                    df, x="sepal_width", y="sepal_length", color="species"
+                ).update_layout(template="plotly_dark"),
+                config={"displayModeBar": False},
+            )
+        ]
     )
 
 
@@ -91,7 +97,7 @@ app.layout = html.Div(
                                 html.Div(
                                     className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom",
                                     children=[
-                                        html.H1(className="h2", children="Graph"),
+                                        get_graph(),
                                         get_graph(),
                                     ],
                                 ),
