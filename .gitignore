@@ -1,15 +1,15 @@
-# Archivos de caché y directorios generados por Python
-__pycache__/
-*.pyc
-
-# Directorio de dependencias (generalmente creado por pip)
+# Databases and libraries
 lib/
 database/
 aprs-python/
 
-# Logs y archivos temporales
+# Logs and ci/cd folder
 *.log
 *.swp
 ./Ci_Cd
-# Carpeta de archivos compilados
+
+# Compiled files folder
 __pycache__/
+
+# Configuration files
+*.ini
