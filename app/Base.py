@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 
 
 class Base:
-
     def __init__(self, config):
         self.config = config
 
@@ -23,4 +22,3 @@ class Base:
         self.proxy_interface = ProxyInterface(config)
         self.aws_interface = AWSInterface(config)
         self.drive_interface = DriveInterface(config)
-
