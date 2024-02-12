@@ -13,3 +13,6 @@ __pycache__/
 
 # Configuration files
 *.ini
+
+# egg-info folder
+*.egg-info
