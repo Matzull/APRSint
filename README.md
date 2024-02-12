@@ -1,4 +1,4 @@
-<p align="left"> <img src="./app/media/logo.png" width="100"/> </p>
+<p align="left"> <img src="./media/logo.png" width="100"/> </p>
 
 # APRSint - APRS Intelligence Extractor ![Pylint-Status](https://github.com/Matzull/TFG/actions/workflows/pylint.yml/badge.svg?branch=master)
 

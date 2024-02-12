@@ -1,4 +1,0 @@
-tqdm
-aprslib
-ipykernel
-boto3
