@@ -1,13 +1,18 @@
 import json
-from utils.buffer import Buffer
+import sys
+sys.path.append("/home/matzul/APRSint/app/utils")
+import buffer as bf
 from aprslib import IS, parse as prs
 
+import logging
+logger = logging.getLogger(__name__)
 
 class AprsClient:
-    def __init__(self, headless=True) -> None:
-        self._buffer = Buffer(debug=True, buffer_length=25)
+    def __init__(self, output_dir, headless=True) -> None:
+        self._buffer = bf.Buffer(base_dir=output_dir, max_buffers_per_file=100)
         self._headless = headless
         self._client = IS("N0CALL")
+        logger.info("APRS client initialized")
 
     def _append_to_buffer(self, packet):
         self._buffer.append(packet)
@@ -30,4 +35,7 @@ class AprsClient:
             callback = self._parse_packet
         else:
             callback = self._append_to_buffer
-        self._client.consumer(callback, raw=True)
+        try:
+            self._client.consumer(callback, raw=True, immortal=True)
+        except:
+            logger.error("Error in receive")
