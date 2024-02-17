@@ -7,6 +7,8 @@ requirements = [
     "click",
     "requests",
     "sqlalchemy",
+    "pandas",
+    "pyarrow",
     "unidecode",
     "boto3",
     "tqdm",

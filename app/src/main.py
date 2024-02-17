@@ -1,13 +1,3 @@
-import os
-import services.aprs_client as aprs
+import pandas as pd
 
-
-def main():
-    os.system("cls")
-    aprsc = aprs.AprsClient()
-    aprsc.connect()
-    aprsc.receive(debug=False, parse=False)
-
-
-if __name__ == "__main__":
-    main()
+pd.read_json('data_106.json')
