@@ -1,11 +1,14 @@
 import json
 import sys
+
 sys.path.append("/home/matzul/APRSint/app/utils")
 import buffer as bf
 from aprslib import IS, parse as prs
 
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 class AprsClient:
     def __init__(self, output_dir, headless=True) -> None:
@@ -37,5 +40,5 @@ class AprsClient:
             callback = self._append_to_buffer
         try:
             self._client.consumer(callback, raw=True, immortal=True)
-        except:
-            logger.error("Error in receive")
+        except Exception as e:
+            logger.error(f"Error in receive with error {e}")

@@ -2,6 +2,7 @@ import gzip as gz
 import aprslib as aprs
 import timeit
 
+
 def parse():
     packets = []
     success = 0
@@ -12,9 +13,10 @@ def parse():
                 packets.append(aprs.parse(line[:-1]))
                 success += 1
             # pylint: disable=broad-except
-            except Exception as e:
+            except Exception:
                 error += 1
     print(f"Success: {success}, Error: {error}")
+
 
 time = timeit.timeit(lambda: parse(), number=5)
 print(f"Tiempo de ejecución: {time/5} segundos")

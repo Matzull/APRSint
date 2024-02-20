@@ -46,20 +46,29 @@ def reset_db(ctx, drop):
 
 
 @cli.command()
-@click.option("--arg", type=click.STRING)
 @click.pass_context
-def get_data(ctx, arg):
+def upload_s3(ctx):
     """
     command
     """
-    from ..crawlers.Crawler import Crawler
+    from ..services.s3 import upload_files
 
     config = ctx.obj["config"]
+    upload_files(config)
 
-    crawler = Crawler(config)
-    crawler.command()
+    logger.info("success!!!")
 
-    logger.info(arg)
+
+@cli.command()
+@click.pass_context
+def download_s3(ctx):
+    """
+    command
+    """
+    from ..services.s3 import download_files
+
+    config = ctx.obj["config"]
+    download_files(config)
 
     logger.info("success!!!")
 

@@ -4,56 +4,56 @@
 from datetime import datetime, timedelta
 
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
-from airflow.operators.dummy_operator import DummyOperator
-
-from project_id_dag_params import EXEC_PATH, CONFIG_PATH
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
 
 ########################################################################################################################
 # DAG
 
 default_args = {
-    "owner": "WhiteBox",
+    "owner": "Marcos Alonso Campillo",
     "depends_on_past": False,
-    "start_date": datetime(2021, 1, 1),
-    "retries": 5,
+    "start_date": datetime(2024, 1, 1),
+    "retries": 3,
     "retry_delay": timedelta(minutes=1),
-    "email": ["info@whiteboxml.com"],
+    "email": ["marcal16@ucm.es"],
     "email_on_failure": True,
     "email_on_retry": False,
 }
 
 dag = DAG(
-    dag_id="project_id",
+    dag_id="s3_upload",
     default_args=default_args,
     catchup=False,
-    schedule_interval="0 0 * * *",
+    schedule_interval="0 5 * * 6",  # Every Saturday at 5:00am UTC
 )
 
-first_task = DummyOperator(
+first_task = EmptyOperator(
     task_id="first_task",
     dag=dag,
 )
 
 command = """
     {{ params.interpreter_path }} \
+    aprsint \
     --config-path {{ params.config_path }} \
-    command \
-    --arg '{{ params.arg }}'
+    upload-s3
 """
-
 task = BashOperator(
     task_id="task_id",
     bash_command=command,
     params={
-        "interpreter_path": EXEC_PATH,
-        "config_path": CONFIG_PATH,
+        "interpreter_path": "/home/matzul/miniforge3/envs/tfg_env/bin/python3",
+        "config_path": "/home/matzul/APRSint/config.ini",
         "arg": "test_str",
     },
     dag=dag,
 )
 
-last_task = DummyOperator(
+print(command)
+
+
+last_task = EmptyOperator(
     task_id="last_task",
     dag=dag,
 )

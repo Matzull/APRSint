@@ -23,6 +23,7 @@ class Station(Base):
     """
     Class defining an aprs station
     """
+
     __tablename__ = "station"
     __table_args__ = {"schema": SCHEMA}
 
@@ -32,10 +33,12 @@ class Station(Base):
     longitude = Column(Float)
     altitude = Column(Float)
 
+
 class packet(Base):
     """
     Class defining an aprs packet
     """
+
     __tablename__ = "packet"
     __table_args__ = {"schema": SCHEMA}
 
