@@ -22,10 +22,10 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="s3_upload",
+    dag_id="s3_download",
     default_args=default_args,
     catchup=False,
-    schedule_interval="0 3 * * *",  # Every day at 3:00am UTC
+    schedule_interval="0 5 * * *",  # Every day at 5:00am UTC
 )
 
 first_task = EmptyOperator(
@@ -38,7 +38,7 @@ command = """
     -m \
     aprsint.cli.commands \
     --config-path {{ params.config_path }} \
-    upload-s3
+    download-s3
 """
 task = BashOperator(
     task_id="task_id",

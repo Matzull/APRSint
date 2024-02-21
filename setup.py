@@ -33,6 +33,6 @@ setuptools.setup(
     python_requires=">=3.11",
     entry_points="""
         [console_scripts]
-        aprsint=app.cli.commands:cli
+        app=aprsint.cli.commands:cli
     """,
 )
