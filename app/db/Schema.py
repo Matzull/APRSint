@@ -2,15 +2,16 @@
 # IMPORTS
 
 from sqlalchemy import String, Float, DateTime
+from sqlalchemy.dialects.postgresql import JSONB
 
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
-
+import datetime
 
 ########################################################################################################################
 # PARAMETERS
 
-SCHEMA = "public"
+SCHEMA = "aprsint"
 
 ########################################################################################################################
 # CLASSES
@@ -19,44 +20,22 @@ SCHEMA = "public"
 Base = declarative_base()
 
 
-class Station(Base):
-    """
-    Class defining an aprs station
-    """
-
-    __tablename__ = "station"
-    __table_args__ = {"schema": SCHEMA}
-
-    id_station = Column(Integer, primary_key=True)
-    callsign = Column(String)
-    latitude = Column(Float)
-    longitude = Column(Float)
-    altitude = Column(Float)
-
-
-class packet(Base):
+class AprsPacket(Base):
     """
     Class defining an aprs packet
     """
 
-    __tablename__ = "packet"
+    __tablename__ = "aprs_packets"
     __table_args__ = {"schema": SCHEMA}
 
-    id_packet = Column(Integer, primary_key=True)
-    id_station = Column(Integer)
-    timestamp = Column(DateTime)
-    latitude = Column(Float)
-    longitude = Column(Float)
-    altitude = Column(Float)
-    speed = Column(Float)
-    course = Column(Float)
-    symbol = Column(String)
-    comment = Column(String)
-    path = Column(String)
-    raw = Column(String)
-    digipeaters = Column(String)
-    message = Column(String)
-    telemetry = Column(String)
-    weather = Column(String)
-    status = Column(String)
-    object = Column(String)
+    id = Column(Integer, primary_key=True)
+    callsign = Column(String(15))  # Station callsign
+    ssid = Column(String(5))  # SSID
+    destination = Column(String(15))
+    path = Column(String(100))
+    latitude = Column(Float)  
+    longitude = Column(Float) 
+    timestamp = Column(DateTime, default=datetime.datetime.utcnow)
+    symbol = Column(String(1))
+    comment = Column(String(250))
+    raw_packet = Column(JSONB())

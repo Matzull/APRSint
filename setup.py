@@ -7,6 +7,7 @@ requirements = [
     "click",
     "requests",
     "sqlalchemy",
+    "psycopg2-binary",
     "pandas",
     "pyarrow",
     "unidecode",
@@ -33,6 +34,6 @@ setuptools.setup(
     python_requires=">=3.11",
     entry_points="""
         [console_scripts]
-        app=aprsint.cli.commands:cli
+        aprsint=app.cli.commands:cli
     """,
 )

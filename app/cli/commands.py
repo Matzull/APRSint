@@ -25,7 +25,7 @@ def cli(ctx, config_path):
     ctx.ensure_object(dict)
     ctx.obj["config"] = cfg
 
-    set_logger("INFO")
+    set_logger("WARNING")
 
 
 @cli.command()
@@ -36,11 +36,12 @@ def reset_db(ctx, drop):
     reset all tables from database
     """
     from ..Base import Base
-
+    from ..db.Schema import AprsPacket
+    
     config = ctx.obj["config"]
 
     base = Base(config)
-    base.alchemy_interface.reset_db([], drop)
+    base.alchemy_interface.reset_db([AprsPacket], drop)
 
     logger.info("success!!!")
 
@@ -69,6 +70,22 @@ def download_s3(ctx):
 
     config = ctx.obj["config"]
     download_files(config)
+
+    logger.info("success!!!")
+
+@cli.command()
+@click.pass_context
+def insert_database(ctx):
+    """
+    command
+    """
+    from ..Base import Base
+    from ..services.db_insert import db_insert
+    
+    config = ctx.obj["config"]
+
+    base = Base(config)
+    db_insert(base)
 
     logger.info("success!!!")
 

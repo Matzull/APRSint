@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 def upload_files(config):
     base_path = "/mnt/ssd/database"
     s3 = S3_Storage(config)

@@ -22,7 +22,7 @@ class S3_Storage:
 
     def list_files(self, bucket):
         return [obj["Key"] for obj in self.s3.list_objects(Bucket=bucket)["Contents"]]
-    
+
     def delete_file(self, bucket_file):
         try:
             self.s3.delete_object(Bucket=self.out_bucket, Key=bucket_file)

@@ -8,8 +8,6 @@ from sqlalchemy import create_engine, DDL
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
-from ..db.Schema import SCHEMA
-
 ########################################################################################################################
 # CLASSES
 
@@ -25,9 +23,6 @@ class AlchemyInterface:
             self.session = sessionmaker(bind=self.engine)()
             self.cursor = self.session.connection().connection.cursor()
 
-            self.schema = SCHEMA
-            self.engine.execute(DDL(f"CREATE SCHEMA IF NOT EXISTS {self.schema}"))
-
         else:
             logger.warning("no db section in config")
 
@@ -39,21 +34,51 @@ class AlchemyInterface:
             f'/{self.config["database"]}'
         )
 
+    @staticmethod
+    def get_schema_from_table(table):
+        schema = "public"
+
+        if isinstance(table.__table_args__, tuple):
+            for table_arg in table.__table_args__:
+                if isinstance(table_arg, dict) and "schema" in table_arg:
+                    schema = table_arg["schema"]
+
+        elif isinstance(table.__table_args__, dict):
+            if "schema" in table.__table_args__:
+                schema = table.__table_args__["schema"]
+
+        if schema == "public":
+            logger.warning(f"no database schema provided, switching to {schema}...")
+
+        return schema
+
     def create_tables(self, tables):
         for table in tables:
-            if not self.engine.has_table(table.__tablename__, schema=self.schema):
-                logger.info(f"creating table {table.__tablename__}...")
-                table.__table__.create(self.engine)
-            else:
-                logger.info(f"table {table.__tablename__} already exists")
+            schema = self.get_schema_from_table(table)
+
+            with self.engine.connect() as conn:
+                conn.execute(DDL(f"CREATE SCHEMA IF NOT EXISTS {schema}"))
+                conn.commit()
+
+                if not conn.dialect.has_table(conn, table.__tablename__, schema=schema):
+                    logger.info(f"creating table {table.__tablename__}...")
+                    table.__table__.create(conn)
+                    conn.commit()
+
+                else:
+                    logger.info(f"table {table.__tablename__} already exists")
 
     def drop_tables(self, tables):
         for table in tables:
-            if self.engine.has_table(table.__tablename__, schema=self.schema):
-                logger.info(f"dropping table {table.__tablename__}...")
-                self.engine.execute(
-                    DDL(f"DROP TABLE {self.schema}.{table.__tablename__} CASCADE")
-                )
+            schema = self.get_schema_from_table(table)
+
+            with self.engine.connect() as conn:
+                if conn.dialect.has_table(conn, table.__tablename__, schema=schema):
+                    logger.info(f"dropping table {table.__tablename__}...")
+                    conn.execute(
+                        DDL(f"DROP TABLE {schema}.{table.__tablename__} CASCADE")
+                    )
+                    conn.commit()
 
     def reset_db(self, tables, drop):
         if drop:
@@ -61,13 +86,40 @@ class AlchemyInterface:
 
         self.create_tables(tables)
 
-    def insert_alchemy_obj(self, alchemy_obj):
+    def insert_alchemy_obj(self, alchemy_obj, silent=False):
         try:
-            logger.info(f"adding {alchemy_obj}...")
+            if not silent:
+                logger.info(f"adding {alchemy_obj}...")
 
             self.session.add(alchemy_obj)
             self.session.commit()
 
         except IntegrityError:
-            logger.info(f"{alchemy_obj} already in db")
+            if not silent:
+                logger.info(f"{alchemy_obj} already in db")
+
             self.session.rollback()
+    
+    def try_insert(self, alchemy_objs):
+        try: 
+            for index, obj in enumerate(alchemy_objs):
+                self.session.add(obj)
+            self.session.commit()
+        except Exception as e:
+            print("Fix encoding", e)
+            self.session.rollback()
+            self.try_insert(alchemy_objs[:index])
+            self.try_insert(alchemy_objs[index + 1:])
+            return
+        
+    
+    def bulk_insert_alchemy_objs(self, alchemy_objs, silent=False):
+        try:
+            if not silent:
+                logger.info(f"adding ...")
+            self.try_insert(alchemy_objs)
+        except Exception:
+            if not silent:
+                logger.info(f" already in db")
+            self.session.rollback()
+
