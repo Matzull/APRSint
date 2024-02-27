@@ -1,30 +1,20 @@
-************* Module main
-************* Module parse
-app/src/parse.py:3:0: E0401: Unable to import 'aprslib' (import-error)
-************* Module services.aprs_client
-app/src/services/aprs_client.py:3:0: E0401: Unable to import 'aprslib' (import-error)
-************* Module utils.buffer
-app/src/utils/buffer.py:3:0: E0401: Unable to import 'tqdm' (import-error)
-************* Module web.app
-app/src/web/app.py:58:0: C0301: Line too long (152/100) (line-too-long)
-app/src/web/app.py:68:0: C0301: Line too long (105/100) (line-too-long)
-app/src/web/app.py:72:0: C0301: Line too long (105/100) (line-too-long)
-app/src/web/app.py:78:0: C0301: Line too long (145/100) (line-too-long)
-app/src/web/app.py:92:0: C0301: Line too long (152/100) (line-too-long)
-app/src/web/app.py:42:1: W0511: TODO make graphs change theme (fixme)
-************* Module web.components.header
-app/src/web/components/header.py:4:0: C0301: Line too long (148/100) (line-too-long)
-************* Module web.components.navbar
-app/src/web/components/navbar.py:46:0: C0301: Line too long (104/100) (line-too-long)
-app/src/web/components/navbar.py:61:0: C0301: Line too long (156/100) (line-too-long)
-************* Module web.components.symbols
-************* Module web.components.theme_switcher
-app/src/web/components/theme_switcher.py:130:8: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-app/src/web/components/theme_switcher.py:13:8: W0201: Attribute 'theme_switcher' defined outside __init__ (attribute-defined-outside-init)
-************* Module web.src.dash_helper
-app/src/web/src/dash_helper.py:4:0: W0102: Dangerous default value [] as argument (dangerous-default-value)
-app/src/web/src/dash_helper.py:4:15: W0622: Redefining built-in 'id' (redefined-builtin)
-
-------------------------------------------------------------------
-Your code has been rated at 6.60/10 (previous run: 6.43/10, +0.17)
-
+************* Module app/src/web/app.py
+app/src/web/app.py:1:0: F0001: No module named app/src/web/app.py (fatal)
+************* Module app/src/web/components/__init__.py
+app/src/web/components/__init__.py:1:0: F0001: No module named app/src/web/components/__init__.py (fatal)
+************* Module app/src/web/components/custom_templates.py
+app/src/web/components/custom_templates.py:1:0: F0001: No module named app/src/web/components/custom_templates.py (fatal)
+************* Module app/src/web/components/header.py
+app/src/web/components/header.py:1:0: F0001: No module named app/src/web/components/header.py (fatal)
+************* Module app/src/web/components/navbar.py
+app/src/web/components/navbar.py:1:0: F0001: No module named app/src/web/components/navbar.py (fatal)
+************* Module app/src/web/components/symbols.py
+app/src/web/components/symbols.py:1:0: F0001: No module named app/src/web/components/symbols.py (fatal)
+************* Module app/src/web/components/theme_switcher.py
+app/src/web/components/theme_switcher.py:1:0: F0001: No module named app/src/web/components/theme_switcher.py (fatal)
+************* Module app/src/web/src/__init__.py
+app/src/web/src/__init__.py:1:0: F0001: No module named app/src/web/src/__init__.py (fatal)
+************* Module app/src/web/src/dash_helper.py
+app/src/web/src/dash_helper.py:1:0: F0001: No module named app/src/web/src/dash_helper.py (fatal)
+************* Module tmp/lambda_function.py
+tmp/lambda_function.py:1:0: F0001: No module named tmp/lambda_function.py (fatal)

@@ -43,3 +43,18 @@ class AprsPacket(Base):
     def __str__(self):
         time = (str(self.timestamp) + " | ") if self.timestamp else ""
         return f"{time}From: {self.callsign} | To: {self.destination}"
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "callsign": self.callsign,
+            "ssid": self.ssid,
+            "destination": self.destination,
+            "path": self.path,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "timestamp": self.timestamp,
+            "symbol": self.symbol,
+            "comment": self.comment,
+            "raw_packet": self.raw_packet,
+        }
