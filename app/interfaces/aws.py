@@ -26,7 +26,7 @@ class S3_Storage:
     def delete_file(self, bucket_file):
         try:
             self.s3.delete_object(Bucket=self.out_bucket, Key=bucket_file)
-        except Exception as e:
+        except Exception:
             logger.info(f"{bucket_file} does not exist")
 
     def upload_file(self, local_file, dest_file=None):
@@ -65,5 +65,5 @@ class S3_Storage:
                 self.s3.download_file(
                     self.out_bucket, bucket_file, dest_file, Callback=pbar.update
                 )
-        except Exception as e:
+        except Exception:
             logger.info(f"{bucket_file} does not exist")

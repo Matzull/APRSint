@@ -33,9 +33,13 @@ class AprsPacket(Base):
     ssid = Column(String(5))  # SSID
     destination = Column(String(15))
     path = Column(String(100))
-    latitude = Column(Float)  
-    longitude = Column(Float) 
+    latitude = Column(Float)
+    longitude = Column(Float)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
     symbol = Column(String(1))
     comment = Column(String(250))
     raw_packet = Column(JSONB())
+
+    def __str__(self):
+        time = (str(self.timestamp) + " | ") if self.timestamp else ""
+        return f"{time}From: {self.callsign} | To: {self.destination}"

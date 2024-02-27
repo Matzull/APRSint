@@ -37,7 +37,7 @@ def reset_db(ctx, drop):
     """
     from ..Base import Base
     from ..db.Schema import AprsPacket
-    
+
     config = ctx.obj["config"]
 
     base = Base(config)
@@ -73,6 +73,7 @@ def download_s3(ctx):
 
     logger.info("success!!!")
 
+
 @cli.command()
 @click.pass_context
 def insert_database(ctx):
@@ -81,7 +82,7 @@ def insert_database(ctx):
     """
     from ..Base import Base
     from ..services.db_insert import db_insert
-    
+
     config = ctx.obj["config"]
 
     base = Base(config)

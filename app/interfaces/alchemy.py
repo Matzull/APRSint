@@ -4,7 +4,7 @@
 import logging
 from urllib.parse import quote_plus
 
-from sqlalchemy import create_engine, DDL
+from sqlalchemy import create_engine, DDL, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
@@ -99,9 +99,9 @@ class AlchemyInterface:
                 logger.info(f"{alchemy_obj} already in db")
 
             self.session.rollback()
-    
+
     def try_insert(self, alchemy_objs):
-        try: 
+        try:
             for index, obj in enumerate(alchemy_objs):
                 self.session.add(obj)
             self.session.commit()
@@ -109,17 +109,20 @@ class AlchemyInterface:
             print("Fix encoding", e)
             self.session.rollback()
             self.try_insert(alchemy_objs[:index])
-            self.try_insert(alchemy_objs[index + 1:])
+            self.try_insert(alchemy_objs[index + 1 :])
             return
-        
-    
+
     def bulk_insert_alchemy_objs(self, alchemy_objs, silent=False):
         try:
             if not silent:
-                logger.info(f"adding ...")
+                logger.info("adding ...")
             self.try_insert(alchemy_objs)
         except Exception:
             if not silent:
-                logger.info(f" already in db")
+                logger.info(" already in db")
             self.session.rollback()
 
+    def select_query(self, table, filters=None):
+        # Runs a query with filters in a database
+        statement = select(table)  # .filter_by(**filters)
+        return self.session.scalars(statement).all()
