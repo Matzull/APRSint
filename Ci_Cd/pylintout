@@ -1,20 +1,223 @@
-************* Module app/src/web/app.py
-app/src/web/app.py:1:0: F0001: No module named app/src/web/app.py (fatal)
-************* Module app/src/web/components/__init__.py
-app/src/web/components/__init__.py:1:0: F0001: No module named app/src/web/components/__init__.py (fatal)
-************* Module app/src/web/components/custom_templates.py
-app/src/web/components/custom_templates.py:1:0: F0001: No module named app/src/web/components/custom_templates.py (fatal)
-************* Module app/src/web/components/header.py
-app/src/web/components/header.py:1:0: F0001: No module named app/src/web/components/header.py (fatal)
-************* Module app/src/web/components/navbar.py
-app/src/web/components/navbar.py:1:0: F0001: No module named app/src/web/components/navbar.py (fatal)
-************* Module app/src/web/components/symbols.py
-app/src/web/components/symbols.py:1:0: F0001: No module named app/src/web/components/symbols.py (fatal)
-************* Module app/src/web/components/theme_switcher.py
-app/src/web/components/theme_switcher.py:1:0: F0001: No module named app/src/web/components/theme_switcher.py (fatal)
-************* Module app/src/web/src/__init__.py
-app/src/web/src/__init__.py:1:0: F0001: No module named app/src/web/src/__init__.py (fatal)
-************* Module app/src/web/src/dash_helper.py
-app/src/web/src/dash_helper.py:1:0: F0001: No module named app/src/web/src/dash_helper.py (fatal)
-************* Module tmp/lambda_function.py
-tmp/lambda_function.py:1:0: F0001: No module named tmp/lambda_function.py (fatal)
+************* Module app.Base
+app/Base.py:1:0: C0301: Line too long (120/100) (line-too-long)
+app/Base.py:8:0: C0301: Line too long (120/100) (line-too-long)
+app/Base.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/Base.py:1:0: C0103: Module name "Base" doesn't conform to snake_case naming style (invalid-name)
+app/Base.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+app/Base.py:14:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+************* Module app.cli.commands
+app/cli/commands.py:1:0: C0301: Line too long (120/100) (line-too-long)
+app/cli/commands.py:8:0: C0301: Line too long (120/100) (line-too-long)
+app/cli/commands.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/cli/commands.py:17:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/cli/commands.py:18:4: C0415: Import outside toplevel (utils.utils.get_config, utils.utils.set_logger) (import-outside-toplevel)
+app/cli/commands.py:38:4: C0415: Import outside toplevel (Base.Base) (import-outside-toplevel)
+app/cli/commands.py:39:4: C0415: Import outside toplevel (db.Schema.AprsPacket) (import-outside-toplevel)
+app/cli/commands.py:55:4: C0415: Import outside toplevel (services.s3.upload_files) (import-outside-toplevel)
+app/cli/commands.py:69:4: C0415: Import outside toplevel (services.s3.download_files) (import-outside-toplevel)
+app/cli/commands.py:83:4: C0415: Import outside toplevel (Base.Base) (import-outside-toplevel)
+app/cli/commands.py:84:4: C0415: Import outside toplevel (services.db_insert.db_insert) (import-outside-toplevel)
+app/cli/commands.py:94:0: E1120: No value for argument 'ctx' in function call (no-value-for-parameter)
+app/cli/commands.py:94:0: E1120: No value for argument 'config_path' in function call (no-value-for-parameter)
+************* Module app.db.Schema
+app/db/Schema.py:1:0: C0301: Line too long (120/100) (line-too-long)
+app/db/Schema.py:11:0: C0301: Line too long (120/100) (line-too-long)
+app/db/Schema.py:16:0: C0301: Line too long (120/100) (line-too-long)
+app/db/Schema.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/db/Schema.py:1:0: C0103: Module name "Schema" doesn't conform to snake_case naming style (invalid-name)
+app/db/Schema.py:47:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/db/Schema.py:9:0: C0411: standard import "import datetime" should be placed before "from sqlalchemy import String, Float, DateTime" (wrong-import-order)
+************* Module app.interfaces.alchemy
+app/interfaces/alchemy.py:1:0: C0301: Line too long (120/100) (line-too-long)
+app/interfaces/alchemy.py:11:0: C0301: Line too long (120/100) (line-too-long)
+app/interfaces/alchemy.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/interfaces/alchemy.py:17:0: C0115: Missing class docstring (missing-class-docstring)
+app/interfaces/alchemy.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:38:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:51:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:55:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:64:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:69:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:71:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:77:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:83:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:89:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:92:16: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:99:16: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:103:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:108:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/alchemy.py:111:42: E0601: Using variable 'index' before assignment (used-before-assignment)
+app/interfaces/alchemy.py:115:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:120:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/alchemy.py:125:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/alchemy.py:125:34: W0613: Unused argument 'filters' (unused-argument)
+************* Module app.interfaces.aws
+app/interfaces/aws.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/interfaces/aws.py:9:0: C0115: Missing class docstring (missing-class-docstring)
+app/interfaces/aws.py:9:0: C0103: Class name "S3_Storage" doesn't conform to PascalCase naming style (invalid-name)
+app/interfaces/aws.py:20:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/aws.py:23:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/aws.py:26:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/aws.py:29:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/aws.py:30:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/aws.py:32:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/aws.py:39:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/aws.py:41:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/aws.py:43:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/interfaces/aws.py:51:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/aws.py:52:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/aws.py:47:12: W0612: Unused variable 'meta_data' (unused-variable)
+app/interfaces/aws.py:2:0: C0411: standard import "import logging" should be placed before "from tqdm import tqdm" (wrong-import-order)
+app/interfaces/aws.py:4:0: C0411: standard import "import os" should be placed before "from tqdm import tqdm" (wrong-import-order)
+app/interfaces/aws.py:1:0: W0611: Unused tqdm imported from tqdm (unused-import)
+app/interfaces/aws.py:4:0: W0611: Unused import os (unused-import)
+************* Module app.interfaces.progress
+app/interfaces/progress.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/interfaces/progress.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+app/interfaces/progress.py:6:0: R0205: Class 'ProgressPercentage' inherits from object, can be safely removed from bases in python3 (useless-object-inheritance)
+app/interfaces/progress.py:18:16: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+app/interfaces/progress.py:6:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module app.services.aprs_client
+app/services/aprs_client.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/services/aprs_client.py:5:0: E0401: Unable to import 'buffer' (import-error)
+app/services/aprs_client.py:5:0: C0413: Import "import buffer as bf" should be placed at the top of the module (wrong-import-position)
+app/services/aprs_client.py:6:0: C0413: Import "from aprslib import IS, parse as prs" should be placed at the top of the module (wrong-import-position)
+app/services/aprs_client.py:8:0: C0413: Import "import logging" should be placed at the top of the module (wrong-import-position)
+app/services/aprs_client.py:13:0: C0115: Missing class docstring (missing-class-docstring)
+app/services/aprs_client.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/services/aprs_client.py:32:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/services/aprs_client.py:43:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/services/aprs_client.py:44:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/services/aprs_client.py:8:0: C0411: standard import "import logging" should be placed before "import buffer as bf" (wrong-import-order)
+************* Module app.services.client_daemon
+app/services/client_daemon.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/services/client_daemon.py:1:0: E0401: Unable to import 'aprs_client' (import-error)
+app/services/client_daemon.py:6:0: E0401: Unable to import 'utils' (import-error)
+app/services/client_daemon.py:6:0: C0413: Import "from utils import set_logger" should be placed at the top of the module (wrong-import-position)
+app/services/client_daemon.py:2:0: C0411: standard import "import sys" should be placed before "import aprs_client as aprs" (wrong-import-order)
+app/services/client_daemon.py:3:0: C0411: standard import "from time import sleep" should be placed before "import aprs_client as aprs" (wrong-import-order)
+************* Module app.services.db_insert
+app/services/db_insert.py:13:0: C0301: Line too long (123/100) (line-too-long)
+app/services/db_insert.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/services/db_insert.py:12:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/services/db_insert.py:18:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/services/db_insert.py:60:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/services/db_insert.py:23:37: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+app/services/db_insert.py:23:37: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+app/services/db_insert.py:55:23: W0718: Catching too general exception Exception (broad-exception-caught)
+app/services/db_insert.py:56:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/services/db_insert.py:61:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/services/db_insert.py:5:0: C0411: standard import "from time import sleep" should be placed before "from ..db.Schema import AprsPacket" (wrong-import-order)
+app/services/db_insert.py:6:0: C0411: standard import "import datetime" should be placed before "from ..db.Schema import AprsPacket" (wrong-import-order)
+app/services/db_insert.py:7:0: C0411: third party import "from tqdm import tqdm" should be placed before "from ..db.Schema import AprsPacket" (wrong-import-order)
+************* Module app.services.s3
+app/services/s3.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/services/s3.py:9:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/services/s3.py:20:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/services/s3.py:21:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/services/s3.py:24:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/services/s3.py:34:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/services/s3.py:35:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/services/s3.py:2:0: C0411: standard import "import os" should be placed before "from ..interfaces.aws import S3_Storage" (wrong-import-order)
+app/services/s3.py:3:0: C0411: standard import "import time" should be placed before "from ..interfaces.aws import S3_Storage" (wrong-import-order)
+app/services/s3.py:4:0: C0411: standard import "import logging" should be placed before "from ..interfaces.aws import S3_Storage" (wrong-import-order)
+************* Module app.src.fetch_data_web
+app/src/fetch_data_web.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/fetch_data_web.py:15:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/fetch_data_web.py:28:4: W0612: Unused variable 'distances' (unused-variable)
+app/src/fetch_data_web.py:5:0: C0411: standard import "import configparser" should be placed before "import pandas as pd" (wrong-import-order)
+************* Module web
+app/src/web/web.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/src/web/web.py:31:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/src/web/web.py:49:15: R1735: Consider using '{"l": 0, "r": 0, "t": 0, "b": 0}' instead of a call to 'dict'. (use-dict-literal)
+app/src/web/web.py:51:29: R1735: Consider using '{"size": 5}' instead of a call to 'dict'. (use-dict-literal)
+app/src/web/web.py:5:0: C0411: standard import "from datetime import datetime" should be placed before "import dash_mantine_components as dmc" (wrong-import-order)
+app/src/web/web.py:3:0: W0611: Unused filters imported from dash_express (unused-import)
+app/src/web/web.py:4:0: W0611: Unused callback imported from dash (unused-import)
+app/src/web/web.py:4:0: W0611: Unused html imported from dash (unused-import)
+app/src/web/web.py:4:0: W0611: Unused Output imported from dash (unused-import)
+app/src/web/web.py:4:0: W0611: Unused Input imported from dash (unused-import)
+app/src/web/web.py:5:0: W0611: Unused datetime imported from datetime (unused-import)
+************* Module app.utils.buffer
+app/utils/buffer.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/utils/buffer.py:6:0: C0115: Missing class docstring (missing-class-docstring)
+app/utils/buffer.py:6:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
+app/utils/buffer.py:21:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/utils/buffer.py:29:4: C0116: Missing function or method docstring (missing-function-docstring)
+app/utils/buffer.py:31:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app/utils/buffer.py:39:4: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module app.utils.utils
+app/utils/utils.py:1:0: C0301: Line too long (120/100) (line-too-long)
+app/utils/utils.py:7:0: C0301: Line too long (120/100) (line-too-long)
+app/utils/utils.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+app/utils/utils.py:13:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/utils/utils.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+app/utils/utils.py:20:4: W0621: Redefining name 'logger' from outer scope (line 10) (redefined-outer-name)
+************* Module dags.aprsint_dag_params
+dags/aprsint_dag_params.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module dags.aprsint_dag_params.template
+dags/aprsint_dag_params.template.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+************* Module dags.download_files
+dags/download_files.py:1:0: C0301: Line too long (120/100) (line-too-long)
+dags/download_files.py:10:0: C0301: Line too long (120/100) (line-too-long)
+dags/download_files.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+dags/download_files.py:6:0: E0401: Unable to import 'airflow' (import-error)
+dags/download_files.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
+dags/download_files.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
+dags/download_files.py:36:0: C0103: Constant name "command" doesn't conform to UPPER_CASE naming style (invalid-name)
+dags/download_files.py:62:0: W0104: Statement seems to have no effect (pointless-statement)
+************* Module dags.insert_database
+dags/insert_database.py:1:0: C0301: Line too long (120/100) (line-too-long)
+dags/insert_database.py:10:0: C0301: Line too long (120/100) (line-too-long)
+dags/insert_database.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+dags/insert_database.py:6:0: E0401: Unable to import 'airflow' (import-error)
+dags/insert_database.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
+dags/insert_database.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
+dags/insert_database.py:36:0: C0103: Constant name "command" doesn't conform to UPPER_CASE naming style (invalid-name)
+dags/insert_database.py:62:0: W0104: Statement seems to have no effect (pointless-statement)
+************* Module dags.upload_files
+dags/upload_files.py:1:0: C0301: Line too long (120/100) (line-too-long)
+dags/upload_files.py:10:0: C0301: Line too long (120/100) (line-too-long)
+dags/upload_files.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+dags/upload_files.py:6:0: E0401: Unable to import 'airflow' (import-error)
+dags/upload_files.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
+dags/upload_files.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
+dags/upload_files.py:36:0: C0103: Constant name "command" doesn't conform to UPPER_CASE naming style (invalid-name)
+dags/upload_files.py:62:0: W0104: Statement seems to have no effect (pointless-statement)
+************* Module setup
+setup.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+setup.py:3:5: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+setup.py:1:0: R0801: Similar lines in 2 files
+==dags.download_files:[12:24]
+==dags.insert_database:[12:24]
+default_args = {
+    "owner": "AprsInt",
+    "depends_on_past": False,
+    "start_date": datetime(2024, 1, 1),
+    "retries": 3,
+    "retry_delay": timedelta(minutes=1),
+    "email": ["marcal16@ucm.es"],
+    "email_on_failure": True,
+    "email_on_retry": False,
+}
+
+dag = DAG( (duplicate-code)
+setup.py:1:0: R0801: Similar lines in 2 files
+==dags.download_files:[28:40]
+==dags.insert_database:[28:40]
+)
+
+first_task = EmptyOperator(
+    task_id="first_task",
+    dag=dag,
+)
+
+command = """
+    {{ params.interpreter_path }} \
+    -m \
+    app.cli.commands \
+    --config-path {{ params.config_path }} \ (duplicate-code)
+
+-----------------------------------
+Your code has been rated at 4.91/10
+

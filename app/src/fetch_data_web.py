@@ -3,7 +3,7 @@ from sklearn.neighbors import NearestNeighbors
 import numpy as np
 from app.interfaces.alchemy import AlchemyInterface
 import configparser
-from app.db.Schema import AprsPacket
+from app.db.schema import AprsPacket
 
 c_parser = configparser.ConfigParser()
 c_parser.read("/home/matzul/APRSint/config.ini")

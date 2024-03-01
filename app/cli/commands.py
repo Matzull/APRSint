@@ -1,11 +1,11 @@
-########################################################################################################################
+###################################################################################################
 # IMPORTS
 
 import logging
 
 import click
 
-########################################################################################################################
+###################################################################################################
 # CLI
 
 logger = logging.getLogger(__name__)
@@ -35,8 +35,8 @@ def reset_db(ctx, drop):
     """
     reset all tables from database
     """
-    from ..Base import Base
-    from ..db.Schema import AprsPacket
+    from ..base import Base
+    from ..db.schema import AprsPacket
 
     config = ctx.obj["config"]
 
@@ -80,7 +80,7 @@ def insert_database(ctx):
     """
     command
     """
-    from ..Base import Base
+    from ..base import Base
     from ..services.db_insert import db_insert
 
     config = ctx.obj["config"]

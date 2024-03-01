@@ -36,7 +36,7 @@ first_task = EmptyOperator(
 command = """
     {{ params.interpreter_path }} \
     -m \
-    aprsint.cli.commands \
+    app.cli.commands \
     --config-path {{ params.config_path }} \
     upload-s3
 """

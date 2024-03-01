@@ -1,7 +1,7 @@
 import os
 import logging
 import json
-from ..db.Schema import AprsPacket
+from ..db.schema import AprsPacket
 from time import sleep
 import datetime
 from tqdm import tqdm
