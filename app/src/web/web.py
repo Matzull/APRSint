@@ -1,6 +1,8 @@
 import dash_mantine_components as dmc
 import plotly.express as px
-from dash_express import DashExpress, Page
+from dash_express import DashExpress, Page, filters
+from dash import callback, html, Output, Input
+from datetime import datetime
 
 # import sys
 # import os
@@ -12,16 +14,16 @@ get_df = fetch_data
 
 # Initialize the app
 app = DashExpress(
-    logo={"dark": "/assets/logo.svg", "light": "/home/matzul/APRSint/media/logo.png"}
+    logo={"dark": "/assets/logo.svg", "light": "/assets/logo.svg"}
 )
 
 # Initialize the Page
 page = Page(
     app=app,  # DashExpress app
     url_path="/",  # page url
-    name="Owerview",  # page name in navigation buttons
+    name="Home",  # page name in navigation buttons
     get_df=get_df,  # function for getting pd.DataFrame
-    title="Owerview",  # page title
+    title="Aprsint",  # page title
 )
 
 
@@ -33,14 +35,18 @@ def bar_func(df):
         lat="latitude",
         color="density",
         color_continuous_scale="hot",
-        #  projection="robinson",
+        hover_name="callsign",
+        hover_data={"density": False, "longitude": False, "latitude": False},
+        zoom=2,
     )
     fig.update_layout(
         showlegend=False,
+        coloraxis_showscale=False,
         paper_bgcolor="black",
-        geo_bgcolor="black",
+        geo_bgcolor="rgba(0, 0, 0, 0)",
         mapbox_style="dark",
         mapbox_accesstoken=c_parser["mapbox"]["token"],
+        margin=dict(l=0, r=0, t=0, b=0)
     )
     fig.update_traces(marker=dict(size=5))
     return fig
@@ -48,12 +54,11 @@ def bar_func(df):
 
 # Dashboard layout
 page.layout = dmc.SimpleGrid(
-    page.add_graph(h="calc(100vh - 138px)", render_func=bar_func)
+    children =[
+        page.add_graph(h="calc(100vh - 138px)", render_func=bar_func),
+        ]
 )
 
-# By which columns to filter
-page.add_autofilter("symbol", multi=True)
-# page.add_autofilter('country', multi=True)
-# page.add_autofilter('lifeExp', multi=True)
+page.add_autofilter('timestamp', multi=True, label="Select date range", custom=False)
 
 app.run(host="0.0.0.0", debug=True)

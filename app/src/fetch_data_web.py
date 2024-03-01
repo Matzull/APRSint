@@ -17,7 +17,7 @@ def fetch_data():
 
     df = pd.DataFrame().from_records([packet.as_dict() for packet in data])
 
-    df = df.dropna(subset=["latitude", "longitude"])
+    df = df.dropna(subset=["latitude", "longitude", "timestamp"])
 
     coords = df[["latitude", "longitude"]].values
 
@@ -32,4 +32,4 @@ def fetch_data():
 
     # Agregar la densidad al DataFrame original
     df["density"] = density
-    return df
+    return df.head(1000)
