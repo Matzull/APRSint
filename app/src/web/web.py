@@ -1,8 +1,6 @@
 import dash_mantine_components as dmc
 import plotly.express as px
-from dash_express import DashExpress, Page, filters
-from dash import callback, html, Output, Input
-from datetime import datetime
+from dash_express import DashExpress, Page
 
 # import sys
 # import os
@@ -13,9 +11,7 @@ from app.src.fetch_data_web import c_parser, fetch_data
 get_df = fetch_data
 
 # Initialize the app
-app = DashExpress(
-    logo={"dark": "/assets/logo.svg", "light": "/assets/logo.svg"}
-)
+app = DashExpress(logo={"dark": "/assets/logo.svg", "light": "/assets/logo.svg"})
 
 # Initialize the Page
 page = Page(
@@ -46,7 +42,7 @@ def bar_func(df):
         geo_bgcolor="rgba(0, 0, 0, 0)",
         mapbox_style="dark",
         mapbox_accesstoken=c_parser["mapbox"]["token"],
-        margin=dict(l=0, r=0, t=0, b=0)
+        margin=dict(l=0, r=0, t=0, b=0),
     )
     fig.update_traces(marker=dict(size=5))
     return fig
@@ -54,11 +50,11 @@ def bar_func(df):
 
 # Dashboard layout
 page.layout = dmc.SimpleGrid(
-    children =[
+    children=[
         page.add_graph(h="calc(100vh - 138px)", render_func=bar_func),
-        ]
+    ]
 )
 
-page.add_autofilter('timestamp', multi=True, label="Select date range", custom=False)
+page.add_autofilter("timestamp", multi=True, label="Select date range", custom=False)
 
 app.run(host="0.0.0.0", debug=True)

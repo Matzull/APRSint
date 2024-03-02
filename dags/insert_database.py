@@ -38,7 +38,7 @@ command = """
     -m \
     app.cli.commands \
     --config-path {{ params.config_path }} \
-    insert_database
+    insert-database
 """
 task = BashOperator(
     task_id="task_id",

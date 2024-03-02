@@ -7,7 +7,7 @@ echo "Running ruff analysis"
 ruff .
 echo "Running pylint analysis"
 mkdir -p Ci_Cd
-pylint $(git ls-files '*.py') > Ci_Cd/pylintout
+pylint --rcfile=./Ci_Cd/.pylintrc $(git ls-files '*.py') > Ci_Cd/pylintout
 echo "Output saved to Ci_Cd/pylintout"
-sudo act > Ci_Cd/act
-echo "Output saved to Ci_Cd/act"
+# sudo act > Ci_Cd/act
+# echo "Output saved to Ci_Cd/act"

@@ -7,6 +7,7 @@ from urllib.parse import quote_plus
 from sqlalchemy import create_engine, DDL, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
+from ..db.schema import AprsPacket
 
 ###################################################################################################
 # CLASSES
@@ -105,22 +106,35 @@ class AlchemyInterface:
             for index, obj in enumerate(alchemy_objs):
                 self.session.add(obj)
             self.session.commit()
-        except Exception as e:
-            print("Fix encoding", e)
+        except Exception:
             self.session.rollback()
-            self.try_insert(alchemy_objs[:index])
+            self.session.bulk_save_objects(alchemy_objs[:index])
+            self.session.commit()
             self.try_insert(alchemy_objs[index + 1 :])
             return
 
-    def bulk_insert_alchemy_objs(self, alchemy_objs, silent=False):
+    def bulk_insert_alchemy_objs(self, alchemy_objs):
+        bulk_size = 1000
         try:
-            if not silent:
-                logger.info("adding ...")
+            for start in range(0, len(alchemy_objs), bulk_size):
+                end = min(start + bulk_size, len(alchemy_objs))
+                self.session.bulk_save_objects(alchemy_objs[start:end])
+                self.session.flush()
+            self.session.commit()
+        except Exception as e:
+            logger.error(f"Couldn bulk insert with error {e}")
+            self.session.rollback()
+        try:
             self.try_insert(alchemy_objs)
         except Exception:
-            if not silent:
-                logger.info(" already in db")
             self.session.rollback()
+
+    def bulk_insert_alchemy_dicts(self, alchemy_dicts):
+        try:
+            with self.engine.begin() as conn:
+                conn.execute(AprsPacket.__table__.insert(), alchemy_dicts)
+        except Exception as e:
+            logger.error(f"Couldnt insert objects with error {e}")
 
     def select_query(self, table, filters=None):
         # Runs a query with filters in a database

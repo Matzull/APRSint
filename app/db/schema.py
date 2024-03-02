@@ -37,7 +37,7 @@ class AprsPacket(Base):
     longitude = Column(Float)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
     symbol = Column(String(1))
-    comment = Column(String(250))
+    comment = Column(String(500))
     raw_packet = Column(JSONB())
 
     def __str__(self):

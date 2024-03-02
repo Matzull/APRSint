@@ -1,17 +1,19 @@
-import psycopg2
+import json
+import re
 
-connection_string = "dbname=airflow_db user=airflow_user password=airflow_pass host=localhost"
-print("init program")
-try:
-    # Establecer la conexión
-    connection = psycopg2.connect(connection_string)
-    print("¡Conexión exitosa!")
+packets_json = json.load(open("/mnt/ssd/database_proccessed" + "/" + "data_2025.json"))
 
-    # Realizar operaciones en la base de datos aquí...
 
-except psycopg2.Error as e:
-    print("Error al conectar a la base de datos:", e)
-finally:
-    # Cerrar la conexión cuando hayas terminado
-    if connection is not None:
-        connection.close()
+def clean_json(input_string):
+    return json.loads(
+        json.dumps(input_string)
+        .replace("\u0000", " ")
+        .replace("\00", " ")
+        .replace("\0", " ")
+        .replace("\\u0000", " ")
+    )
+
+
+for packet in clean_json(packets_json):
+    if re.findall(r"\\u0000", json.dumps(packet)):
+        print(packet)

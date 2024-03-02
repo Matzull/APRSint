@@ -1,7 +1,5 @@
-from tqdm import tqdm
 import logging
 import boto3
-import os
 
 logger = logging.getLogger(__name__)
 
@@ -33,9 +31,7 @@ class S3_Storage:
         if dest_file is None:
             dest_file = local_file.split("/")[-1]
         try:
-            self.s3.upload_file(
-                local_file, self.in_bucket, dest_file
-            )
+            self.s3.upload_file(local_file, self.in_bucket, dest_file)
         except Exception as e:
             print(f"Error: {e}")
             logger.info(f"{local_file} does not exist")
@@ -44,9 +40,7 @@ class S3_Storage:
         if dest_file is None:
             dest_file = bucket_file
         try:
-            meta_data = self.s3.head_object(Bucket=self.out_bucket, Key=bucket_file)
-            self.s3.download_file(
-                self.out_bucket, bucket_file, dest_file
-            )
+            # meta_data = self.s3.head_object(Bucket=self.out_bucket, Key=bucket_file)
+            self.s3.download_file(self.out_bucket, bucket_file, dest_file)
         except Exception:
             logger.info(f"{bucket_file} does not exist")
