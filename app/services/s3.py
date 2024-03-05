@@ -1,14 +1,14 @@
-from ..interfaces.aws import S3_Storage
 import os
 import time
 import logging
+from ..interfaces.aws import S3Storage
 
 logger = logging.getLogger(__name__)
 
 
 def upload_files(config):
     base_path = "/mnt/ssd/database"
-    s3 = S3_Storage(config)
+    s3 = S3Storage(config)
     files = [file for file in os.listdir(base_path) if file.endswith(".gz")]
     for index, file in enumerate(files):
         try:
@@ -22,7 +22,7 @@ def upload_files(config):
 
 
 def download_files(config):
-    s3 = S3_Storage(config)
+    s3 = S3Storage(config)
     files = s3.list_files("aprsoutput")
     for index, file in enumerate(files):
         try:

@@ -3,6 +3,7 @@ import gzip
 from tqdm import tqdm
 
 
+# disable pylint=too-many-instance-attributes
 class Buffer:
     def __init__(
         self, base_dir, buffer_length=100, max_buffers_per_file=50, debug=False
@@ -33,8 +34,7 @@ class Buffer:
             last_file = files[0]
             index = int(last_file.split("_")[1].split(".")[0])
             return index + 1
-        else:
-            return 0
+        return 0
 
     def write_to_file(self):
         if self.buffers_in_file > self.max_buffers_per_file:

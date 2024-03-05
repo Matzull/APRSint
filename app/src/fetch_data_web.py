@@ -1,10 +1,9 @@
+import configparser
+from time import time_ns
 import pandas as pd
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 from app.interfaces.alchemy import AlchemyInterface
-import configparser
-from time import time_ns
-from app.db.schema import AprsPacket
 
 c_parser = configparser.ConfigParser()
 c_parser.read("/home/matzul/APRSint/config.ini")
@@ -15,7 +14,7 @@ alchemy_interface = AlchemyInterface(config)
 
 def fetch_data():
     time_start = time_ns()
-    data = alchemy_interface.select_query(AprsPacket)
+    data = alchemy_interface.query_raw("SELECT * from aprsint.aprs_packets")
     time_query = time_ns()
     print("Time to query data: ", (time_query - time_start) / 1e6, " ms")
     df = pd.DataFrame().from_records([packet.as_dict() for packet in data])
@@ -28,7 +27,7 @@ def fetch_data():
     # El radio está en grados y puedes ajustarlo según tus necesidades
     radius = 0.5  # Ajusta este valor según tus necesidades
     nbrs = NearestNeighbors(radius=radius, algorithm="ball_tree").fit(coords)
-    distances, indices = nbrs.radius_neighbors(coords)
+    _, indices = nbrs.radius_neighbors(coords)
 
     # Calcular la densidad: número de puntos en el radio para cada punto
     density = np.array([len(indices[i]) for i in range(len(coords))])

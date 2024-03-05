@@ -42,9 +42,9 @@ def bar_func(df):
         geo_bgcolor="rgba(0, 0, 0, 0)",
         mapbox_style="dark",
         mapbox_accesstoken=c_parser["mapbox"]["token"],
-        margin=dict(l=0, r=0, t=0, b=0),
+        margin={"l": 0, "r": 0, "t": 0, "b": 0},
     )
-    fig.update_traces(marker=dict(size=5))
+    fig.update_traces(marker={"size": 5})
     return fig
 
 

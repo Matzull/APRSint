@@ -21,19 +21,20 @@ def db_insert(base):
     files = os.listdir(base_path)
     for file_no, file in enumerate(files):
         try:
-            packets_json = json.load(open(base_path + "/" + file))
+            with open(base_path + "/" + file, "r") as f:
+                packets_json = json.load(f)
             packets_json = clean_json(packets_json)
             packets = []
             for packet_json in packets_json:
                 packets.append(
-                    dict(
-                        callsign=packet_json.get("from"),
-                        ssid=None,
-                        destination=packet_json.get("to"),
-                        path=packet_json.get("path"),
-                        latitude=packet_json.get("latitude"),
-                        longitude=packet_json.get("longitude"),
-                        timestamp=(
+                    {
+                        "callsign": packet_json.get("from"),
+                        "ssid": None,
+                        "destination": packet_json.get("to"),
+                        "path": packet_json.get("path"),
+                        "latitude": packet_json.get("latitude"),
+                        "longitude": packet_json.get("longitude"),
+                        "timestamp": (
                             (
                                 datetime.datetime.fromtimestamp(
                                     packet_json.get("timestamp")
@@ -42,10 +43,10 @@ def db_insert(base):
                             if packet_json.get("timestamp")
                             else None
                         ),
-                        symbol=packet_json.get("symbol"),
-                        comment=packet_json.get("comment"),
-                        raw_packet=packet_json,
-                    )
+                        "symbol": packet_json.get("symbol"),
+                        "comment": packet_json.get("comment"),
+                        "raw_packet": packet_json,
+                    }
                 )
             base.alchemy_interface.bulk_insert_alchemy_dicts(packets)
         except Exception as e:

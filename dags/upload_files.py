@@ -1,4 +1,4 @@
-########################################################################################################################
+###################################################################################################
 # IMPORTS
 
 from datetime import datetime, timedelta
@@ -7,7 +7,7 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
-########################################################################################################################
+###################################################################################################
 # DAG
 
 default_args = {
@@ -33,7 +33,7 @@ first_task = EmptyOperator(
     dag=dag,
 )
 
-command = """
+COMMAND = """
     {{ params.interpreter_path }} \
     -m \
     app.cli.commands \
@@ -42,7 +42,7 @@ command = """
 """
 task = BashOperator(
     task_id="task_id",
-    bash_command=command,
+    bash_command=COMMAND,
     params={
         "interpreter_path": "/home/matzul/miniforge3/envs/tfg_env/bin/python3",
         "config_path": "/home/matzul/APRSint/config.ini",
@@ -50,9 +50,6 @@ task = BashOperator(
     },
     dag=dag,
 )
-
-print(command)
-
 
 last_task = EmptyOperator(
     task_id="last_task",

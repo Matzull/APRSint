@@ -1,11 +1,11 @@
-import json
 import sys
+import logging
+import json
 
 sys.path.append("/home/matzul/APRSint/app/utils")
 import buffer as bf
 from aprslib import IS, parse as prs
 
-import logging
 
 logger = logging.getLogger(__name__)
 

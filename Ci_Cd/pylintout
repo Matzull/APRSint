@@ -1,3 +1,5 @@
+************* Module test.py
+test.py:1:0: F0001: No module named test.py (fatal)
 ************* Module app.cli.commands
 app/cli/commands.py:18:4: C0415: Import outside toplevel (utils.utils.get_config, utils.utils.set_logger) (import-outside-toplevel)
 app/cli/commands.py:38:4: C0415: Import outside toplevel (base.Base) (import-outside-toplevel)
@@ -9,40 +11,19 @@ app/cli/commands.py:84:4: C0415: Import outside toplevel (services.db_insert.db_
 app/cli/commands.py:94:0: E1120: No value for argument 'ctx' in function call (no-value-for-parameter)
 app/cli/commands.py:94:0: E1120: No value for argument 'config_path' in function call (no-value-for-parameter)
 ************* Module app.interfaces.alchemy
-app/interfaces/alchemy.py:10:0: E0401: Unable to import 'db.schema' (import-error)
-app/interfaces/alchemy.py:52:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:65:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:70:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:78:20: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:93:16: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:100:16: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:109:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:111:57: E0601: Using variable 'index' before assignment (used-before-assignment)
-app/interfaces/alchemy.py:124:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:125:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/interfaces/alchemy.py:129:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:136:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:137:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/interfaces/alchemy.py:110:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/alchemy.py:125:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/alchemy.py:130:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/interfaces/alchemy.py:137:15: W0718: Catching too general exception Exception (broad-exception-caught)
 ************* Module app.interfaces.aws
-app/interfaces/aws.py:7:0: C0103: Class name "S3_Storage" doesn't conform to PascalCase naming style (invalid-name)
 app/interfaces/aws.py:27:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/aws.py:28:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 app/interfaces/aws.py:35:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/aws.py:37:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 app/interfaces/aws.py:45:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/aws.py:46:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-************* Module app.interfaces.progress
-app/interfaces/progress.py:6:0: R0205: Class 'ProgressPercentage' inherits from object, can be safely removed from bases in python3 (useless-object-inheritance)
-app/interfaces/progress.py:18:16: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-app/interfaces/progress.py:6:0: R0903: Too few public methods (1/2) (too-few-public-methods)
 ************* Module app.services.aprs_client
-app/services/aprs_client.py:5:0: E0401: Unable to import 'buffer' (import-error)
-app/services/aprs_client.py:5:0: C0413: Import "import buffer as bf" should be placed at the top of the module (wrong-import-position)
-app/services/aprs_client.py:6:0: C0413: Import "from aprslib import IS, parse as prs" should be placed at the top of the module (wrong-import-position)
-app/services/aprs_client.py:8:0: C0413: Import "import logging" should be placed at the top of the module (wrong-import-position)
+app/services/aprs_client.py:6:0: E0401: Unable to import 'buffer' (import-error)
+app/services/aprs_client.py:6:0: C0413: Import "import buffer as bf" should be placed at the top of the module (wrong-import-position)
+app/services/aprs_client.py:7:0: C0413: Import "from aprslib import IS, parse as prs" should be placed at the top of the module (wrong-import-position)
 app/services/aprs_client.py:43:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/aprs_client.py:44:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/services/aprs_client.py:8:0: C0411: standard import "import logging" should be placed before "import buffer as bf" (wrong-import-order)
 ************* Module app.services.client_daemon
 app/services/client_daemon.py:1:0: E0401: Unable to import 'aprs_client' (import-error)
 app/services/client_daemon.py:6:0: E0401: Unable to import 'utils' (import-error)
@@ -50,66 +31,34 @@ app/services/client_daemon.py:6:0: C0413: Import "from utils import set_logger" 
 app/services/client_daemon.py:2:0: C0411: standard import "import sys" should be placed before "import aprs_client as aprs" (wrong-import-order)
 app/services/client_daemon.py:3:0: C0411: standard import "from time import sleep" should be placed before "import aprs_client as aprs" (wrong-import-order)
 ************* Module app.services.db_insert
-app/services/db_insert.py:51:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/db_insert.py:24:37: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-app/services/db_insert.py:24:37: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-app/services/db_insert.py:29:20: R1735: Consider using '{"callsign": packet_json.get('from'), "ssid": None, "destination": packet_json.get('to'), ... }' instead of a call to 'dict'. (use-dict-literal)
-app/services/db_insert.py:53:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/services/db_insert.py:58:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/db_insert.py:60:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+app/services/db_insert.py:52:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app/services/db_insert.py:24:17: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+app/services/db_insert.py:59:15: W0718: Catching too general exception Exception (broad-exception-caught)
 ************* Module app.services.s3
 app/services/s3.py:20:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/s3.py:21:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 app/services/s3.py:34:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/s3.py:35:12: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-app/services/s3.py:2:0: C0411: standard import "import os" should be placed before "from ..interfaces.aws import S3_Storage" (wrong-import-order)
-app/services/s3.py:3:0: C0411: standard import "import time" should be placed before "from ..interfaces.aws import S3_Storage" (wrong-import-order)
-app/services/s3.py:4:0: C0411: standard import "import logging" should be placed before "from ..interfaces.aws import S3_Storage" (wrong-import-order)
-************* Module app.src.fetch_data_web
-app/src/fetch_data_web.py:18:11: E1101: Instance of 'AlchemyInterface' has no 'select_query' member (no-member)
-app/src/fetch_data_web.py:31:4: W0612: Unused variable 'distances' (unused-variable)
-app/src/fetch_data_web.py:5:0: C0411: standard import "import configparser" should be placed before "import pandas as pd" (wrong-import-order)
-app/src/fetch_data_web.py:6:0: C0411: standard import "from time import time_ns" should be placed before "import pandas as pd" (wrong-import-order)
-************* Module web
-app/src/web/web.py:45:15: R1735: Consider using '{"l": 0, "r": 0, "t": 0, "b": 0}' instead of a call to 'dict'. (use-dict-literal)
-app/src/web/web.py:47:29: R1735: Consider using '{"size": 5}' instead of a call to 'dict'. (use-dict-literal)
 ************* Module app.utils.buffer
-app/utils/buffer.py:6:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
-app/utils/buffer.py:31:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app/utils/buffer.py:7:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
 ************* Module app.utils.utils
-app/utils/utils.py:1:0: C0301: Line too long (120/100) (line-too-long)
-app/utils/utils.py:7:0: C0301: Line too long (120/100) (line-too-long)
 app/utils/utils.py:20:4: W0621: Redefining name 'logger' from outer scope (line 10) (redefined-outer-name)
 ************* Module dags.download_files
-dags/download_files.py:1:0: C0301: Line too long (120/100) (line-too-long)
-dags/download_files.py:10:0: C0301: Line too long (120/100) (line-too-long)
 dags/download_files.py:6:0: E0401: Unable to import 'airflow' (import-error)
 dags/download_files.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
 dags/download_files.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
-dags/download_files.py:36:0: C0103: Constant name "command" doesn't conform to UPPER_CASE naming style (invalid-name)
-dags/download_files.py:62:0: W0104: Statement seems to have no effect (pointless-statement)
+dags/download_files.py:60:0: W0104: Statement seems to have no effect (pointless-statement)
 ************* Module dags.insert_database
-dags/insert_database.py:1:0: C0301: Line too long (120/100) (line-too-long)
-dags/insert_database.py:10:0: C0301: Line too long (120/100) (line-too-long)
 dags/insert_database.py:6:0: E0401: Unable to import 'airflow' (import-error)
 dags/insert_database.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
 dags/insert_database.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
-dags/insert_database.py:36:0: C0103: Constant name "command" doesn't conform to UPPER_CASE naming style (invalid-name)
-dags/insert_database.py:62:0: W0104: Statement seems to have no effect (pointless-statement)
+dags/insert_database.py:60:0: W0104: Statement seems to have no effect (pointless-statement)
 ************* Module dags.upload_files
-dags/upload_files.py:1:0: C0301: Line too long (120/100) (line-too-long)
-dags/upload_files.py:10:0: C0301: Line too long (120/100) (line-too-long)
 dags/upload_files.py:6:0: E0401: Unable to import 'airflow' (import-error)
 dags/upload_files.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
 dags/upload_files.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
-dags/upload_files.py:36:0: C0103: Constant name "command" doesn't conform to UPPER_CASE naming style (invalid-name)
-dags/upload_files.py:62:0: W0104: Statement seems to have no effect (pointless-statement)
+dags/upload_files.py:59:0: W0104: Statement seems to have no effect (pointless-statement)
 ************* Module setup
 setup.py:3:5: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-************* Module test
-test.py:4:25: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-test.py:4:25: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-test.py:1:0: R0801: Similar lines in 2 files
+setup.py:1:0: R0801: Similar lines in 2 files
 ==dags.download_files:[12:24]
 ==dags.insert_database:[12:24]
 default_args = {
@@ -124,7 +73,7 @@ default_args = {
 }
 
 dag = DAG( (duplicate-code)
-test.py:1:0: R0801: Similar lines in 2 files
+setup.py:1:0: R0801: Similar lines in 2 files
 ==dags.download_files:[28:40]
 ==dags.insert_database:[28:40]
 )
@@ -134,12 +83,12 @@ first_task = EmptyOperator(
     dag=dag,
 )
 
-command = """
+COMMAND = """
     {{ params.interpreter_path }} \
     -m \
     app.cli.commands \
     --config-path {{ params.config_path }} \ (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 6.58/10 (previous run: 6.71/10, -0.13)
+Your code has been rated at 0.00/10 (previous run: 4.91/10, -4.91)
 

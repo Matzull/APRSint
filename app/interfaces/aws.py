@@ -4,7 +4,7 @@ import boto3
 logger = logging.getLogger(__name__)
 
 
-class S3_Storage:
+class S3Storage:
     def __init__(self, config):
         creds = config["AWS_CREDENTIALS"]
         self.session = boto3.Session(

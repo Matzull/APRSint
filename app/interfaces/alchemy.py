@@ -102,6 +102,7 @@ class AlchemyInterface:
             self.session.rollback()
 
     def try_insert(self, alchemy_objs):
+        index = 0
         try:
             for index, obj in enumerate(alchemy_objs):
                 self.session.add(obj)
@@ -156,7 +157,9 @@ class AlchemyInterface:
                     else (
                         column < value
                         if operand == "<"
-                        else column > ">" if operand == ">" else False
+                        else column > ">"
+                        if operand == ">"
+                        else False
                     )
                 )
                 for (column, operand), value in filters.items()
