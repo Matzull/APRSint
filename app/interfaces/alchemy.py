@@ -4,7 +4,7 @@
 import logging
 from urllib.parse import quote_plus
 
-from sqlalchemy import create_engine, DDL, select
+from sqlalchemy import create_engine, DDL, select, text, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 from ..db.schema import AprsPacket
@@ -136,7 +136,32 @@ class AlchemyInterface:
         except Exception as e:
             logger.error(f"Couldnt insert objects with error {e}")
 
-    def select_query(self, table, filters=None):
+    def query_raw(self, raw_query):
+        # Runs a war query in a database
+        return self.session.execute(text(raw_query)).all()
+
+    def query_objects(self, columns, table, filters=None):
+        # filter format:
+        # (age ">") : 18
         # Runs a query with filters in a database
-        statement = select(table)  # .filter_by(**filters)
-        return self.session.scalars(statement).all()
+        query = select(columns).select_from(table)
+
+        # Apply filters
+        if filters:
+            # Filters are a dictionary with column names as keys and values as values
+            filter_conditions = [
+                (
+                    column == value
+                    if operand == "=="
+                    else (
+                        column < value
+                        if operand == "<"
+                        else column > ">" if operand == ">" else False
+                    )
+                )
+                for (column, operand), value in filters.items()
+            ]
+            query = query.where(and_(*filter_conditions))
+
+        # Run the query
+        return self.session.execute(query).all()
