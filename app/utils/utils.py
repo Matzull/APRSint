@@ -17,7 +17,6 @@ def get_config(config_path):
 
 
 def set_logger(level):
-    logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setLevel(level.upper())

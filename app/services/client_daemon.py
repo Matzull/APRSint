@@ -1,9 +1,9 @@
-import aprs_client as aprs
 import sys
 from time import sleep
+import aprs_client as aprs  # pylint: disable=import-error
 
 sys.path.append("/home/matzul/APRSint/app/utils")
-from utils import set_logger
+from utils import set_logger  # pylint: disable=wrong-import-position, import-error
 
 # Wait for all the services to start
 sleep(120)

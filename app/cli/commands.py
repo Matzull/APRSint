@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 @click.option("--config-path", type=click.Path(exists=True), required=True)
 @click.pass_context
 def cli(ctx, config_path):
+    # pylint: disable=import-outside-toplevel
     from ..utils.utils import get_config, set_logger
 
     # read config and store in context
@@ -32,6 +33,7 @@ def cli(ctx, config_path):
 @click.option("--drop", is_flag=True)
 @click.pass_context
 def reset_db(ctx, drop):
+    # pylint: disable=import-outside-toplevel
     """
     reset all tables from database
     """
@@ -49,6 +51,7 @@ def reset_db(ctx, drop):
 @cli.command()
 @click.pass_context
 def upload_s3(ctx):
+    # pylint: disable=import-outside-toplevel
     """
     command
     """
@@ -63,6 +66,7 @@ def upload_s3(ctx):
 @cli.command()
 @click.pass_context
 def download_s3(ctx):
+    # pylint: disable=import-outside-toplevel
     """
     command
     """
@@ -77,6 +81,7 @@ def download_s3(ctx):
 @cli.command()
 @click.pass_context
 def insert_database(ctx):
+    # pylint: disable=import-outside-toplevel
     """
     command
     """
@@ -91,4 +96,4 @@ def insert_database(ctx):
     logger.info("success!!!")
 
 
-cli(obj={})
+cli(obj={})  # pylint: disable=no-value-for-parameter

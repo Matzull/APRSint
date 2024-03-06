@@ -1,25 +1,13 @@
 ###################################################################################################
 # IMPORTS
-
-from datetime import datetime, timedelta
-
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
+from dags.aprsint_dag_params import default_args, CONFIG_PATH, EXEC_PATH
+
 ###################################################################################################
 # DAG
-
-default_args = {
-    "owner": "AprsInt",
-    "depends_on_past": False,
-    "start_date": datetime(2024, 1, 1),
-    "retries": 3,
-    "retry_delay": timedelta(minutes=1),
-    "email": ["marcal16@ucm.es"],
-    "email_on_failure": True,
-    "email_on_retry": False,
-}
 
 dag = DAG(
     dag_id="s3_upload",
@@ -44,8 +32,8 @@ task = BashOperator(
     task_id="task_id",
     bash_command=COMMAND,
     params={
-        "interpreter_path": "/home/matzul/miniforge3/envs/tfg_env/bin/python3",
-        "config_path": "/home/matzul/APRSint/config.ini",
+        "interpreter_path": EXEC_PATH,
+        "config_path": CONFIG_PATH,
         "arg": "test_str",
     },
     dag=dag,
@@ -56,4 +44,4 @@ last_task = EmptyOperator(
     dag=dag,
 )
 
-first_task >> task >> last_task
+first_task >> task >> last_task  # pylint: disable=W0104

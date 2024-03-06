@@ -1,81 +1,7 @@
-************* Module test.py
-test.py:1:0: F0001: No module named test.py (fatal)
-************* Module app.cli.commands
-app/cli/commands.py:18:4: C0415: Import outside toplevel (utils.utils.get_config, utils.utils.set_logger) (import-outside-toplevel)
-app/cli/commands.py:38:4: C0415: Import outside toplevel (base.Base) (import-outside-toplevel)
-app/cli/commands.py:39:4: C0415: Import outside toplevel (db.schema.AprsPacket) (import-outside-toplevel)
-app/cli/commands.py:55:4: C0415: Import outside toplevel (services.s3.upload_files) (import-outside-toplevel)
-app/cli/commands.py:69:4: C0415: Import outside toplevel (services.s3.download_files) (import-outside-toplevel)
-app/cli/commands.py:83:4: C0415: Import outside toplevel (base.Base) (import-outside-toplevel)
-app/cli/commands.py:84:4: C0415: Import outside toplevel (services.db_insert.db_insert) (import-outside-toplevel)
-app/cli/commands.py:94:0: E1120: No value for argument 'ctx' in function call (no-value-for-parameter)
-app/cli/commands.py:94:0: E1120: No value for argument 'config_path' in function call (no-value-for-parameter)
-************* Module app.interfaces.alchemy
-app/interfaces/alchemy.py:110:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:125:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:130:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/alchemy.py:137:15: W0718: Catching too general exception Exception (broad-exception-caught)
-************* Module app.interfaces.aws
-app/interfaces/aws.py:27:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/aws.py:35:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/interfaces/aws.py:45:15: W0718: Catching too general exception Exception (broad-exception-caught)
-************* Module app.services.aprs_client
-app/services/aprs_client.py:6:0: E0401: Unable to import 'buffer' (import-error)
-app/services/aprs_client.py:6:0: C0413: Import "import buffer as bf" should be placed at the top of the module (wrong-import-position)
-app/services/aprs_client.py:7:0: C0413: Import "from aprslib import IS, parse as prs" should be placed at the top of the module (wrong-import-position)
-app/services/aprs_client.py:43:15: W0718: Catching too general exception Exception (broad-exception-caught)
-************* Module app.services.client_daemon
-app/services/client_daemon.py:1:0: E0401: Unable to import 'aprs_client' (import-error)
-app/services/client_daemon.py:6:0: E0401: Unable to import 'utils' (import-error)
-app/services/client_daemon.py:6:0: C0413: Import "from utils import set_logger" should be placed at the top of the module (wrong-import-position)
-app/services/client_daemon.py:2:0: C0411: standard import "import sys" should be placed before "import aprs_client as aprs" (wrong-import-order)
-app/services/client_daemon.py:3:0: C0411: standard import "from time import sleep" should be placed before "import aprs_client as aprs" (wrong-import-order)
-************* Module app.services.db_insert
-app/services/db_insert.py:52:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/db_insert.py:24:17: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-app/services/db_insert.py:59:15: W0718: Catching too general exception Exception (broad-exception-caught)
-************* Module app.services.s3
-app/services/s3.py:20:15: W0718: Catching too general exception Exception (broad-exception-caught)
-app/services/s3.py:34:15: W0718: Catching too general exception Exception (broad-exception-caught)
-************* Module app.utils.buffer
-app/utils/buffer.py:7:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
-************* Module app.utils.utils
-app/utils/utils.py:20:4: W0621: Redefining name 'logger' from outer scope (line 10) (redefined-outer-name)
-************* Module dags.download_files
-dags/download_files.py:6:0: E0401: Unable to import 'airflow' (import-error)
-dags/download_files.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
-dags/download_files.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
-dags/download_files.py:60:0: W0104: Statement seems to have no effect (pointless-statement)
-************* Module dags.insert_database
-dags/insert_database.py:6:0: E0401: Unable to import 'airflow' (import-error)
-dags/insert_database.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
-dags/insert_database.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
-dags/insert_database.py:60:0: W0104: Statement seems to have no effect (pointless-statement)
-************* Module dags.upload_files
-dags/upload_files.py:6:0: E0401: Unable to import 'airflow' (import-error)
-dags/upload_files.py:7:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
-dags/upload_files.py:8:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
-dags/upload_files.py:59:0: W0104: Statement seems to have no effect (pointless-statement)
 ************* Module setup
-setup.py:3:5: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
 setup.py:1:0: R0801: Similar lines in 2 files
-==dags.download_files:[12:24]
-==dags.insert_database:[12:24]
-default_args = {
-    "owner": "AprsInt",
-    "depends_on_past": False,
-    "start_date": datetime(2024, 1, 1),
-    "retries": 3,
-    "retry_delay": timedelta(minutes=1),
-    "email": ["marcal16@ucm.es"],
-    "email_on_failure": True,
-    "email_on_retry": False,
-}
-
-dag = DAG( (duplicate-code)
-setup.py:1:0: R0801: Similar lines in 2 files
-==dags.download_files:[28:40]
-==dags.insert_database:[28:40]
+==dags.download_files:[17:29]
+==dags.insert_database:[17:29]
 )
 
 first_task = EmptyOperator(
@@ -90,5 +16,5 @@ COMMAND = """
     --config-path {{ params.config_path }} \ (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 0.00/10 (previous run: 4.91/10, -4.91)
+Your code has been rated at 9.98/10 (previous run: 9.73/10, +0.25)
 

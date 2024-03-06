@@ -21,7 +21,7 @@ def db_insert(base):
     files = os.listdir(base_path)
     for file_no, file in enumerate(files):
         try:
-            with open(base_path + "/" + file, "r") as f:
+            with open(base_path + "/" + file, "r", encoding="utf-8") as f:
                 packets_json = json.load(f)
             packets_json = clean_json(packets_json)
             packets = []

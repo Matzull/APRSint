@@ -3,8 +3,11 @@ import logging
 import json
 
 sys.path.append("/home/matzul/APRSint/app/utils")
-import buffer as bf
-from aprslib import IS, parse as prs
+import buffer as bf  # pylint: disable=wrong-import-position, import-error
+from aprslib import (
+    IS,
+    parse as prs,
+)  # pylint: disable=wrong-import-position, import-error
 
 
 logger = logging.getLogger(__name__)

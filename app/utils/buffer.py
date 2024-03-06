@@ -3,8 +3,8 @@ import gzip
 from tqdm import tqdm
 
 
-# disable pylint=too-many-instance-attributes
 class Buffer:
+    # pylint: disable=R0902
     def __init__(
         self, base_dir, buffer_length=100, max_buffers_per_file=50, debug=False
     ):
