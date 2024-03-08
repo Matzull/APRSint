@@ -31,6 +31,7 @@ jobs:
       
       - name: Check code style with Ruff
         run: |
+          python -m install ruff
           ruff .
       - name: Lint with Pylint
         run: |
