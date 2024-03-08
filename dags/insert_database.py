@@ -1,3 +1,4 @@
+# pylint: disable=duplicate-code
 ###################################################################################################
 # IMPORTS
 from airflow import DAG

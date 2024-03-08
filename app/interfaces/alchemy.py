@@ -163,7 +163,9 @@ class AlchemyInterface:
                     else (
                         column < value
                         if operand == "<"
-                        else column > ">" if operand == ">" else False
+                        else column > ">"
+                        if operand == ">"
+                        else False
                     )
                 )
                 for (column, operand), value in filters.items()
