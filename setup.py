@@ -13,7 +13,7 @@ requirements = [
     "unidecode",
     "scikit-learn",
     "dash-express",
-    "dash-mantine",
+    "dash-mantine-components",
     "apache-airflow",
     "plotly",
     "boto3",
