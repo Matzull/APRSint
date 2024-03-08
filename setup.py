@@ -11,6 +11,11 @@ requirements = [
     "pandas",
     "pyarrow",
     "unidecode",
+    "scikit-learn",
+    "dash-express",
+    "dash-mantine",
+    "apache-airflow",
+    "plotly",
     "boto3",
     "tqdm",
 ]
