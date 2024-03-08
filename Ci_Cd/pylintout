@@ -1,20 +1,4 @@
-************* Module setup
-setup.py:1:0: R0801: Similar lines in 2 files
-==dags.download_files:[17:29]
-==dags.insert_database:[17:29]
-)
 
-first_task = EmptyOperator(
-    task_id="first_task",
-    dag=dag,
-)
-
-COMMAND = """
-    {{ params.interpreter_path }} \
-    -m \
-    app.cli.commands \
-    --config-path {{ params.config_path }} \ (duplicate-code)
-
-------------------------------------------------------------------
-Your code has been rated at 9.98/10 (previous run: 9.73/10, +0.25)
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
