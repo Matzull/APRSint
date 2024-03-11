@@ -38,12 +38,12 @@ def reset_db(ctx, drop):
     reset all tables from database
     """
     from ..base import Base
-    from ..db.schema import AprsPacket
+    from ..db.schema import Station, StationLocation, Messages
 
     config = ctx.obj["config"]
 
     base = Base(config)
-    base.alchemy_interface.reset_db([AprsPacket], drop)
+    base.alchemy_interface.reset_db([Station, StationLocation, Messages], drop)
 
     logger.info("success!!!")
 

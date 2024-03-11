@@ -1,14 +1,14 @@
 import dash_mantine_components as dmc
 import plotly.express as px
 from dash_express import DashExpress, Page
+from dash import html
+import plotly.graph_objects as go
+from dash.dependencies import Input, Output
+from app.src.fetch_data_web import c_parser, Fetcher
 
-# import sys
-# import os
-# sys.path.append(os.path.join(os.path.dirname(os.getcwd()), "src"))
-from app.src.fetch_data_web import c_parser, fetch_data
-
+fet = Fetcher()
 # Incorporate data
-get_df = fetch_data
+get_df = fet.fetch_data
 
 # Initialize the app
 app = DashExpress(logo={"dark": "/assets/logo.svg", "light": "/assets/logo.svg"})
@@ -31,11 +31,28 @@ def bar_func(df):
         lat="latitude",
         color="density",
         color_continuous_scale="hot",
-        hover_name="callsign",
-        hover_data={"density": False, "longitude": False, "latitude": False},
+        hover_name="station",
+        hover_data={
+            "longitude": True,
+            "latitude": True,
+            "density": False,
+            "timestamp": True,
+        },
         zoom=2,
     )
+
+    fig.update_traces(
+        hoverinfo="text",
+        hovertext=[
+            "<a href='http://google.com'>Enlace a Google</a>" for _ in range(len(df))
+        ],
+        marker=go.scattermapbox.Marker(
+            size=5,
+        ),
+    )
+
     fig.update_layout(
+        hovermode="closest",
         showlegend=False,
         coloraxis_showscale=False,
         paper_bgcolor="black",
@@ -44,16 +61,22 @@ def bar_func(df):
         mapbox_accesstoken=c_parser["mapbox"]["token"],
         margin={"l": 0, "r": 0, "t": 0, "b": 0},
     )
-    fig.update_traces(marker={"size": 5})
     return fig
 
 
 # Dashboard layout
 page.layout = dmc.SimpleGrid(
     children=[
-        page.add_graph(h="calc(100vh - 138px)", render_func=bar_func),
+        page.add_graph(id="main_map", h="calc(100vh - 138px)", render_func=bar_func),
+        html.Div(id="divasa"),
     ]
 )
+
+
+@app.callback(Output("divasa", "children"), Input("main_map", "clickData"))
+def do_click(data):
+    return "wlwowo"
+
 
 page.add_autofilter("timestamp", multi=True, label="Select date range", custom=False)
 

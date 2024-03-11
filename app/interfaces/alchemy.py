@@ -3,11 +3,10 @@
 
 import logging
 from urllib.parse import quote_plus
-
-from sqlalchemy import create_engine, DDL, select, and_
-from sqlalchemy.exc import IntegrityError
+from tqdm import tqdm
+from sqlalchemy import create_engine, DDL, select, and_, column
 from sqlalchemy.orm import sessionmaker
-from ..db.schema import AprsPacket
+from sqlalchemy.dialects.postgresql import insert
 
 ###################################################################################################
 # CLASSES
@@ -57,14 +56,12 @@ class AlchemyInterface:
         for table in tables:
             schema = self.get_schema_from_table(table)
 
-            with self.engine.connect() as conn:
+            with self.engine.begin() as conn:
                 conn.execute(DDL(f"CREATE SCHEMA IF NOT EXISTS {schema}"))
-                conn.commit()
 
                 if not conn.dialect.has_table(conn, table.__tablename__, schema=schema):
                     logger.info(f"creating table {table.__tablename__}...")
                     table.__table__.create(conn)
-                    conn.commit()
 
                 else:
                     logger.info(f"table {table.__tablename__} already exists")
@@ -73,19 +70,22 @@ class AlchemyInterface:
         for table in tables:
             schema = self.get_schema_from_table(table)
 
-            with self.engine.connect() as conn:
+            with self.engine.begin() as conn:
                 if conn.dialect.has_table(conn, table.__tablename__, schema=schema):
                     logger.info(f"dropping table {table.__tablename__}...")
                     conn.execute(
                         DDL(f"DROP TABLE {schema}.{table.__tablename__} CASCADE")
                     )
-                    conn.commit()
 
     def reset_db(self, tables, drop):
         if drop:
             self.drop_tables(tables)
 
         self.create_tables(tables)
+
+    def insert_alchemy_objs(self, alchemy_objs):
+        self.session.add_all(alchemy_objs)
+        self.session.commit()
 
     def insert_alchemy_obj(self, alchemy_obj, silent=False):
         try:
@@ -95,57 +95,37 @@ class AlchemyInterface:
             self.session.add(alchemy_obj)
             self.session.commit()
 
-        except IntegrityError:
+        except Exception:
             if not silent:
                 logger.info(f"{alchemy_obj} already in db")
 
             self.session.rollback()
 
-    def try_insert(self, alchemy_objs):
-        index = 0
-        try:
-            for index, obj in enumerate(alchemy_objs):
-                self.session.add(obj)
-            self.session.commit()
-        except Exception:
-            self.session.rollback()
-            self.session.bulk_save_objects(alchemy_objs[:index])
-            self.session.commit()
-            self.try_insert(alchemy_objs[index + 1 :])
-            return
+    def bulk_insert_alchemy_objs(self, alchemy_objs, table, dict=False):
+        for i in tqdm(range(0, len(alchemy_objs), 250)):
+            batch = alchemy_objs[i : i + 250]
+            self.session.execute(
+                insert(table)
+                .values([(obj.as_dict() if not dict else obj) for obj in batch])
+                .on_conflict_do_nothing()
+            )
+        self.session.commit()
 
-    def bulk_insert_alchemy_objs(self, alchemy_objs):
-        bulk_size = 1000
-        try:
-            for start in range(0, len(alchemy_objs), bulk_size):
-                end = min(start + bulk_size, len(alchemy_objs))
-                self.session.bulk_save_objects(alchemy_objs[start:end])
-                self.session.flush()
-            self.session.commit()
-        except Exception as e:
-            logger.error(f"Couldn bulk insert with error {e}")
-            self.session.rollback()
-        try:
-            self.try_insert(alchemy_objs)
-        except Exception:
-            self.session.rollback()
-
-    def bulk_insert_alchemy_dicts(self, alchemy_dicts):
+    def bulk_insert_alchemy_dicts(self, alchemy_dicts, table):
         try:
             with self.engine.begin() as conn:
-                conn.execute(AprsPacket.__table__.insert(), alchemy_dicts)
+                conn.execute(table.__table__.insert(), alchemy_dicts)
         except Exception as e:
             logger.error(f"Couldnt insert objects with error {e}")
 
-    def query_raw(self):  # , raw_query):
-        # Runs a war query in a database
-        select(AprsPacket)
-        return self.session.execute(AprsPacket).all()
-
-    def select_query(self, table):  # , filters=None):
-        # Runs a query with filters in a database
-        statement = select(table)  # .filter_by(**filters)
-        return self.session.scalars(statement).all()
+    def select_obj(self, table, columns=None):
+        if not columns or columns == "*":
+            selected_columns = [column(col) for col in table.__columns__]
+        else:
+            selected_columns = [column(col) for col in columns]
+        statement = select(*selected_columns).select_from(table)
+        print("Query: ", statement)
+        return self.session.execute(statement).all()
 
     def query_objects(self, columns, table, filters=None):
         # filter format:
