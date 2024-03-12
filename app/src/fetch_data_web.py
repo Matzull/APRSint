@@ -36,7 +36,7 @@ class Fetcher:
         return counts
 
     def pre_calculate(self):
-        data = alchemy_interface.select_obj(StationLocation)
+        data = alchemy_interface.select_obj(StationLocation, limit=1000)
 
         df = pd.DataFrame().from_records(
             [packet for packet in data], columns=StationLocation.__columns__
@@ -57,7 +57,7 @@ class Fetcher:
         if os.path.exists("./data.csv"):
             print("Data exists")
             df = pd.read_csv("./data.csv", parse_dates=["timestamp"])
-            df["link"] = "https://google.com"
+            # df["link"] = "https://google.com"
             return df
         else:
             print("Caching")

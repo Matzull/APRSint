@@ -56,13 +56,14 @@ class StationLocation(Base):
 
     __tablename__ = "station_locations"
     __table_args__ = {"schema": SCHEMA}
-    __columns__ = ["station", "timestamp", "latitude", "longitude"]
+    __columns__ = ["station", "timestamp", "latitude", "longitude", "country"]
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     station = Column(String(15), ForeignKey(Station.station_id), primary_key=True)
     timestamp = Column(DateTime)
     latitude = Column(Float)
     longitude = Column(Float)
+    country = Column(String(50))
 
     def __str__(self):
         return f"{self.station} | {self.latitude} | {self.longitude} | {self.timestamp}"
@@ -73,6 +74,7 @@ class StationLocation(Base):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "timestamp": self.timestamp,
+            "country": self.country,
         }
 
 

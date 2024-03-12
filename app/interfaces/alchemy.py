@@ -118,12 +118,14 @@ class AlchemyInterface:
         except Exception as e:
             logger.error(f"Couldnt insert objects with error {e}")
 
-    def select_obj(self, table, columns=None):
+    def select_obj(self, table, columns=None, limit=None):
         if not columns or columns == "*":
             selected_columns = [column(col) for col in table.__columns__]
         else:
             selected_columns = [column(col) for col in columns]
         statement = select(*selected_columns).select_from(table)
+        if limit is not None:
+            statement = statement.fetch(limit)
         print("Query: ", statement)
         return self.session.execute(statement).all()
 

@@ -4,8 +4,35 @@ import json
 import datetime
 from time import sleep
 from app.db.schema import Station, StationLocation, Messages
+import geopandas as gpd
+from tqdm import tqdm
+from shapely.geometry import Point
 
 logger = logging.getLogger(__name__)
+
+
+def get_country(gdf, latitude, longitude, cache):
+    point = Point(longitude, latitude)
+    if (latitude, longitude) in cache:
+        return cache[(latitude, longitude)]
+    possible_matches_index = list(gdf.sindex.intersection(point.bounds))
+    if not possible_matches_index:
+        return None
+    possible_matches = gdf.iloc[possible_matches_index]
+    precise_matches = possible_matches[possible_matches.intersects(point)]
+    result = precise_matches.name.iloc[0] if not precise_matches.empty else None
+    cache[(latitude, longitude)] = result
+    if result and len(result) > 50:
+        print(result)
+    return result
+
+
+def get_countries(gdf, coordinates):
+    results_cache = {}
+    results = []
+    for lat, lon in coordinates:
+        results.append(get_country(gdf, lat, lon, results_cache))
+    return results
 
 
 def clean_json(input_string):
@@ -21,7 +48,7 @@ def clean_json(input_string):
 def db_insert(base, delete=False):
     base_path = "/mnt/ssd/database_proccessed"
     files = os.listdir(base_path)
-
+    gfd = gpd.read_file("./app/shapefiles/world-administrative-boundaries.shp")
     for file_no, file in enumerate(files):
         try:
             with open(base_path + "/" + file, "r", encoding="utf-8") as f:
@@ -30,7 +57,9 @@ def db_insert(base, delete=False):
             stations = set()
             locations = []
             messages = []
-            for i, packet_json in enumerate(packets_json):
+
+            for i, packet_json in tqdm(enumerate(packets_json)):
+                # print("Buildingk obj")
                 stations.add(
                     Station(
                         station_id=packet_json.get("from"),
@@ -76,9 +105,16 @@ def db_insert(base, delete=False):
                         "raw_packet": packet_json,
                     }
                 )
-            print("Inserting")
-            # for loc in locations[:15]:
-            #     print(loc)
+            countries = get_countries(
+                gfd,
+                [
+                    (loc["latitude"], loc["longitude"])
+                    for loc in locations
+                    if loc["latitude"]
+                ],
+            )
+            for loc, country in zip(locations, countries):
+                loc["country"] = country
 
             base.alchemy_interface.bulk_insert_alchemy_objs(list(stations), Station)
             base.alchemy_interface.bulk_insert_alchemy_dicts(locations, StationLocation)
