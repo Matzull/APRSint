@@ -3,9 +3,8 @@ import pandas as pd
 import os
 import numpy as np
 from app.interfaces.alchemy import AlchemyInterface
-from app.db.schema import StationLocation
+from app.db.schema import StationLocation, Station, Messages
 from scipy.spatial.distance import cdist
-
 
 c_parser = configparser.ConfigParser()
 c_parser.read("/home/matzul/APRSint/config.ini")
@@ -14,7 +13,7 @@ config = {"db": dict(c_parser["db"])}
 alchemy_interface = AlchemyInterface(config)
 
 
-class Fetcher:
+class HomeFetcher:
     def __init__(self):
         print("Creating fetcher")
         self.cached = False
@@ -57,9 +56,36 @@ class Fetcher:
         if os.path.exists("./data.csv"):
             print("Data exists")
             df = pd.read_csv("./data.csv", parse_dates=["timestamp"])
-            # df["link"] = "https://google.com"
             return df
         else:
             print("Caching")
             self.cached = True
             return self.pre_calculate()
+
+
+class StationFetcher:
+    def __init__(self, station_id):
+        self.station_id = station_id
+        print("Creating station fetcher")
+
+    def fetch_data(self):
+        print("Fetching station")
+        data_station = alchemy_interface.select_obj(
+            Station, **{"station_id": self.station_id}
+        )
+
+        data_location = alchemy_interface.select_obj(
+            StationLocation,
+            ["id", "timestamp", "latitude", "longitude", "country"],
+            limit=1000,
+            **{"station": self.station_id},
+        )
+
+        data_messages = alchemy_interface.select_obj(
+            Messages,
+            ["src_station", "dst_station", "path", "timestamp", "comment"],
+            limit=1000,
+            **{"src_station": self.station_id},
+        )
+
+        return data_station, data_location, data_messages

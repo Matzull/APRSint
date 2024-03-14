@@ -4,7 +4,7 @@
 import logging
 from urllib.parse import quote_plus
 from tqdm import tqdm
-from sqlalchemy import create_engine, DDL, select, and_, column
+from sqlalchemy import create_engine, DDL, select, and_, column, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.dialects.postgresql import insert
 
@@ -118,7 +118,10 @@ class AlchemyInterface:
         except Exception as e:
             logger.error(f"Couldnt insert objects with error {e}")
 
-    def select_obj(self, table, columns=None, limit=None):
+    def adapt_data(self, data):
+        return ("'" + data + "'") if isinstance(data, str) else data
+
+    def select_obj(self, table, columns=None, limit=None, **filters):
         if not columns or columns == "*":
             selected_columns = [column(col) for col in table.__columns__]
         else:
@@ -126,33 +129,14 @@ class AlchemyInterface:
         statement = select(*selected_columns).select_from(table)
         if limit is not None:
             statement = statement.fetch(limit)
-        print("Query: ", statement)
-        return self.session.execute(statement).all()
-
-    def query_objects(self, columns, table, filters=None):
-        # filter format:
-        # (age ">") : 18
-        # Runs a query with filters in a database
-        query = select(columns).select_from(table)
-
-        # Apply filters
         if filters:
-            # Filters are a dictionary with column names as keys and values as values
-            filter_conditions = [
-                (
-                    column == value
-                    if operand == "=="
-                    else (
-                        column < value
-                        if operand == "<"
-                        else column > ">"
-                        if operand == ">"
-                        else False
-                    )
+            statement = statement.where(
+                and_(
+                    *[
+                        text(f"{col} = {self.adapt_data(value)}")
+                        for col, value in filters.items()
+                    ]
                 )
-                for (column, operand), value in filters.items()
-            ]
-            query = query.where(and_(*filter_conditions))
-
-        # Run the query
-        return self.session.execute(query).all()
+            )
+        print(f"Query: {statement}")
+        return self.session.execute(statement).all()
