@@ -7,6 +7,7 @@ from tqdm import tqdm
 from sqlalchemy import create_engine, DDL, select, and_, column, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.dialects.postgresql import insert
+import pandas as pd
 
 ###################################################################################################
 # CLASSES
@@ -121,7 +122,7 @@ class AlchemyInterface:
     def adapt_data(self, data):
         return ("'" + data + "'") if isinstance(data, str) else data
 
-    def select_obj(self, table, columns=None, limit=None, **filters):
+    def select_obj(self, table, columns=None, limit=None, df=False, **filters):
         if not columns or columns == "*":
             selected_columns = [column(col) for col in table.__columns__]
         else:
@@ -138,5 +139,9 @@ class AlchemyInterface:
                     ]
                 )
             )
-        print(f"Query: {statement}")
-        return self.session.execute(statement).all()
+        result = self.session.execute(statement).all()
+        header = table.__columns__ if (not columns or columns == "*") else columns
+        if df:
+            return pd.DataFrame().from_records(result, columns=header)
+        result.insert(0, tuple(header))
+        return result

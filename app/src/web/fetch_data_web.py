@@ -15,7 +15,6 @@ alchemy_interface = AlchemyInterface(config)
 
 class HomeFetcher:
     def __init__(self):
-        print("Creating fetcher")
         self.cached = False
 
     def count_points_within_radius(self, df, radius):
@@ -35,11 +34,7 @@ class HomeFetcher:
         return counts
 
     def pre_calculate(self):
-        data = alchemy_interface.select_obj(StationLocation, limit=1000)
-
-        df = pd.DataFrame().from_records(
-            [packet for packet in data], columns=StationLocation.__columns__
-        )
+        df = alchemy_interface.select_obj(StationLocation, limit=1000, df=True)
 
         df = df.dropna(subset=["latitude", "longitude", "timestamp"]).head(15000)
 
@@ -66,7 +61,6 @@ class HomeFetcher:
 class StationFetcher:
     def __init__(self, station_id):
         self.station_id = station_id
-        print("Creating station fetcher")
 
     def fetch_data(self):
         print("Fetching station")
@@ -77,14 +71,14 @@ class StationFetcher:
         data_location = alchemy_interface.select_obj(
             StationLocation,
             ["id", "timestamp", "latitude", "longitude", "country"],
-            limit=1000,
+            limit=10,
             **{"station": self.station_id},
         )
 
         data_messages = alchemy_interface.select_obj(
             Messages,
             ["src_station", "dst_station", "path", "timestamp", "comment"],
-            limit=1000,
+            limit=10,
             **{"src_station": self.station_id},
         )
 
