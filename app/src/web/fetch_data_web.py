@@ -72,6 +72,7 @@ class StationFetcher:
             StationLocation,
             ["id", "timestamp", "latitude", "longitude", "country"],
             limit=10,
+            df=True,
             **{"station": self.station_id},
         )
 
@@ -79,7 +80,11 @@ class StationFetcher:
             Messages,
             ["src_station", "dst_station", "path", "timestamp", "comment"],
             limit=10,
+            df=True,
             **{"src_station": self.station_id},
         )
+        packets = pd.concat(
+            [data_location, data_messages.drop("timestamp", axis=1)], axis=1
+        ).drop(["id", "src_station"], axis=1)
 
-        return data_station, data_location, data_messages
+        return data_station, packets
