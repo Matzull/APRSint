@@ -1,0 +1,50 @@
+************* Module app/src/inteligence.py
+app/src/inteligence.py:1:0: F0001: No module named app/src/inteligence.py (fatal)
+************* Module app.db.schema
+app/db/schema.py:106:0: C0301: Line too long (105/100) (line-too-long)
+app/db/schema.py:54:0: C0112: Empty class docstring (empty-docstring)
+************* Module app.interfaces.alchemy
+app/interfaces/alchemy.py:105:60: W0622: Redefining built-in 'dict' (redefined-builtin)
+************* Module app.services.db_insert
+app/services/db_insert.py:48:0: R0914: Too many local variables (18/15) (too-many-locals)
+app/services/db_insert.py:61:16: W0612: Unused variable 'i' (unused-variable)
+app/services/db_insert.py:7:0: C0411: third party import "import geopandas as gpd" should be placed before "from app.db.schema import Station, StationLocation, Messages" (wrong-import-order)
+app/services/db_insert.py:8:0: C0411: third party import "from tqdm import tqdm" should be placed before "from app.db.schema import Station, StationLocation, Messages" (wrong-import-order)
+app/services/db_insert.py:9:0: C0411: third party import "from shapely.geometry import Point" should be placed before "from app.db.schema import Station, StationLocation, Messages" (wrong-import-order)
+************* Module fetch_data_web
+app/src/web/fetch_data_web.py:51:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+app/src/web/fetch_data_web.py:61:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+app/src/web/fetch_data_web.py:3:0: C0411: standard import "import os" should be placed before "import pandas as pd" (wrong-import-order)
+app/src/web/fetch_data_web.py:7:0: C0411: third party import "from scipy.spatial.distance import cdist" should be placed before "from app.interfaces.alchemy import AlchemyInterface" (wrong-import-order)
+************* Module pages.home
+app/src/web/pages/home.py:65:21: C0103: Argument name "clickData" doesn't conform to snake_case naming style (invalid-name)
+app/src/web/pages/home.py:65:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+app/src/web/pages/home.py:3:0: C0412: Imports from package dash are not grouped (ungrouped-imports)
+app/src/web/pages/home.py:6:0: C0412: Imports from package dash are not grouped (ungrouped-imports)
+************* Module pages.station
+app/src/web/pages/station.py:127:0: C0301: Line too long (184/100) (line-too-long)
+app/src/web/pages/station.py:141:0: C0301: Line too long (151/100) (line-too-long)
+app/src/web/pages/station.py:197:21: W0613: Unused argument 'url' (unused-argument)
+app/src/web/pages/station.py:6:0: C0411: standard import "from datetime import datetime" should be placed before "from dash import html, dcc" (wrong-import-order)
+************* Module dags.download_files
+dags/download_files.py:4:0: E0611: No name 'DAG' in module 'airflow' (no-name-in-module)
+dags/download_files.py:5:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
+dags/download_files.py:5:0: E0611: No name 'operators' in module 'airflow' (no-name-in-module)
+dags/download_files.py:6:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
+dags/download_files.py:6:0: E0611: No name 'operators' in module 'airflow' (no-name-in-module)
+************* Module dags.insert_database
+dags/insert_database.py:4:0: E0611: No name 'DAG' in module 'airflow' (no-name-in-module)
+dags/insert_database.py:5:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
+dags/insert_database.py:5:0: E0611: No name 'operators' in module 'airflow' (no-name-in-module)
+dags/insert_database.py:6:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
+dags/insert_database.py:6:0: E0611: No name 'operators' in module 'airflow' (no-name-in-module)
+************* Module dags.upload_files
+dags/upload_files.py:4:0: E0611: No name 'DAG' in module 'airflow' (no-name-in-module)
+dags/upload_files.py:5:0: E0401: Unable to import 'airflow.operators.bash' (import-error)
+dags/upload_files.py:5:0: E0611: No name 'operators' in module 'airflow' (no-name-in-module)
+dags/upload_files.py:6:0: E0401: Unable to import 'airflow.operators.empty' (import-error)
+dags/upload_files.py:6:0: E0611: No name 'operators' in module 'airflow' (no-name-in-module)
+
+------------------------------------------------------------------
+Your code has been rated at 0.00/10 (previous run: 8.31/10, -8.31)
+

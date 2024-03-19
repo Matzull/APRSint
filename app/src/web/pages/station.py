@@ -1,9 +1,45 @@
 from dash import html, dcc
 from dash.dependencies import Input, Output
-from dash_express import Page, AsideAppShell, DashExpress
+from dash_express import Page
 from fetch_data_web import StationFetcher
 import dash_mantine_components as dmc
-from datetime import datetime, timedelta
+from datetime import datetime
+from inteligence import Recolector
+
+
+def format_to_card(data):
+    items = []
+    # Formatear sección 'timestamps'
+    if "timestamps" in data:
+        items.append(dmc.Text("Timestamps:"))
+        for key, value in data["timestamps"].items():
+            if key not in [
+                "median_frequency",
+                "start_date",
+                "end_date",
+                "recorded_time",
+            ]:
+                continue
+            item_text = f"{key}: {value}"
+            items.append(dmc.ListItem(item_text))
+
+    if "locations" in data:
+        items.append(dmc.Text("Locations:"))
+        for key, value in data["locations"].items():
+            if key not in ["total_distance_km"]:
+                continue
+            item_text = f"{key}: {value}"
+            items.append(dmc.ListItem(item_text))
+
+    if "loc_temporal" in data:
+        items.append(dmc.Text("Loc Temporal:"))
+        for key, value in data["loc_temporal"].items():
+            if key not in ["total_time_elapsed", "visit_frequency"]:
+                continue
+            item_text = f"{key}: {value}"
+            items.append(dmc.ListItem(item_text))
+
+    return dmc.List(withPadding=True, children=items)
 
 
 def create_table(data, selected_date):
@@ -82,6 +118,8 @@ def create_timeline(app, data):
 
 
 def create_description(data):
+    rec = Recolector("W6HBR-2")
+    rec.recolect(timestamps=True, locations=True, loc_temporal=True, comments=False)
     return dmc.Card(
         children=[
             dmc.CardSection(
@@ -100,7 +138,8 @@ def create_description(data):
                 mb="xs",
             ),
             dmc.Text(
-                "With Fjord Tours you can explore more of the magical fjord landscapes with tours and activities on and around the fjords of Norway",
+                # "With Fjord Tours you can explore more of the magical fjord landscapes with tours and activities on and around the fjords of Norway",
+                format_to_card(rec.report()),
                 size="sm",
                 color="dimmed",
             ),
@@ -147,8 +186,8 @@ def create_layout(app):
                 style={"width": "max-content"},
             ),
         ],
-        display="flex"
-        style={"flexDirection":"row", "align-items":"stretch", "height": "100%"},
+        display="flex",
+        style={"flexDirection": "row", "align-items": "stretch", "height": "100%"},
     )
 
     @app.callback(
