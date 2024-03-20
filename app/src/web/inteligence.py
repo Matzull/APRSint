@@ -18,9 +18,9 @@ import re
 
 class Recolector:
     def __init__(self, target):
-        c_parser = configparser.ConfigParser()
-        c_parser.read("./config.ini")
-        self.config = {"db": dict(c_parser["db"])}
+        self.c_parser = configparser.ConfigParser()
+        self.c_parser.read("./config.ini")
+        self.config = {"db": dict(self.c_parser["db"])}
         self.target = target
         self.alchemy_interface = AlchemyInterface(self.config)
 
@@ -36,6 +36,8 @@ class Recolector:
             if isinstance(value, pd.DataFrame):
                 report[key] = value.to_dict()
             elif isinstance(value, dict):
+                report[key] = value
+            elif isinstance(value, list):
                 report[key] = value
             else:
                 print("Invalid recolection type")
@@ -151,6 +153,7 @@ class Recolector:
 
         return {
             "locations": locations,
+            "timestamps": self.station_locations["timestamp"],
             "total_distance_km": total_distance,
             "average_distance_km": average_distance,
             "std_dev_distance_km": std_dev_distance,
@@ -163,7 +166,11 @@ class Recolector:
             "approximate_area_sq_km": approx_area,
         }
 
-    def plot_map(self, analysis):
+    def plot_map(self):
+        if self.recolection.get("locations") is None:
+            print("There is no location data to plot")
+            return
+        analysis = self.recolection["locations"]
         midpoint = analysis["midpoint"]
         northernmost = analysis["northernmost"]
         southernmost = analysis["southernmost"]
@@ -215,6 +222,10 @@ class Recolector:
             mapbox={"center": {"lon": midpoint[1], "lat": midpoint[0]}, "zoom": 10},
         )
         lats, lons = zip(*analysis["locations"])
+        hovertexts = [
+            f"Latitude: {lat}<br>Longitude: {lon}<br>Timestamp: {timestamp}"
+            for lat, lon, timestamp in zip(lats, lons, analysis["timestamps"])
+        ]
         fig.add_trace(
             go.Scattermapbox(
                 lon=lons,
@@ -222,11 +233,23 @@ class Recolector:
                 mode="markers+lines",
                 line=go.scattermapbox.Line(color="black"),
                 marker=go.scattermapbox.Marker(size=10, color="blue"),
-                name="Bounding Box",
+                hoverinfo="text",
+                hovertext=hovertexts,
             )
         )
 
-        fig.show()
+        fig.update_layout(
+            hovermode="closest",
+            showlegend=False,
+            coloraxis_showscale=False,
+            paper_bgcolor="black",
+            geo_bgcolor="rgba(0, 0, 0, 0)",
+            mapbox_style="dark",
+            mapbox_accesstoken=self.c_parser["mapbox"]["token"],
+            margin={"l": 0, "r": 0, "t": 0, "b": 0},
+        )
+
+        return fig
 
     def analyze_loc_temporal(self, locations_timestamp):
         # Convert column to datetime
@@ -285,5 +308,5 @@ class Recolector:
                 "URL": url,
             }
             results_list.append(result_dict)
-
+        print(results_list)
         return results_list

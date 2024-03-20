@@ -5,39 +5,105 @@ from fetch_data_web import StationFetcher
 import dash_mantine_components as dmc
 from datetime import datetime
 from inteligence import Recolector
+from datetime import datetime, timedelta
+import re
 
+def format_time(value):
+    if isinstance(value, datetime):
+        return value.strftime("%d-%m-%Y %H:%M")
+    elif isinstance(value, timedelta):
+        days = value.days
+        hours, remainder = divmod(value.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        milliseconds = value.microseconds // 1000
+        parts = []
+        if days > 0:
+            parts.append(f"{days} days")
+        if hours > 0:
+            parts.append(f"{hours} hours")
+        if minutes > 0:
+            parts.append(f"{minutes} minutes")
+        if seconds + milliseconds > 0:
+            parts.append(f"{seconds},{milliseconds} seconds")
+        return " ".join(parts)
+    else:
+        return str(value)
 
 def format_to_card(data):
-    items = []
-    # Formatear sección 'timestamps'
-    if "timestamps" in data:
-        items.append(dmc.Text("Timestamps:"))
-        for key, value in data["timestamps"].items():
-            if key not in [
-                "median_frequency",
-                "start_date",
-                "end_date",
-                "recorded_time",
-            ]:
-                continue
-            item_text = f"{key}: {value}"
-            items.append(dmc.ListItem(item_text))
+    # items = []
+    # if "timestamps" in data:
+    #     items.append(dmc.Text("Timestamps:"))
+    #     for key, value in data["timestamps"].items():
+    #         if key not in [
+    #             "median_frequency",
+    #             "start_date",
+    #             "end_date",
+    #             "recorded_time",
+    #         ]:
+    #             continue
+    #         item_text = f"{key}: {value}"
+    #         items.append(dmc.ListItem(item_text))
+    print([(key, value) for key, value in data["timestamps"].items()
+                if key in [
+                    "median_frequency",
+                    "start_date",
+                    "end_date",
+                    "recorded_time",
+                ]])
+    body = [
+        html.Tbody(
+            [
+                html.Tr(
+                    [html.Td(key), html.Td(format_time(value) if isinstance(value, datetime) or isinstance(value, timedelta) else str(value))]
+                )
+                for key, value in data["timestamps"].items()
+                if key in [
+                    "median_frequency",
+                    "start_date",
+                    "end_date",
+                    "recorded_time",
+                ]
+            ]
+        )
+    ]
 
-    if "locations" in data:
-        items.append(dmc.Text("Locations:"))
-        for key, value in data["locations"].items():
-            if key not in ["total_distance_km"]:
-                continue
-            item_text = f"{key}: {value}"
-            items.append(dmc.ListItem(item_text))
+    return dmc.Table(
+        body,
+        verticalSpacing="sm",
+        withBorder=False,
+        withColumnBorders=False,
+    )
+    # if "locations" in data:
+    #     items.append(dmc.Text("Locations:"))
+    #     for key, value in data["locations"].items():
+    #         if key not in ["total_distance_km"]:
+    #             continue
+    #         item_text = f"{key}: {value}"
+    #         items.append(dmc.ListItem(item_text))
 
-    if "loc_temporal" in data:
-        items.append(dmc.Text("Loc Temporal:"))
-        for key, value in data["loc_temporal"].items():
-            if key not in ["total_time_elapsed", "visit_frequency"]:
-                continue
-            item_text = f"{key}: {value}"
-            items.append(dmc.ListItem(item_text))
+    # if "loc_temporal" in data:
+    #     items.append(dmc.Text("Loc Temporal:"))
+    #     for key, value in data["loc_temporal"].items():
+    #         if key not in ["total_time_elapsed", "visit_frequency"]:
+    #             continue
+    #         item_text = f"{key}: {value}"
+    #         items.append(dmc.ListItem(item_text))
+
+    # if "comments" in data:
+    #     items.append(dmc.Text("Comments:"))
+    #     for key, value in data["comments"][0].items():
+    #         if key not in ["Comment", "Freq", "URL"]:
+    #             continue
+    #         if key == "URL":
+    #             value = value if re.match(r"^https?:\/\/", value) else f"http://{value}"
+    #             items.append(
+    #                 dmc.ListItem(
+    #                     dmc.Anchor(value, href=value, underline=False),
+    #                 )
+    #             )
+    #             continue
+    #         item_text = f"{key}: {value}"
+    #         items.append(dmc.ListItem(item_text))
 
     return dmc.List(withPadding=True, children=items)
 
@@ -119,14 +185,12 @@ def create_timeline(app, data):
 
 def create_description(data):
     rec = Recolector("W6HBR-2")
-    rec.recolect(timestamps=True, locations=True, loc_temporal=True, comments=False)
+    rec.recolect(timestamps=True, locations=True, loc_temporal=True, comments=True)
     return dmc.Card(
         children=[
-            dmc.CardSection(
-                dmc.Image(
-                    src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80",
-                    height=160,
-                )
+            dcc.Graph(
+                figure=rec.plot_map(),
+                # height=500
             ),
             dmc.Group(
                 [
@@ -137,12 +201,13 @@ def create_description(data):
                 mt="md",
                 mb="xs",
             ),
-            dmc.Text(
-                # "With Fjord Tours you can explore more of the magical fjord landscapes with tours and activities on and around the fjords of Norway",
-                format_to_card(rec.report()),
-                size="sm",
-                color="dimmed",
-            ),
+            # dmc.Text(
+            #     # "With Fjord Tours you can explore more of the magical fjord landscapes with tours and activities on and around the fjords of Norway",
+            #     format_to_card(rec.report()),
+            #     size="sm",
+            #     color="dimmed",
+            # ),
+            format_to_card(rec.report()),
             dmc.Button(
                 "Book classic tour now",
                 variant="light",
@@ -183,7 +248,7 @@ def create_layout(app):
                 ],
                 align="strech",
                 spacing="xl",
-                style={"width": "max-content"},
+                # style={"width": "max-content"},
             ),
         ],
         display="flex",
