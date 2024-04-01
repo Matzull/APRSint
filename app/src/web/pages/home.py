@@ -40,6 +40,7 @@ def main_map(df):
 
 def create_layout(app):
     fet = HomeFetcher()
+    # app.app_shell.display_filters = True
     page = Page(
         app=app,
         url_path="/",

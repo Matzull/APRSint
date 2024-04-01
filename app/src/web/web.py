@@ -1,5 +1,7 @@
 from dash_express import DashExpress
 from pages import home, station
+from dash.dependencies import Input, Output
+from dash_express._app_shell import BaseAppShell
 
 app = DashExpress(
     logo={"dark": "/assets/logo.svg", "light": "/assets/logo.svg"},
@@ -8,7 +10,23 @@ app = DashExpress(
     suppress_callback_exceptions=True,
 )
 home.create_layout(app)
-station.create_layout(app)
+station_page = station.StationPage(app)
+station_page.create_layout()
+
+
+@app.callback(
+    Output("filter-wrapper-toggle", "hidden"),
+    [Input("url-loc", "pathname")],
+    allow_duplicate=True
+)
+def hide_filters(pathname):
+    if pathname == "/":
+        return False, None
+    elif pathname == "/station":
+        return True
+    else:
+        return False, None
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
