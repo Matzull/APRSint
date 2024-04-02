@@ -152,7 +152,8 @@ class StationPage:
 
     def create_timeline(self, data):
         dates = [row.iloc[0] for _, row in data.iterrows()]
-
+        self.timeline_dates = dates
+        self.station_messages = data
         date_values = list(range(len(dates)))
 
         marks = [
@@ -180,14 +181,6 @@ class StationPage:
                 html.Div(id="slider-output"),
             ]
         )
-
-        @self.app.callback(
-            Output("slider-output", "children"), [Input("slider-callback", "value")]
-        )
-        def update_value(values):
-            selected_dates = (dates[values[0]], dates[values[1]])
-            table = self.create_table(data, selected_dates)
-            return "", table
 
         return timeline
 
@@ -237,15 +230,15 @@ class StationPage:
     def create_layout(self):
         self.page.layout = dmc.SimpleGrid(
             cols=2,
-            children=[dcc.Location(id="url-loc", refresh=True)],
+            children=[dcc.Location(id="url-loc-station")],
             id="page-content",
             display="flex",
-            style={"flexDirection": "row", "align-items": "stretch", "height": "100%"},
+            style={"flexDirection": "row", "AlignItems": "stretch", "height": "100%"},
         )
 
         @self.app.callback(
             Output("page-content", "children"),
-            [Input("url-loc", "search")],
+            [Input("url-loc-station", "search")],
         )
         def display_page(url):
             parsed_url = urlparse(url)
@@ -253,5 +246,16 @@ class StationPage:
             self.station = station
             self.station = "W6HBR-2"
             return self.populate_layout(self.station)
+
+        @self.app.callback(
+            Output("slider-output", "children"), [Input("slider-callback", "value")]
+        )
+        def update_value(values):
+            selected_dates = (
+                self.timeline_dates[values[0]],
+                self.timeline_dates[values[1]],
+            )
+            table = self.create_table(self.station_messages, selected_dates)
+            return "", table
 
         return self.page

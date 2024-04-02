@@ -16,16 +16,17 @@ station_page.create_layout()
 
 @app.callback(
     Output("filter-wrapper-toggle", "hidden"),
-    [Input("url-loc", "pathname")],
-    allow_duplicate=True
+    [
+        Input("url-loc-home", "pathname"),
+    ],
 )
 def hide_filters(pathname):
     if pathname == "/":
-        return False, None
+        return False
     elif pathname == "/station":
         return True
     else:
-        return False, None
+        return False
 
 
 if __name__ == "__main__":

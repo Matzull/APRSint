@@ -51,6 +51,7 @@ def create_layout(app):
 
     page.layout = dmc.SimpleGrid(
         children=[
+            dcc.Location(id="url-loc-home"),
             page.add_graph(
                 id="main_map", h="calc(100vh - 138px)", render_func=main_map
             ),
@@ -61,13 +62,13 @@ def create_layout(app):
     @app.callback(
         Output("redirect", "children"),
         [Input({"type": "graph", "id": "main_map"}, "clickData")],
-        prevent_initial_call=True,
+        # prevent_initial_call=True,
     )
     def open_webpage(clickData):
         if clickData is not None:
-            print("wao")
             point_index = clickData["points"][0]["pointIndex"]
             url = "/station?id=" + fet.fetch_data().iloc[point_index]["station"]
+            print(f"we are going to {url}")
             return dcc.Location(href=url, id="open-url")
 
     page.add_autofilter(
