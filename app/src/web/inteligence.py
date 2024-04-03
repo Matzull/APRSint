@@ -10,10 +10,10 @@ from app.db.schema import StationLocation, Messages
 from geopy.distance import great_circle
 import plotly.graph_objects as go
 import re
-
-# station_info = self.alchemy_interface.select_obj(
-#     Station, "*", df=True, **{"station_id": self.target}
-# )
+import requests
+from bs4 import BeautifulSoup
+from configparser import ConfigParser
+from http.cookiejar import CookieJar
 
 
 class Recolector:
@@ -23,6 +23,7 @@ class Recolector:
         self.config = {"db": dict(self.c_parser["db"])}
         self.target = target
         self.alchemy_interface = AlchemyInterface(self.config)
+        self.qrz = QRZ()
 
     def set_target(self, target):
         self.target = target
@@ -44,7 +45,12 @@ class Recolector:
         return report
 
     def recolect(
-        self, timestamps=False, locations=False, loc_temporal=False, comments=False
+        self,
+        timestamps=False,
+        locations=False,
+        loc_temporal=False,
+        comments=False,
+        qrz=False,
     ):
         recolection = {}
         if timestamps or locations or loc_temporal:
@@ -67,12 +73,13 @@ class Recolector:
             self.station_messages_src = self.alchemy_interface.select_obj(
                 Messages, "*", df=True, **{"src_station": self.target}
             )
-            # self.station_messages_dst = self.alchemy_interface.select_obj(
-            #     Messages, "*", df=True, **{"dst_station": self.target}
-            # )
             recolection["comments"] = self.analyze_comment(
                 self.station_messages_src["comment"]
             )
+        if qrz:
+            qrz_data = self.qrz.get_station(self.target)
+            if qrz_data:
+                recolection["qrz"] = qrz_data
         self.recolection = recolection
 
     def analyze_timestamps(self, timestamps):
@@ -252,7 +259,6 @@ class Recolector:
         return fig
 
     def analyze_loc_temporal(self, locations_timestamp):
-        # Convert column to datetime
         locations_timestamp["timestamp"].apply(lambda x: pd.to_datetime(x))
         coordinates = list(
             zip(locations_timestamp["latitude"], locations_timestamp["longitude"])
@@ -264,7 +270,6 @@ class Recolector:
             .fillna(pd.Timedelta(seconds=0))
         )
 
-        # Calculate the total time spent in each coordinate
         total_time_elapsed = locations_timestamp.groupby("coordinate")[
             "time_elapsed"
         ].sum()
@@ -310,3 +315,49 @@ class Recolector:
             results_list.append(result_dict)
         print(results_list)
         return results_list
+
+
+class QRZ:
+    def __init__(self):
+        config = ConfigParser()
+        config.read("config.ini")
+        if "qrz" not in config:
+            raise ValueError("Config file does not contain 'qrz' section")
+        self.user = config["qrz"]["username"]
+        self.passwd = config["qrz"]["password"]
+        self.base_url = "https://www.qrz.com/"
+        jar = CookieJar()
+        self.session = requests.Session()
+        self.session.cookies = jar
+        self.is_logged = False
+
+    def login(self):
+        response = self.session.post(
+            "https://www.qrz.com/login",
+            data={"username": self.user, "password": self.passwd},
+        )
+        if response.status_code == 200:
+            self.is_logged = True
+
+    def get_metadata(self, soup: BeautifulSoup):
+        if not (meta_div := soup.find("div", id="calldata")):
+            return None
+
+        metadata = meta_div.find("p").get_text(separator="|").split("|")
+
+        img = meta_div.find("img", id="mypic").get("src")
+
+        biography = soup.find("div", id="biodata")
+
+        return metadata, img, biography
+
+    def get_station(self, station):
+        if not self.is_logged:
+            self.login()
+        response = self.session.get(self.base_url + "db/" + station)
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, "html.parser")
+            return self.get_metadata(soup)
+        else:
+            print("Error al obtener la página:", response.status_code)
+            return None

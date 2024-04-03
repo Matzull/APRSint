@@ -59,21 +59,27 @@ def db_insert(base, delete=False):
             messages = []
 
             for i, packet_json in tqdm(enumerate(packets_json)):
-                # print("Buildingk obj")
+                callsign = packet_json.get("from").split("-")
                 stations.add(
                     Station(
-                        station_id=packet_json.get("from"),
-                        ssid=packet_json.get("ssid"),
+                        station_id=callsign[0],
+                        ssid=callsign[1] if len(callsign) == 2 else None,
                         symbol=packet_json.get("symbol"),
                     )
                 )
+                # This addition is to ensure that all the dst stations are also inserted in the db
+                callsign_to = packet_json.get("to").split("-")
                 stations.add(
-                    Station(station_id=packet_json.get("to"), ssid=None, symbol="@")
+                    Station(
+                        station_id=callsign_to[0],
+                        ssid=callsign_to[1] if len(callsign_to) == 2 else None,
+                        symbol="@",
+                    )
                 )
                 if packet_json.get("latitude"):
                     locations.append(
                         {
-                            "station": packet_json.get("from"),
+                            "station": callsign[0],
                             "timestamp": (
                                 (
                                     datetime.datetime.fromtimestamp(
@@ -89,8 +95,8 @@ def db_insert(base, delete=False):
                     )
                 messages.append(
                     {
-                        "src_station": packet_json.get("from"),
-                        "dst_station": packet_json.get("to"),
+                        "src_station": callsign[0],
+                        "dst_station": packet_json.get("to").split("-")[0],
                         "path": packet_json.get("path"),
                         "timestamp": (
                             (

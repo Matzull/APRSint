@@ -28,7 +28,7 @@ class Station(Base):
     __columns__ = ["station_id", "ssid", "symbol"]
 
     station_id = Column(String(15), primary_key=True)  # Station callsign
-    ssid = Column(String(5))  # SSID
+    ssid = Column(String(6))  # SSID
     symbol = Column(String(1))
     # comment = Column(String(500))
 
