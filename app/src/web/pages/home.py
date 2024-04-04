@@ -79,21 +79,21 @@ def create_layout(app):
         multi=True,
         label="Select country",
         custom=False,
-        **{"searchable": True, "clearable": True},
+        **{"searchable": True, "clearable": True, "ordered": True},
     )
     page.add_autofilter(
         "ssid",
         multi=True,
         label="Select type of station",
         custom=False,
-        **{"searchable": True, "clearable": True},
+        **{"searchable": True, "clearable": True, "ordered": True},
     )
     page.add_autofilter(
         "station",
         multi=True,
         label="Select station",
         custom=False,
-        **{"searchable": True, "clearable": True},
+        **{"searchable": True, "clearable": True, "ordered": True},
     )
 
     return page
