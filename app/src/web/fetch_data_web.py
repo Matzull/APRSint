@@ -65,26 +65,26 @@ class StationFetcher:
         self.station_id = station_id
 
     def fetch_data(self):
-        print("Fetching station")
+        print(f"Fetching station {self.station_id}")
         data_station = alchemy_interface.select_obj(
             Station, **{"station_id": self.station_id}
         )
 
-        # data_location = alchemy_interface.select_obj(
-        #     StationLocation,
-        #     ["id", "timestamp", "latitude", "longitude", "country"],
-        #     limit=10,
-        #     df=True,
-        #     **{"station": self.station_id},
-        # )
-
-        # data_messages = alchemy_interface.select_obj(
-        #     Messages,
-        #     ["src_station", "dst_station", "path", "timestamp", "comment"],
-        #     limit=10,
-        #     df=True,
-        #     **{"src_station": self.station_id},
-        # )
+        data_location = alchemy_interface.select_obj(
+            StationLocation,
+            ["id", "timestamp", "latitude", "longitude", "country"],
+            limit=10,
+            df=True,
+            **{"station": self.station_id},
+        )
+        
+        data_messages = alchemy_interface.select_obj(
+            Messages,
+            ["src_station", "dst_station", "path", "timestamp", "comment"],
+            limit=10,
+            df=True,
+            **{"src_station": self.station_id},
+        )
         packets = pd.concat(
             [data_location, data_messages.drop("timestamp", axis=1)], axis=1
         ).drop(["id", "src_station"], axis=1)

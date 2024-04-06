@@ -2,7 +2,7 @@
 # IMPORTS
 
 from sqlalchemy import String, Float, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, NUMERIC
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -61,8 +61,8 @@ class StationLocation(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     station = Column(String(15), ForeignKey(Station.station_id), primary_key=True)
     timestamp = Column(DateTime)
-    latitude = Column(Float)
-    longitude = Column(Float)
+    latitude = Column(NUMERIC(9, 5))
+    longitude = Column(NUMERIC(9, 5))
     country = Column(String(50))
 
     def __str__(self):

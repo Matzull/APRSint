@@ -313,7 +313,6 @@ class Recolector:
                 "URL": url,
             }
             results_list.append(result_dict)
-        print(results_list)
         return results_list
 
 

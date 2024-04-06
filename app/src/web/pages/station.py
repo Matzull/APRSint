@@ -185,7 +185,7 @@ class StationPage:
         return timeline
 
     def create_description(self, data):
-        rec = Recolector("W6HBR-2")  # self.station
+        rec = Recolector(self.station)  # self.station
         rec.recolect(timestamps=True, locations=True, loc_temporal=True, comments=True)
         return dmc.Card(
             children=[
@@ -244,7 +244,7 @@ class StationPage:
             parsed_url = urlparse(url)
             station = parse_qs(parsed_url.query).get("id")[0]
             self.station = station
-            self.station = "W6HBR-2"
+            self.station = "W6HBR"
             return self.populate_layout(self.station)
 
         @self.app.callback(

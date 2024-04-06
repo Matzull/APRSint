@@ -7,6 +7,7 @@ from app.db.schema import Station, StationLocation, Messages
 import geopandas as gpd
 from tqdm import tqdm
 from shapely.geometry import Point
+from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
@@ -89,8 +90,8 @@ def db_insert(base, delete=False):
                                 if packet_json.get("timestamp")
                                 else datetime.datetime.now()
                             ),
-                            "latitude": packet_json.get("latitude"),
-                            "longitude": packet_json.get("longitude"),
+                            "latitude": Decimal(packet_json.get("latitude")).quantize(Decimal('0.00001')),
+                            "longitude": Decimal(packet_json.get("longitude")).quantize(Decimal('0.00001')),
                         }
                     )
                 messages.append(
