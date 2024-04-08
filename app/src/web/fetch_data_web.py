@@ -77,7 +77,7 @@ class StationFetcher:
             df=True,
             **{"station": self.station_id},
         )
-        
+
         data_messages = alchemy_interface.select_obj(
             Messages,
             ["src_station", "dst_station", "path", "timestamp", "comment"],

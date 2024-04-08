@@ -8,7 +8,7 @@ app = DashExpress(
     cache=True,
     default_cache_timeout=3600,
     suppress_callback_exceptions=True,
-    compress=True
+    compress=True,
 )
 home.create_layout(app)
 station_page = station.StationPage(app)
@@ -31,4 +31,4 @@ def hide_filters(pathname):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",debug=True)
+    app.run(host="0.0.0.0", debug=True)

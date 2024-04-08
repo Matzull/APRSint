@@ -24,6 +24,7 @@ class Recolector:
         self.target = target
         self.alchemy_interface = AlchemyInterface(self.config)
         self.qrz = QRZ()
+        self.recolection = {}
 
     def set_target(self, target):
         self.target = target
@@ -36,9 +37,11 @@ class Recolector:
         for key, value in self.recolection.items():
             if isinstance(value, pd.DataFrame):
                 report[key] = value.to_dict()
-            elif isinstance(value, dict):
-                report[key] = value
-            elif isinstance(value, list):
+            elif (
+                isinstance(value, list)
+                or isinstance(value, tuple)
+                or isinstance(value, dict)
+            ):
                 report[key] = value
             else:
                 print("Invalid recolection type")
@@ -52,35 +55,33 @@ class Recolector:
         comments=False,
         qrz=False,
     ):
-        recolection = {}
         if timestamps or locations or loc_temporal:
             self.station_locations = self.alchemy_interface.select_obj(
                 StationLocation, "*", df=True, **{"station": self.target}
             )
         if timestamps:
-            recolection["timestamps"] = self.analyze_timestamps(
+            self.recolection["timestamps"] = self.analyze_timestamps(
                 self.station_locations["timestamp"]
             )
         if locations:
-            recolection["locations"] = self.analyze_locations(
+            self.recolection["locations"] = self.analyze_locations(
                 self.station_locations[["latitude", "longitude"]].values.tolist()
             )
         if loc_temporal:
-            recolection["loc_temporal"] = self.analyze_loc_temporal(
+            self.recolection["loc_temporal"] = self.analyze_loc_temporal(
                 self.station_locations[["latitude", "longitude", "timestamp"]]
             )
         if comments:
             self.station_messages_src = self.alchemy_interface.select_obj(
                 Messages, "*", df=True, **{"src_station": self.target}
             )
-            recolection["comments"] = self.analyze_comment(
+            self.recolection["comments"] = self.analyze_comment(
                 self.station_messages_src["comment"]
             )
         if qrz:
             qrz_data = self.qrz.get_station(self.target)
             if qrz_data:
-                recolection["qrz"] = qrz_data
-        self.recolection = recolection
+                self.recolection["qrz"] = qrz_data
 
     def analyze_timestamps(self, timestamps):
         timestamps = pd.to_datetime(timestamps)
@@ -355,6 +356,8 @@ class QRZ:
             self.login()
         response = self.session.get(self.base_url + "db/" + station)
         if response.status_code == 200:
+            with open("qrz.html", "w") as f:
+                f.write(response.text)
             soup = BeautifulSoup(response.content, "html.parser")
             return self.get_metadata(soup)
         else:

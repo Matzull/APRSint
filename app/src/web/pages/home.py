@@ -71,29 +71,39 @@ def create_layout(app):
             print(f"we are going to {url}")
             return dcc.Location(href=url, id="open-url")
 
-    page.add_autofilter(
-        "timestamp", multi=True, label="Select date range", custom=False
-    )
-    page.add_autofilter(
-        "country",
-        multi=True,
-        label="Select country",
-        custom=False,
-        **{"searchable": True, "clearable": True, "ordered": True},
-    )
-    page.add_autofilter(
-        "ssid",
-        multi=True,
-        label="Select type of station",
-        custom=False,
-        **{"searchable": True, "clearable": True, "ordered": True},
-    )
-    page.add_autofilter(
-        "station",
-        multi=True,
-        label="Select station",
-        custom=False,
-        **{"searchable": True, "clearable": True, "ordered": True},
-    )
+    # @app.callback(Output("url-loc-home", "children"), Input("clear-filters", "n_clicks"))
+    # def clear_filters(n_clicks):
+    #     print("Constructing filters")
+    #     page.FILTERS = []
+    #     page.FILTERS_FUNC = {}
+    #     add_autofilters()
+    #     return None
 
+    def add_autofilters():
+        page.add_autofilter(
+            "timestamp", multi=True, label="Select date range", custom=False
+        )
+        page.add_autofilter(
+            "country",
+            multi=True,
+            label="Select country",
+            custom=False,
+            **{"searchable": True, "clearable": True, "ordered": True},
+        )
+        page.add_autofilter(
+            "ssid",
+            multi=True,
+            label="Select type of station",
+            custom=False,
+            **{"searchable": True, "clearable": True, "ordered": True},
+        )
+        page.add_autofilter(
+            "station",
+            multi=True,
+            label="Select station",
+            custom=False,
+            **{"searchable": True, "clearable": True, "ordered": True},
+        )
+
+    add_autofilters()
     return page

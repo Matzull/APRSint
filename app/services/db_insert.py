@@ -90,8 +90,12 @@ def db_insert(base, delete=False):
                                 if packet_json.get("timestamp")
                                 else datetime.datetime.now()
                             ),
-                            "latitude": Decimal(packet_json.get("latitude")).quantize(Decimal('0.00001')),
-                            "longitude": Decimal(packet_json.get("longitude")).quantize(Decimal('0.00001')),
+                            "latitude": Decimal(packet_json.get("latitude")).quantize(
+                                Decimal("0.00001")
+                            ),
+                            "longitude": Decimal(packet_json.get("longitude")).quantize(
+                                Decimal("0.00001")
+                            ),
                         }
                     )
                 messages.append(

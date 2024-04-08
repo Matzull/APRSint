@@ -97,7 +97,7 @@ class StationPage:
             tables.append(
                 self.create_table_card(
                     data["timestamps"],
-                    ["median_frequency", "start_date", "end_date", "recorded_time"],
+                    ["mean_frequency", "start_date", "end_date", "recorded_time"],
                 )
             )
 
@@ -156,10 +156,22 @@ class StationPage:
         self.station_messages = data
         date_values = list(range(len(dates)))
 
-        marks = [
-            {"value": date_values[i], "label": dates[i].strftime("%Y-%m-%d")}
-            for i in range(len(dates))
-        ]
+        def generate_marks(date_values, dates):
+            marks = []
+            for i in range(len(dates)):
+                if i == 0 or i == len(dates) - 1:
+                    marks.append(
+                        {
+                            "value": date_values[i],
+                            "label": dates[i].strftime("%Y-%m-%d"),
+                        }
+                    )
+                else:
+                    marks.append({"value": date_values[i]})
+            return marks
+
+        marks = generate_marks(date_values, dates)
+
         timeline = html.Div(
             [
                 dmc.Text("Select date range", size="xl", weight=500, mb="sm"),
@@ -169,29 +181,35 @@ class StationPage:
                     marks=marks,
                     max=len(date_values) - 1,
                     min=0,
-                    minRange=0,
+                    minRange=1,
                     mb=60,
+                    style={"width": "92%"},
                     styles={
                         "markLabel": {
                             "transform": "rotate(20deg)",
                             "transform-origin": "left bottom",
-                        }
+                        },
                     },
                 ),
-                html.Div(id="slider-output"),
+                html.Div(
+                    id="slider-output", style={"overflow": "scroll", "height": "65vh"}
+                ),
             ]
         )
 
-        return timeline
+        return dmc.Card(
+            timeline, withBorder=True, shadow="sm", radius="md", style={"height": "75%"}
+        )
 
     def create_description(self, data):
-        rec = Recolector(self.station)  # self.station
-        rec.recolect(timestamps=True, locations=True, loc_temporal=True, comments=True)
+        self.rec = Recolector(self.station)  # self.station
+        self.rec.recolect(
+            timestamps=True, locations=True, loc_temporal=True, comments=True
+        )
         return dmc.Card(
             children=[
                 dcc.Graph(
-                    figure=rec.plot_map(),
-                    # height=500
+                    id="local-map", figure=self.rec.plot_map(), style={"size": "95%"}
                 ),
                 dmc.Group(
                     [
@@ -202,21 +220,13 @@ class StationPage:
                     mt="md",
                     mb="xs",
                 ),
-                *self.format_to_card(rec.report()),
-                dmc.Button(
-                    "Book classic tour now",
-                    variant="light",
-                    color="blue",
-                    fullWidth=True,
-                    mt="md",
-                    radius="md",
-                ),
+                *self.format_to_card(self.rec.report()),
             ],
             withBorder=True,
             shadow="sm",
             radius="md",
             style={
-                "flex": "0 1 47.9%"
+                "flex": "0 1 45%"
             },  # enough to allocate space for the diagonal timestamps
         )
 
@@ -225,7 +235,11 @@ class StationPage:
         fet = StationFetcher(station)
 
         data = fet.fetch_data()
-        return (self.create_description(data[0]), self.create_timeline(data[1]))
+        return (
+            self.create_description(data[0]),
+            self.create_timeline(data[1]),
+            self.build_profile(data[0]),
+        )
 
     def create_layout(self):
         self.page.layout = dmc.SimpleGrid(
@@ -259,3 +273,31 @@ class StationPage:
             return "", table
 
         return self.page
+
+    def build_profile(self, data):
+        self.rec.recolect(qrz=True)
+        return dmc.Card(
+            children=[
+                html.Img(
+                    src=self.rec.report()["qrz"][1],
+                    alt="Profile picture",
+                    # width="100%",
+                    # height="auto",
+                    # radius="md",
+                ),
+                dmc.Group(
+                    [
+                        dmc.Text(data[-1][0], weight=500),
+                        dmc.Badge(data[-1][-1], color="red", variant="light"),
+                    ],
+                    position="apart",
+                    mt="md",
+                    mb="xs",
+                ),
+                *self.format_to_card(self.rec.report()),
+            ],
+            withBorder=True,
+            shadow="sm",
+            radius="md",
+            style={"flex": "0 1 40%"},
+        )
