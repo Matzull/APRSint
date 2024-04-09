@@ -14,6 +14,8 @@ import requests
 from bs4 import BeautifulSoup
 from configparser import ConfigParser
 from http.cookiejar import CookieJar
+from random import choice
+from datetime import datetime
 
 
 class Recolector:
@@ -319,47 +321,137 @@ class Recolector:
 
 class QRZ:
     def __init__(self):
-        config = ConfigParser()
-        config.read("config.ini")
-        if "qrz" not in config:
-            raise ValueError("Config file does not contain 'qrz' section")
-        self.user = config["qrz"]["username"]
-        self.passwd = config["qrz"]["password"]
+        config = configparser.ConfigParser()
+        config.read("./config.ini")
+        self.account_usage = {}
+        for section in config.sections():
+            if section.startswith("qrz_"):
+                self.account_usage[
+                    (config[section]["username"], config[section]["password"])
+                ] = 0
+        if len(self.account_usage.items()) == 0:
+            raise ValueError("Config file does not contain any valid 'qrz' account")
         self.base_url = "https://www.qrz.com/"
         jar = CookieJar()
         self.session = requests.Session()
         self.session.cookies = jar
         self.is_logged = False
 
+    def prettify(self, text):
+        return text.lower().replace(" ", "_").replace("?", "").replace("#", "")
+
+    def format_date(self, date, format):
+        date = datetime.strptime(date, format)
+        return date.isoformat()
+
+    def roll_accounts(self):
+        # choose a random username and password that has an account usage of less than 25
+        choices = [item[0] for item in self.account_usage.items() if item[1] < 25]
+        if not choices:
+            return None
+        login = choice(choices)
+        self.account_usage[login] += 1
+        return login
+
     def login(self):
+        self.login_data = self.roll_accounts()
+        if not self.login_data:
+            return None
         response = self.session.post(
             "https://www.qrz.com/login",
-            data={"username": self.user, "password": self.passwd},
+            data={"username": self.login_data[0], "password": self.login_data[1]},
         )
         if response.status_code == 200:
             self.is_logged = True
-
-    def get_metadata(self, soup: BeautifulSoup):
-        if not (meta_div := soup.find("div", id="calldata")):
-            return None
-
-        metadata = meta_div.find("p").get_text(separator="|").split("|")
-
-        img = meta_div.find("img", id="mypic").get("src")
-
-        biography = soup.find("div", id="biodata")
-
-        return metadata, img, biography
+        return True
 
     def get_station(self, station):
-        if not self.is_logged:
-            self.login()
-        response = self.session.get(self.base_url + "db/" + station)
-        if response.status_code == 200:
-            with open("qrz.html", "w") as f:
-                f.write(response.text)
-            soup = BeautifulSoup(response.content, "html.parser")
-            return self.get_metadata(soup)
-        else:
-            print("Error al obtener la página:", response.status_code)
+        if not self.login():
+            print("Daily limit reached for all accounts")
             return None
+        print("Requesting page")
+        self.response = self.session.get(self.base_url + "db/" + station)
+        station_info = {}
+        if self.response.status_code != 200:
+            print("Could not fetch page: ", self.response.status_code)
+            return None
+        if "Too many lookups" in self.response.text:
+            print("Daily limit reached")
+            self.account_usage[self.login_data] = 25
+            return self.get_station(station)
+
+        soup = BeautifulSoup(self.response.content, "html.parser")
+        station_info["name"] = " ".join(
+            soup.find_all("span", {"style": "color: black; font-weight: bold"})[0]
+            .getText()
+            .split()
+        )
+
+        station_info["img"] = (
+            soup.find("div", id="calldata").find("img", id="mypic").get("src")
+        )
+        station_info["biography"] = soup.find("divalue", id="biodata")
+        rows = []
+        for _, row in enumerate(soup.find("table", id="detbox").find_all("tr")):
+            row_content = [el.text.strip() for el in row.find_all("td")]
+            if row_content:
+                rows.append(row_content)
+        table_data = rows[1:]
+
+        geo = {}
+        for item in table_data:
+            if item[0].lower() in [
+                "longitude",
+                "grid_square",
+                "geo source",
+                "latitude",
+            ]:
+                geo[self.prettify(item[0])] = item[1]
+            elif item[0].lower() == "othercallsigns":
+                table_alias = soup.find("th", string="Alias").parent.parent.parent
+                aliases = {}
+                for row in table_alias.find_all("tr"):
+                    if row.find_all("td"):
+                        alias = row.find_all("td")[0]
+                        aliases[alias.text] = (
+                            alias.find("a")["href"] if alias.find("a") else None
+                        )
+                if aliases:
+                    station_info["alias"] = aliases
+                continue
+            else:
+                if len(item) > 1:
+                    station_info[self.prettify(item[0])] = item[1]
+        if geo.get("longitude") and geo.get("latitude"):
+            geo["longitude"] = float(geo["longitude"].split()[0])
+            geo["latitude"] = float(geo["latitude"].split()[0])
+
+        geo["address"] = ", ".join(
+            list(soup.find_all("p", {"class": "m0"})[0].stripped_strings)[
+                4 if station_info.get("nickname") else 2 :
+            ]
+        )
+        station_info["geo"] = geo
+
+        for extra_field in ["qsl_by_mail", "uses_lotw", "qsl_by_eqsl"]:
+            if extra_field in station_info:
+                station_info[extra_field] = station_info[extra_field][:3].strip()
+
+        qrz_data = {}
+        for _, (field, value) in enumerate(station_info.items()):
+            try:
+                if not re.search(
+                    "[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z]", field
+                ):
+                    qrz_data[field] = value
+            except:
+                print("Error parsing field: ", field)
+
+        qrz_data["date_joined"] = self.format_date(
+            qrz_data["date_joined"], "%Y-%m-%d %H:%M:%S"
+        )
+        qrz_data["last_update"] = self.format_date(
+            qrz_data["last_update"], "%Y-%m-%d %H:%M:%S"
+        )
+
+        return qrz_data

@@ -19,8 +19,8 @@ class HomeFetcher:
 
     def count_points_within_radius(self, df, radius):
         # Convertir coordenadas a radianes
-        lat_rad = np.radians(df["latitude"])
-        lon_rad = np.radians(df["longitude"])
+        lat_rad = np.radians(df["latitude"].astype(float))
+        lon_rad = np.radians(df["longitude"].astype(float))
 
         # Calcular matriz de distancias
         coords = np.column_stack((lat_rad, lon_rad))
@@ -46,13 +46,13 @@ class HomeFetcher:
 
         df["density"] = self.count_points_within_radius(df, 50)
 
-        df.to_csv("./data.csv")
+        df.to_feather("./data.feather")
         return df
 
     def fetch_data(self):
-        if os.path.exists("./data.csv"):
+        if os.path.exists("./data.feather"):
             print("Data exists")
-            df = pd.read_csv("./data.csv", parse_dates=["timestamp"])
+            df = pd.read_feather("./data.feather")
             return df
         else:
             print("Caching")

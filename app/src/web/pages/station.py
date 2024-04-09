@@ -8,6 +8,7 @@ from inteligence import Recolector
 from datetime import datetime, timedelta
 from urllib.parse import urlparse, parse_qs
 import re
+import pandas as pd
 
 
 class StationPage:
@@ -22,6 +23,7 @@ class StationPage:
             filter_pannel=False,
         )
         self.station = None
+        self.rec = None
 
     names = {
         "mean_frequency": "Average emmision frequency",
@@ -68,9 +70,11 @@ class StationPage:
             value = dmc.Anchor(value, href=value, underline=False)
         else:
             value = text
-        return html.Td(self.names.get(key)), html.Td(value)
+        return html.Td(self.names.get(key) if self.names.get(key) else key), html.Td(
+            value
+        )
 
-    def create_table_card(self, data, keys, table_key=None):
+    def create_table_card(self, data, keys=None, table_key=None):
         if table_key:
             data = data[table_key][0]
 
@@ -78,7 +82,7 @@ class StationPage:
             [
                 html.Tr([*self.create_cell(key, value)])
                 for key, value in data.items()
-                if key in keys
+                if not keys or key in keys
             ]
         )
 
@@ -93,7 +97,7 @@ class StationPage:
     def format_to_card(self, data):
         tables = []
 
-        if "locations" in data:
+        if data.get("locations"):
             tables.append(
                 self.create_table_card(
                     data["timestamps"],
@@ -101,14 +105,14 @@ class StationPage:
                 )
             )
 
-        if "loc_temporal" in data:
+        if data.get("loc_temporal"):
             tables.append(
                 self.create_table_card(
                     data["timestamps"], ["total_time_elapsed", "visit_frequency"]
                 )
             )
 
-        if "comments" in data:
+        if data.get("comments"):
             tables.append(
                 self.create_table_card(
                     data, ["Comment", "Freq", "URL"], table_key="comments"
@@ -202,7 +206,6 @@ class StationPage:
         )
 
     def create_description(self, data):
-        self.rec = Recolector(self.station)  # self.station
         self.rec.recolect(
             timestamps=True, locations=True, loc_temporal=True, comments=True
         )
@@ -236,9 +239,9 @@ class StationPage:
 
         data = fet.fetch_data()
         return (
+            self.build_profile(),
             self.create_description(data[0]),
             self.create_timeline(data[1]),
-            self.build_profile(data[0]),
         )
 
     def create_layout(self):
@@ -259,6 +262,8 @@ class StationPage:
             station = parse_qs(parsed_url.query).get("id")[0]
             self.station = station
             self.station = "W6HBR"
+            self.rec = Recolector(self.station)
+
             return self.populate_layout(self.station)
 
         @self.app.callback(
@@ -274,27 +279,19 @@ class StationPage:
 
         return self.page
 
-    def build_profile(self, data):
+    def build_profile(self):
         self.rec.recolect(qrz=True)
+        rep = self.rec.report()["qrz"]
+        rep.pop("geo")
+        rep.pop("alias")
         return dmc.Card(
             children=[
                 html.Img(
-                    src=self.rec.report()["qrz"][1],
+                    src=self.rec.report()["qrz"]["img"],
                     alt="Profile picture",
-                    # width="100%",
-                    # height="auto",
-                    # radius="md",
+                    style={"width": "100%"},
                 ),
-                dmc.Group(
-                    [
-                        dmc.Text(data[-1][0], weight=500),
-                        dmc.Badge(data[-1][-1], color="red", variant="light"),
-                    ],
-                    position="apart",
-                    mt="md",
-                    mb="xs",
-                ),
-                *self.format_to_card(self.rec.report()),
+                self.create_table_card(rep),
             ],
             withBorder=True,
             shadow="sm",
