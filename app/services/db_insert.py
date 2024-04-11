@@ -5,35 +5,22 @@ import datetime
 from time import sleep
 from app.db.schema import Station, StationLocation, Messages
 import geopandas as gpd
+import pandas as pd
 from tqdm import tqdm
-from shapely.geometry import Point
 from decimal import Decimal
 
 logger = logging.getLogger(__name__)
 
 
-def get_country(gdf, latitude, longitude, cache):
-    point = Point(longitude, latitude)
-    if (latitude, longitude) in cache:
-        return cache[(latitude, longitude)]
-    possible_matches_index = list(gdf.sindex.intersection(point.bounds))
-    if not possible_matches_index:
-        return None
-    possible_matches = gdf.iloc[possible_matches_index]
-    precise_matches = possible_matches[possible_matches.intersects(point)]
-    result = precise_matches.name.iloc[0] if not precise_matches.empty else None
-    cache[(latitude, longitude)] = result
-    if result and len(result) > 50:
-        print(result)
-    return result
-
-
-def get_countries(gdf, coordinates):
-    results_cache = {}
-    results = []
-    for lat, lon in coordinates:
-        results.append(get_country(gdf, lat, lon, results_cache))
-    return results
+def get_countries(world, coordinates):
+    coords_df = pd.DataFrame(coordinates, columns=["Latitude", "Longitude"])
+    coords = gpd.GeoDataFrame(
+        coords_df, geometry=gpd.points_from_xy(coords_df.Longitude, coords_df.Latitude)
+    )
+    coords.crs = world.crs
+    # Perform spatial join with world borders data
+    result = gpd.sjoin(coords, world, how="left", predicate="intersects")
+    return result.name.values
 
 
 def clean_json(input_string):
@@ -49,7 +36,8 @@ def clean_json(input_string):
 def db_insert(base, delete=False):
     base_path = "/mnt/ssd/database_proccessed"
     files = os.listdir(base_path)
-    gfd = gpd.read_file("./app/shapefiles/world-administrative-boundaries.shp")
+
+    world = gpd.read_feather("./app/shapefiles/world.feather")
     for file_no, file in enumerate(files):
         try:
             with open(base_path + "/" + file, "r", encoding="utf-8") as f:
@@ -77,6 +65,7 @@ def db_insert(base, delete=False):
                         symbol="@",
                     )
                 )
+                now = datetime.datetime.now()
                 if packet_json.get("latitude"):
                     locations.append(
                         {
@@ -88,7 +77,7 @@ def db_insert(base, delete=False):
                                     )
                                 )
                                 if packet_json.get("timestamp")
-                                else datetime.datetime.now()
+                                else now
                             ),
                             "latitude": Decimal(packet_json.get("latitude")).quantize(
                                 Decimal("0.00001")
@@ -110,14 +99,14 @@ def db_insert(base, delete=False):
                                 )
                             )
                             if packet_json.get("timestamp")
-                            else datetime.datetime.now()
+                            else now
                         ),
                         "comment": packet_json.get("comment"),
                         "raw_packet": packet_json,
                     }
                 )
             countries = get_countries(
-                gfd,
+                world,
                 [
                     (loc["latitude"], loc["longitude"])
                     for loc in locations

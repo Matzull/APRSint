@@ -72,7 +72,7 @@ class StationFetcher:
 
         data_location = alchemy_interface.select_obj(
             StationLocation,
-            ["id", "timestamp", "latitude", "longitude", "country"],
+            ["timestamp", "latitude", "longitude", "country"],
             limit=10,
             df=True,
             **{"station": self.station_id},
@@ -80,13 +80,12 @@ class StationFetcher:
 
         data_messages = alchemy_interface.select_obj(
             Messages,
-            ["src_station", "dst_station", "path", "timestamp", "comment"],
+            ["dst_station", "path", "timestamp", "comment"],
             limit=10,
             df=True,
             **{"src_station": self.station_id},
         )
-        packets = pd.concat(
-            [data_location, data_messages.drop("timestamp", axis=1)], axis=1
-        ).drop(["id", "src_station"], axis=1)
+
+        packets = pd.merge(data_location, data_messages, on="timestamp", how="right")
 
         return data_station, packets

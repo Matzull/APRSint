@@ -1,9 +1,9 @@
+import dash
 from dash import html
 import dash_mantine_components as dmc
 from dash.dependencies import Input, Output
 import plotly.express as px
 from dash_express import Page
-from dash import dcc
 from fetch_data_web import c_parser, HomeFetcher
 
 
@@ -51,7 +51,6 @@ def create_layout(app):
 
     page.layout = dmc.SimpleGrid(
         children=[
-            dcc.Location(id="url-loc-home"),
             page.add_graph(
                 id="main_map", h="calc(100vh - 138px)", render_func=main_map
             ),
@@ -60,24 +59,19 @@ def create_layout(app):
     )
 
     @app.callback(
-        Output("redirect", "children"),
-        [Input({"type": "graph", "id": "main_map"}, "clickData")],
-        # prevent_initial_call=True,
+        Output("url-store", "href"),
+        Input({"type": "graph", "id": "main_map"}, "clickData"),
+        prevent_initial_call=True,
     )
     def open_webpage(clickData):
-        if clickData is not None:
-            point_index = clickData["points"][0]["pointIndex"]
-            url = "/station?id=" + fet.fetch_data().iloc[point_index]["station"]
-            print(f"we are going to {url}")
-            return dcc.Location(href=url, id="open-url")
-
-    # @app.callback(Output("url-loc-home", "children"), Input("clear-filters", "n_clicks"))
-    # def clear_filters(n_clicks):
-    #     print("Constructing filters")
-    #     page.FILTERS = []
-    #     page.FILTERS_FUNC = {}
-    #     add_autofilters()
-    #     return None
+        if not clickData:
+            return dash.no_update
+        print("Opening webpage")
+        # point_index = clickData["points"][0]["pointIndex"]
+        # url = "/station?id=" + fet.fetch_data().iloc[point_index]["station"]
+        # print(f"we are going to {url}")
+        url = "/station?id=" + clickData["points"][0]["hovertext"]
+        return url
 
     def add_autofilters():
         page.add_autofilter(

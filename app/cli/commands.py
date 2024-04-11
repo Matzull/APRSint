@@ -38,12 +38,14 @@ def reset_db(ctx, drop):
     reset all tables from database
     """
     from ..base import Base
-    from ..db.schema import Station, StationLocation, Messages
+    from ..db.schema import Station, StationLocation, Messages, QRZProfiles
 
     config = ctx.obj["config"]
 
     base = Base(config)
-    base.alchemy_interface.reset_db([Station, StationLocation, Messages], drop)
+    base.alchemy_interface.reset_db(
+        [Station, StationLocation, Messages, QRZProfiles], drop
+    )
 
     logger.info("success!!!")
 

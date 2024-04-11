@@ -5,10 +5,10 @@ from fetch_data_web import StationFetcher
 import dash_mantine_components as dmc
 from datetime import datetime
 from inteligence import Recolector
-from datetime import datetime, timedelta
+from datetime import timedelta
+from dash_iconify import DashIconify
 from urllib.parse import urlparse, parse_qs
 import re
-import pandas as pd
 
 
 class StationPage:
@@ -62,27 +62,33 @@ class StationPage:
         else:
             return str(value)
 
-    def create_cell(self, key, text):
-        if isinstance(text, (datetime, timedelta)):
-            value = self.format_time(text)
-        elif key == "URL":
-            value = text if re.match(r"^https?:\/\/", text) else f"http://{text}"
-            value = dmc.Anchor(value, href=value, underline=False)
-        else:
-            value = text
-        return html.Td(self.names.get(key) if self.names.get(key) else key), html.Td(
-            value
-        )
+    def create_table(self, data, keys=None, table_key=None, exclude_keys=None):
+        def create_cell(key, text):
+            if isinstance(text, (datetime, timedelta)):
+                value = self.format_time(text)
+            elif key == "URL":
+                if text:
+                    value = (
+                        text if re.match(r"^https?:\/\/", text) else f"http://{text}"
+                    )
+                    value = dmc.Anchor(value, href=value, underline=False)
+                else:
+                    value = "No urls found"
+            else:
+                value = text
+            return html.Td(
+                self.names.get(key) if self.names.get(key) else key
+            ), html.Td(value)
 
-    def create_table_card(self, data, keys=None, table_key=None):
         if table_key:
             data = data[table_key][0]
 
         body = html.Tbody(
             [
-                html.Tr([*self.create_cell(key, value)])
+                html.Tr([*create_cell(key, value)])
                 for key, value in data.items()
-                if not keys or key in keys
+                if (not keys or key in keys)
+                and (not exclude_keys or key not in exclude_keys)
             ]
         )
 
@@ -94,12 +100,12 @@ class StationPage:
             withColumnBorders=True,
         )
 
-    def format_to_card(self, data):
+    def create_message_inteligence_tables(self, data):
         tables = []
 
         if data.get("locations"):
             tables.append(
-                self.create_table_card(
+                self.create_table(
                     data["timestamps"],
                     ["mean_frequency", "start_date", "end_date", "recorded_time"],
                 )
@@ -107,21 +113,54 @@ class StationPage:
 
         if data.get("loc_temporal"):
             tables.append(
-                self.create_table_card(
+                self.create_table(
                     data["timestamps"], ["total_time_elapsed", "visit_frequency"]
                 )
             )
 
         if data.get("comments"):
             tables.append(
-                self.create_table_card(
+                self.create_table(
                     data, ["Comment", "Freq", "URL"], table_key="comments"
                 )
             )
 
         return tables
 
-    def create_table(self, data, selected_date):
+    def create_message_inteligence_card(self, data):
+        self.rec.recolect(
+            timestamps=True, locations=True, loc_temporal=True, comments=True
+        )
+        return dmc.Card(
+            children=[
+                dcc.Graph(
+                    id="local-map",
+                    figure=self.rec.plot_map(),
+                    style={"aspect-ratio": "16/10"},
+                ),
+                dmc.Group(
+                    [
+                        dmc.Text(data[-1][0], weight=500),
+                        dmc.Badge(data[-1][-1], color="red", variant="light"),
+                    ],
+                    position="apart",
+                    mt="md",
+                    mb="xs",
+                ),
+                *self.create_message_inteligence_tables(self.rec.report()),
+            ],
+            withBorder=True,
+            shadow="sm",
+            radius="md",
+            style={
+                "flex": "0 1 40%",
+                "height": "fit-content",
+                "max-height": "85vh",
+                "overflow": "scroll",
+            },
+        )
+
+    def create_messages_table(self, data, selected_date):
         header = [html.Thead(html.Tr([html.Th(header) for header in data.columns]))]
 
         body = [
@@ -132,7 +171,8 @@ class StationPage:
                             html.Td(
                                 value.strftime("%Y-%m-%d")
                                 if isinstance(value, datetime)
-                                else value
+                                else value,
+                                style={"max_width": "10px"},
                             )
                             for value in row
                         ],
@@ -154,8 +194,9 @@ class StationPage:
             withColumnBorders=False,
         )
 
-    def create_timeline(self, data):
-        dates = [row.iloc[0] for _, row in data.iterrows()]
+    def create_date_slider(self, data):
+        dates = sorted([row.iloc[0] for _, row in data.iterrows()])
+        # print(dates)
         self.timeline_dates = dates
         self.station_messages = data
         date_values = list(range(len(dates)))
@@ -196,7 +237,12 @@ class StationPage:
                     },
                 ),
                 html.Div(
-                    id="slider-output", style={"overflow": "scroll", "height": "65vh"}
+                    id="slider-output",
+                    style={
+                        "overflow": "scroll",
+                        "max-height": "70vh",
+                        "height": "fit-content",
+                    },
                 ),
             ]
         )
@@ -205,85 +251,16 @@ class StationPage:
             timeline, withBorder=True, shadow="sm", radius="md", style={"height": "75%"}
         )
 
-    def create_description(self, data):
-        self.rec.recolect(
-            timestamps=True, locations=True, loc_temporal=True, comments=True
-        )
-        return dmc.Card(
-            children=[
-                dcc.Graph(
-                    id="local-map", figure=self.rec.plot_map(), style={"size": "95%"}
-                ),
-                dmc.Group(
-                    [
-                        dmc.Text(data[-1][0], weight=500),
-                        dmc.Badge(data[-1][-1], color="red", variant="light"),
-                    ],
-                    position="apart",
-                    mt="md",
-                    mb="xs",
-                ),
-                *self.format_to_card(self.rec.report()),
-            ],
-            withBorder=True,
-            shadow="sm",
-            radius="md",
-            style={
-                "flex": "0 1 45%"
-            },  # enough to allocate space for the diagonal timestamps
-        )
-
-    def populate_layout(self, station):
-        print(f"Populating layout with station {station}")
-        fet = StationFetcher(station)
-
-        data = fet.fetch_data()
-        return (
-            self.build_profile(),
-            self.create_description(data[0]),
-            self.create_timeline(data[1]),
-        )
-
-    def create_layout(self):
-        self.page.layout = dmc.SimpleGrid(
-            cols=2,
-            children=[dcc.Location(id="url-loc-station")],
-            id="page-content",
-            display="flex",
-            style={"flexDirection": "row", "AlignItems": "stretch", "height": "100%"},
-        )
-
-        @self.app.callback(
-            Output("page-content", "children"),
-            [Input("url-loc-station", "search")],
-        )
-        def display_page(url):
-            parsed_url = urlparse(url)
-            station = parse_qs(parsed_url.query).get("id")[0]
-            self.station = station
-            self.station = "W6HBR"
-            self.rec = Recolector(self.station)
-
-            return self.populate_layout(self.station)
-
-        @self.app.callback(
-            Output("slider-output", "children"), [Input("slider-callback", "value")]
-        )
-        def update_value(values):
-            selected_dates = (
-                self.timeline_dates[values[0]],
-                self.timeline_dates[values[1]],
-            )
-            table = self.create_table(self.station_messages, selected_dates)
-            return "", table
-
-        return self.page
-
-    def build_profile(self):
+    def qrz_profile(self):
         self.rec.recolect(qrz=True)
         rep = self.rec.report()["qrz"]
-        rep.pop("geo")
-        rep.pop("alias")
+
+        if rep.get("geo"):
+            rep["geo"] = str(rep["geo"])
+
+        if rep.get("alias"):
+            rep["alias"] = str(rep["alias"])
+
         return dmc.Card(
             children=[
                 html.Img(
@@ -291,10 +268,95 @@ class StationPage:
                     alt="Profile picture",
                     style={"width": "100%"},
                 ),
-                self.create_table_card(rep),
+                self.create_table(rep, exclude_keys=["img", "biography"]),
             ],
             withBorder=True,
             shadow="sm",
             radius="md",
-            style={"flex": "0 1 40%"},
+            style={
+                "flex": "0 1 40%",
+                "max-height": "85vh",
+                "height": "fit-content",
+                "overflow": "scroll",
+            },
         )
+
+    def populate_layout(self, station, exists):
+        if not exists:
+            return dmc.Center(
+                dmc.Card(
+                    children=[
+                        dmc.Text(
+                            "Please select a valid station by clicking on the map on the home page",
+                            style={"marginBottom": 25},
+                        ),
+                        dmc.Center(
+                            children=[
+                                dmc.Anchor(
+                                    children=[
+                                        dmc.Button(
+                                            "Return to homepage",
+                                            variant="light",
+                                            leftIcon=DashIconify(
+                                                icon="heroicons-solid:home"
+                                            ),
+                                            color="blue",
+                                        )
+                                    ],
+                                    href="/",
+                                ),
+                            ]
+                        ),
+                    ]
+                ),
+                style={"height": "80vh", "width": "100%"},
+            )
+
+        print(f"Populating layout with station {station}")
+        fet = StationFetcher(station)
+        data = fet.fetch_data()
+        return (
+            self.qrz_profile(),
+            self.create_message_inteligence_card(data[0]),
+            self.create_date_slider(data[1]),
+        )
+
+    def create_layout(self):
+        self.page.layout = dmc.SimpleGrid(
+            cols=2,
+            children=[],
+            id="page-content",
+            display="flex",
+            style={"flexDirection": "row", "height": "100%"},
+        )
+
+        @self.app.callback(
+            Output("page-content", "children"),
+            [Input("url-store", "search")],
+            prevent_initial_callback=True,
+        )
+        def display_page(url):
+            print(f"Displaying with {url}")
+            parsed_url = urlparse(url)
+            station = parse_qs(parsed_url.query).get("id")[0]
+            self.station = station
+            # self.station = "W6HBR"
+            self.rec = Recolector(self.station)
+            # Does the station exist?
+            exists = len(self.rec.get_station_info()) > 1
+            return self.populate_layout(self.station, exists)
+
+        @self.app.callback(
+            Output("slider-output", "children"),
+            [Input("slider-callback", "value")],
+        )
+        def update_dates_table(values):
+            selected_dates = (
+                self.timeline_dates[values[0]],
+                self.timeline_dates[values[1]],
+            )
+            print(selected_dates)
+            table = self.create_messages_table(self.station_messages, selected_dates)
+            return "", table
+
+        return self.page

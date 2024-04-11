@@ -1,31 +1,29 @@
+from app.interfaces.alchemy import AlchemyInterface
+import configparser
+from app.db.schema import Station, StationLocation, Messages, QRZProfiles
+from geopy.distance import great_circle
+import plotly.graph_objects as go
+import requests
+from bs4 import BeautifulSoup
+from http.cookiejar import CookieJar
+from random import choice
+from datetime import datetime
+import re
 import pandas as pd
 import numpy as np
 import os
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(os.getcwd())))
-from app.interfaces.alchemy import AlchemyInterface
-import configparser
-from app.db.schema import StationLocation, Messages
-from geopy.distance import great_circle
-import plotly.graph_objects as go
-import re
-import requests
-from bs4 import BeautifulSoup
-from configparser import ConfigParser
-from http.cookiejar import CookieJar
-from random import choice
-from datetime import datetime
 
 
 class Recolector:
     def __init__(self, target):
         self.c_parser = configparser.ConfigParser()
         self.c_parser.read("./config.ini")
-        self.config = {"db": dict(self.c_parser["db"])}
         self.target = target
-        self.alchemy_interface = AlchemyInterface(self.config)
-        self.qrz = QRZ()
+        self.alchemy_interface = AlchemyInterface({"db": dict(self.c_parser["db"])})
+        self.qrz = QRZ(self.alchemy_interface)
         self.recolection = {}
 
     def set_target(self, target):
@@ -35,19 +33,22 @@ class Recolector:
         report = {}
         if not self.recolection:
             print("Cannot create report without recolecting first")
-            return
+            return None
         for key, value in self.recolection.items():
             if isinstance(value, pd.DataFrame):
                 report[key] = value.to_dict()
-            elif (
-                isinstance(value, list)
-                or isinstance(value, tuple)
-                or isinstance(value, dict)
-            ):
+            elif isinstance(value, (list, tuple, dict)):
                 report[key] = value
             else:
                 print("Invalid recolection type")
         return report
+
+    def get_station_info(self):
+        station_info = self.alchemy_interface.select_obj(
+            Station, ["station_id"], df=False, **{"station_id": self.target}
+        )
+        print("This is", station_info)
+        return station_info
 
     def recolect(
         self,
@@ -300,9 +301,16 @@ class Recolector:
         unique_comments_freq = comments.value_counts()
 
         pattern = re.compile(
-            r"\b((https?|ftp):\/\/)?([\w-]+(\.[\w-]+)+)([\/\w-]*)*(\?\w+=\w+(&\w+=\w+)*)?\b"
+            r"\b((https?|ftp):\/\/)?([\w-]+(\.[a-zA-Z-]+)+)([\/\w-]*)*(\?\w+=\w+(&\w+=\w+)*)?\b"
         )
-        urls = comments.apply(lambda x: pattern.search(x).group(0))
+
+        def get_url(x):
+            if not x:
+                return None
+            match = pattern.search(x)
+            return match.group(0) if match else None
+
+        urls = comments.apply(lambda x: get_url(x))
         has_url = urls.apply(lambda x: x is not None)
 
         results_list = []
@@ -320,7 +328,7 @@ class Recolector:
 
 
 class QRZ:
-    def __init__(self):
+    def __init__(self, alchemy_interface):
         config = configparser.ConfigParser()
         config.read("./config.ini")
         self.account_usage = {}
@@ -334,6 +342,7 @@ class QRZ:
         self.base_url = "https://www.qrz.com/"
         jar = CookieJar()
         self.session = requests.Session()
+        self.alchemy_interface = alchemy_interface
         self.session.cookies = jar
         self.is_logged = False
 
@@ -365,11 +374,18 @@ class QRZ:
             self.is_logged = True
         return True
 
+    def check_database(self, station):
+        data = self.alchemy_interface.select_obj(
+            QRZProfiles, "*", df=False, **{"station": station}
+        )
+        return data[1][1] if len(data) > 1 else False
+
     def get_station(self, station):
+        if data := self.check_database(station):
+            return data
         if not self.login():
             print("Daily limit reached for all accounts")
             return None
-        print("Requesting page")
         self.response = self.session.get(self.base_url + "db/" + station)
         station_info = {}
         if self.response.status_code != 200:
@@ -381,15 +397,25 @@ class QRZ:
             return self.get_station(station)
 
         soup = BeautifulSoup(self.response.content, "html.parser")
-        station_info["name"] = " ".join(
-            soup.find_all("span", {"style": "color: black; font-weight: bold"})[0]
-            .getText()
-            .split()
-        )
+        try:
+            station_info["name"] = " ".join(
+                soup.find_all("span", {"style": "color: black; font-weight: bold"})[0]
+                .getText()
+                .split()
+            )
+        except Exception:
+            pass
 
         station_info["img"] = (
             soup.find("div", id="calldata").find("img", id="mypic").get("src")
         )
+        print(station_info["img"])
+        if (
+            station_info["img"]
+            == "https://s3.amazonaws.com/files.qrz.com/static/qrz/qrz_com200x150.jpg"
+        ):
+            station_info["img"] = "../assets/image-not-available.png"
+
         station_info["biography"] = soup.find("divalue", id="biodata")
         rows = []
         for _, row in enumerate(soup.find("table", id="detbox").find_all("tr")):
@@ -423,15 +449,14 @@ class QRZ:
                 if len(item) > 1:
                     station_info[self.prettify(item[0])] = item[1]
         if geo.get("longitude") and geo.get("latitude"):
-            geo["longitude"] = float(geo["longitude"].split()[0])
-            geo["latitude"] = float(geo["latitude"].split()[0])
+            station_info["longitude"] = float(geo["longitude"].split()[0])
+            station_info["latitude"] = float(geo["latitude"].split()[0])
 
-        geo["address"] = ", ".join(
+        station_info["address"] = ", ".join(
             list(soup.find_all("p", {"class": "m0"})[0].stripped_strings)[
                 4 if station_info.get("nickname") else 2 :
             ]
         )
-        station_info["geo"] = geo
 
         for extra_field in ["qsl_by_mail", "uses_lotw", "qsl_by_eqsl"]:
             if extra_field in station_info:
@@ -444,7 +469,7 @@ class QRZ:
                     "[a-zA-Z0-9]{1,3}[0-9][a-zA-Z0-9]{0,3}[a-zA-Z]", field
                 ):
                     qrz_data[field] = value
-            except:
+            except Exception:
                 print("Error parsing field: ", field)
 
         qrz_data["date_joined"] = self.format_date(
@@ -453,5 +478,6 @@ class QRZ:
         qrz_data["last_update"] = self.format_date(
             qrz_data["last_update"], "%Y-%m-%d %H:%M:%S"
         )
-
+        profile = QRZProfiles(station=station, data=qrz_data)
+        self.alchemy_interface.insert_alchemy_obj(profile)
         return qrz_data

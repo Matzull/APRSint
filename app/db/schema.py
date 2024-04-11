@@ -1,7 +1,7 @@
 ##################################################################################################
 # IMPORTS
 
-from sqlalchemy import String, Float, DateTime, ForeignKey
+from sqlalchemy import String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import JSONB, NUMERIC
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
@@ -59,8 +59,8 @@ class StationLocation(Base):
     __columns__ = ["station", "timestamp", "latitude", "longitude", "country"]
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    timestamp = Column(DateTime, primary_key=True)
     station = Column(String(15), ForeignKey(Station.station_id), primary_key=True)
-    timestamp = Column(DateTime)
     latitude = Column(NUMERIC(9, 5))
     longitude = Column(NUMERIC(9, 5))
     country = Column(String(50))
@@ -94,16 +94,16 @@ class Messages(Base):
         "raw_packet",
     ]
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    timestamp = Column(DateTime, primary_key=True)
     src_station = Column(String(15), ForeignKey(Station.station_id))  # Station callsign
     dst_station = Column(String(15), ForeignKey(Station.station_id))
     path = Column(String(100))
-    timestamp = Column(DateTime)
     comment = Column(String(500))
     raw_packet = Column(JSONB())
 
     def __str__(self):
-        return f"{self.id} | {self.src_station} | {self.dst_station} | {self.timestamp} | {self.comment}"
+        return f"{self.id} | {self.src_station} | {self.timestamp} | {self.comment}"
 
     def as_dict(self):
         return {
@@ -113,4 +113,26 @@ class Messages(Base):
             "timestamp": self.timestamp,
             "comment": self.comment,
             "raw_packet": self.raw_packet,
+        }
+
+
+class QRZProfiles(Base):
+    """
+    Class defining a qrz profile
+    """
+
+    __tablename__ = "qrz_profiles"
+    __table_args__ = {"schema": SCHEMA}
+    __columns__ = ["station", "data"]
+
+    station = Column(String(15), ForeignKey(Station.station_id), primary_key=True)
+    data = Column(JSONB())
+
+    def __str__(self):
+        return f"{self.station} | {self.data}"
+
+    def as_dict(self):
+        return {
+            "station": self.station,
+            "data": self.data,
         }
