@@ -53,6 +53,25 @@ class AlchemyInterface:
 
         return schema
 
+    def enable_fts(self, table, column, language=None):
+        self.session.execute(
+            text(
+                f"ALTER TABLE {table.__tablename__} ADD COLUMN ts tsvector GENERATED ALWAYS AS (to_tsvector('{language}', {column})) STORED;"
+            )
+        )
+        self.session.execute(
+            text(f"CREATE INDEX ts_idx ON {table.__tablename__} USING GIN (ts);")
+        )
+        self.session.commit()
+
+    def search_text(self, table, language, text):
+        self.session.execute(
+            f"""SELECT *
+           FROM {table.__tablename__} t 
+           WHERE ts @@ phraseto_tsquery(\'{language}\', {text})
+           ORDER BY ts_rank(ts, phraseto_tsquery(\'{language}\', {text})) DESC;"""
+        )
+
     def create_tables(self, tables):
         for table in tables:
             schema = self.get_schema_from_table(table)

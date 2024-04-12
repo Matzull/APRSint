@@ -2,7 +2,7 @@
 # IMPORTS
 
 from sqlalchemy import String, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import JSONB, NUMERIC
+from sqlalchemy.dialects.postgresql import JSONB, NUMERIC, TSVECTOR
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
 

@@ -17,7 +17,8 @@ requirements = [
     "apache-airflow",
     "plotly",
     "boto3",
-    "bs4" "tqdm",
+    "bs4",
+    "tqdm",
 ]
 
 setuptools.setup(

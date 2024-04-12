@@ -1,7 +1,7 @@
 import dash
 from dash import html
 import dash_mantine_components as dmc
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.express as px
 from dash_express import Page
 from fetch_data_web import c_parser, HomeFetcher
@@ -57,6 +57,16 @@ def create_layout(app):
             html.Div(id="redirect"),
         ]
     )
+
+    @app.callback(
+        Output("main_map", "figure"),
+        Input("search-fts", "n_clicks"),
+        # State("filter-fts-messages", "value")
+    )
+    def filter_fts(click):
+        print("Callback")
+        # print(value)
+        return None
 
     @app.callback(
         Output("url-store", "href"),

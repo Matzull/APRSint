@@ -46,6 +46,7 @@ def reset_db(ctx, drop):
     base.alchemy_interface.reset_db(
         [Station, StationLocation, Messages, QRZProfiles], drop
     )
+    base.alchemy_interface.enable_fts(Messages, "comment", "english")
 
     logger.info("success!!!")
 
@@ -82,7 +83,7 @@ def download_s3(ctx):
 
 @cli.command()
 @click.pass_context
-def insert_database(ctx):
+def insert_db(ctx):
     # pylint: disable=import-outside-toplevel
     """
     command
