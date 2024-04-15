@@ -333,14 +333,13 @@ class StationPage:
         @self.app.callback(
             Output("page-content", "children"),
             [Input("url-store", "search")],
-            prevent_initial_callback=True,
+            # prevent_initial_call=True,
         )
         def display_page(url):
-            print(f"Displaying with {url}")
+            # Disable modal in case the user has been redirected
             parsed_url = urlparse(url)
             station = parse_qs(parsed_url.query).get("id")[0]
             self.station = station
-            # self.station = "W6HBR"
             self.rec = Recolector(self.station)
             # Does the station exist?
             exists = len(self.rec.get_station_info()) > 1

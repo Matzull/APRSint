@@ -59,6 +59,17 @@ class HomeFetcher:
             self.cached = True
             return self.pre_calculate()
 
+    def search_comment(
+        self,
+        text,
+        table=Messages,
+        language="English",
+        columns=["src_station", "comment"],
+    ):
+        return alchemy_interface.search_text(
+            table=table, language=language, text=text, columns=columns
+        )
+
 
 class StationFetcher:
     def __init__(self, station_id):

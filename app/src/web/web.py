@@ -9,7 +9,8 @@ app = DashExpress(
     suppress_callback_exceptions=True,
     compress=True,
 )
-home.create_layout(app)
+home_page = home.HomePage(app)
+home_page.create_layout()
 station_page = station.StationPage(app)
 station_page.create_layout()
 

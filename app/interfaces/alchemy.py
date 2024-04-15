@@ -64,13 +64,19 @@ class AlchemyInterface:
         )
         self.session.commit()
 
-    def search_text(self, table, language, text):
-        self.session.execute(
-            f"""SELECT *
-           FROM {table.__tablename__} t 
-           WHERE ts @@ phraseto_tsquery(\'{language}\', {text})
-           ORDER BY ts_rank(ts, phraseto_tsquery(\'{language}\', {text})) DESC;"""
-        )
+    def search_text(self, table, language, text, columns="*"):
+        if not columns or columns == "*":
+            selected_columns = [str(col) for col in table.__columns__]
+        else:
+            selected_columns = [str(col) for col in columns]
+        query = f"""SELECT {", ".join(selected_columns)}
+            FROM {table.__tablename__} t 
+            WHERE ts @@ phraseto_tsquery(:language, :text)
+            ORDER BY ts_rank(ts, phraseto_tsquery(:language, :text)) DESC;"""
+        header = selected_columns
+        result = self.session.execute(query, {"language": language, "text": text}).all()
+        result.insert(0, tuple(header))
+        return result
 
     def create_tables(self, tables):
         for table in tables:
