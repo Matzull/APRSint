@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output, State
 import plotly.express as px
 from dash_express import Page
 from fetch_data_web import c_parser, HomeFetcher
+import re
 
 
 class HomePage:
@@ -62,7 +63,6 @@ class HomePage:
                             html.Td(
                                 dmc.Button(
                                     row[0],
-                                    # href="/station?id=" + row[0],
                                     id={"type": "fts-anchor", "index": str(index)},
                                 ),
                                 style={"width": "10%"},
@@ -117,7 +117,7 @@ class HomePage:
             prevent_initial_call=True,
         )
         def hide_modal(n_clicks, opened):
-            print(f"Attemting to hide modal {n_clicks}")
+            print(f"Attemting to hide modal")
             if any(n_clicks):
                 print(f"Hiding modal with value {n_clicks} {self.station_comments}")
                 return False, "/station?id=" + str(

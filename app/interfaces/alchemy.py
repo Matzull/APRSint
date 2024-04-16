@@ -72,7 +72,7 @@ class AlchemyInterface:
         query = f"""SELECT {", ".join(selected_columns)}
             FROM {table.__tablename__} t 
             WHERE ts @@ phraseto_tsquery(:language, :text)
-            ORDER BY ts_rank(ts, phraseto_tsquery(:language, :text)) DESC;"""
+            ORDER BY ts_rank(ts, phraseto_tsquery(:language, :text)) DESC LIMIT 100;"""
         header = selected_columns
         result = self.session.execute(query, {"language": language, "text": text}).all()
         result.insert(0, tuple(header))
