@@ -87,6 +87,8 @@ class Recolector:
                 self.recolection["qrz"] = qrz_data
 
     def analyze_timestamps(self, timestamps):
+        if timestamps.empty:
+            return None
         timestamps = pd.to_datetime(timestamps)
 
         # Frequency calculations
@@ -122,6 +124,8 @@ class Recolector:
         return analysis_results
 
     def analyze_locations(self, locations):
+        if not locations:
+            return None
         locations_np = np.array(locations)
 
         # Calculate the total distance and average distance between points

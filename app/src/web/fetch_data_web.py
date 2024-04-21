@@ -53,6 +53,8 @@ class HomeFetcher:
         if os.path.exists("./data.feather"):
             print("Data exists")
             df = pd.read_feather("./data.feather")
+            # df_sl = alchemy_interface.select_obj(Messages, columns=["src_station", "dst_station"], limit=5000, df=True)
+            # df_sl.to_csv("./data.csv")
             return df
         else:
             print("Caching")

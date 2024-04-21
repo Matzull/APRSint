@@ -136,7 +136,7 @@ class StationPage:
                 dcc.Graph(
                     id="local-map",
                     figure=self.rec.plot_map(),
-                    style={"aspect-ratio": "16/10"},
+                    style={"aspectRatio": "16/10"},
                 ),
                 dmc.Group(
                     [
@@ -155,7 +155,7 @@ class StationPage:
             style={
                 "flex": "0 1 40%",
                 "height": "fit-content",
-                "max-height": "85vh",
+                "maxHeight": "85vh",
                 "overflow": "scroll",
             },
         )
@@ -169,9 +169,11 @@ class StationPage:
                     html.Tr(
                         [
                             html.Td(
-                                value.strftime("%Y-%m-%d")
-                                if isinstance(value, datetime)
-                                else value,
+                                (
+                                    value.strftime("%Y-%m-%d")
+                                    if isinstance(value, datetime)
+                                    else value
+                                ),
                                 style={"max_width": "10px"},
                             )
                             for value in row
@@ -240,7 +242,7 @@ class StationPage:
                     id="slider-output",
                     style={
                         "overflow": "scroll",
-                        "max-height": "70vh",
+                        "maxHeight": "70vh",
                         "height": "fit-content",
                     },
                 ),
@@ -275,19 +277,20 @@ class StationPage:
             radius="md",
             style={
                 "flex": "0 1 40%",
-                "max-height": "85vh",
+                "maxHeight": "85vh",
                 "height": "fit-content",
                 "overflow": "scroll",
             },
         )
 
     def populate_layout(self, station, exists):
+        print(f"Populating layout with station {station} exists?: {exists}")
         if not exists:
             return dmc.Center(
                 dmc.Card(
                     children=[
                         dmc.Text(
-                            "Please select a valid station by clicking on the map on the home page",
+                            "Please select a valid station to analyze.",
                             style={"marginBottom": 25},
                         ),
                         dmc.Center(
@@ -332,17 +335,23 @@ class StationPage:
 
         @self.app.callback(
             Output("page-content", "children"),
-            [Input("url-store", "search")],
+            [Input("url-store", "href")],
             # prevent_initial_call=True,
         )
         def display_page(url):
-            # Disable modal in case the user has been redirected
             parsed_url = urlparse(url)
-            station = parse_qs(parsed_url.query).get("id")[0]
+            station = (
+                parse_qs(parsed_url.query).get("id")[0]
+                if parsed_url.query and parse_qs(parsed_url.query).get("id")
+                else None
+            )
             self.station = station
-            self.rec = Recolector(self.station)
-            # Does the station exist?
-            exists = len(self.rec.get_station_info()) > 1
+            if station:
+                self.rec = Recolector(self.station)
+                # Does the station exist?
+                exists = len(self.rec.get_station_info()) > 1
+            else:
+                exists = False
             return self.populate_layout(self.station, exists)
 
         @self.app.callback(

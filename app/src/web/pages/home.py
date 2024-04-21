@@ -52,7 +52,16 @@ class HomePage:
 
         return fig
 
-    def build_fts_table(self, data):
+    def highlight_word(self, text, highlight):
+        highlight = [word.lower() for word in highlight]
+        return html.Span(
+            [
+                html.Mark(word) if word.lower() in highlight else word + " "
+                for word in re.split(r"( )", text)
+            ]
+        )
+
+    def build_fts_table(self, data, words):
         header = [html.Thead((html.Tr([html.Th("Station"), html.Th("Comment")])))]
 
         body = [
@@ -67,7 +76,10 @@ class HomePage:
                                 ),
                                 style={"width": "10%"},
                             ),
-                            html.Td(row[1], style={"width": "10%"}),
+                            html.Td(
+                                self.highlight_word(row[1], words),
+                                style={"width": "10%"},
+                            ),
                         ],
                     )
                     for index, row in enumerate(data[1:])
@@ -105,7 +117,7 @@ class HomePage:
             if value:
                 print("Showing modal")
                 self.station_comments = self.fet.search_comment(value)
-                return self.build_fts_table(self.station_comments), True
+                return self.build_fts_table(self.station_comments, value), True
             print("No value, hiding modal")
             return html.Div(), False
 
