@@ -131,13 +131,14 @@ class StationPage:
         self.rec.recolect(
             timestamps=True, locations=True, loc_temporal=True, comments=True
         )
-        return dmc.Card(
-            children=[
-                dcc.Graph(
-                    id="local-map",
-                    figure=self.rec.plot_map(),
-                    style={"aspectRatio": "16/10"},
-                ),
+        inteligence_tables = self.create_message_inteligence_tables(self.rec.report())
+        if not inteligence_tables and not self.rec.report().get("locations"):
+            return None
+        elements = [*inteligence_tables]
+
+        if data:
+            elements.insert(
+                0,
                 dmc.Group(
                     [
                         dmc.Text(data[-1][0], weight=500),
@@ -147,8 +148,19 @@ class StationPage:
                     mt="md",
                     mb="xs",
                 ),
-                *self.create_message_inteligence_tables(self.rec.report()),
-            ],
+            )
+
+        if self.rec.report().get("locations"):
+            elements.insert(
+                0,
+                dcc.Graph(
+                    id="local-map",
+                    figure=self.rec.plot_map(),
+                    style={"aspectRatio": "16/10"},
+                ),
+            )
+        return dmc.Card(
+            children=elements,
             withBorder=True,
             shadow="sm",
             radius="md",
@@ -197,6 +209,9 @@ class StationPage:
         )
 
     def create_date_slider(self, data):
+        if data.empty:
+            print("Data is empty")
+            return html.Div(id="slider-callback")
         dates = sorted([row.iloc[0] for _, row in data.iterrows()])
         # print(dates)
         self.timeline_dates = dates
@@ -255,8 +270,9 @@ class StationPage:
 
     def qrz_profile(self):
         self.rec.recolect(qrz=True)
-        rep = self.rec.report()["qrz"]
-
+        rep = self.rec.report().get("qrz")
+        if not rep:
+            return None
         if rep.get("geo"):
             rep["geo"] = str(rep["geo"])
 
@@ -357,6 +373,7 @@ class StationPage:
         @self.app.callback(
             Output("slider-output", "children"),
             [Input("slider-callback", "value")],
+            prevent_initial_call=True,
         )
         def update_dates_table(values):
             selected_dates = (

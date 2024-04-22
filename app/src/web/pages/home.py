@@ -52,16 +52,19 @@ class HomePage:
 
         return fig
 
-    def highlight_word(self, text, highlight):
-        highlight = [word.lower() for word in highlight]
+    def highlight_word(self, text):
         return html.Span(
             [
-                html.Mark(word) if word.lower() in highlight else word + " "
-                for word in re.split(r"( )", text)
+                (
+                    html.Span(part.split("</b>")[0], style={"color": "#3b5bdb"})
+                    if i % 2 == 1
+                    else part
+                )
+                for i, part in enumerate(text.split("<b>"))
             ]
         )
 
-    def build_fts_table(self, data, words):
+    def build_fts_table(self, data):
         header = [html.Thead((html.Tr([html.Th("Station"), html.Th("Comment")])))]
 
         body = [
@@ -77,7 +80,7 @@ class HomePage:
                                 style={"width": "10%"},
                             ),
                             html.Td(
-                                self.highlight_word(row[1], words),
+                                self.highlight_word(row[2]),
                                 style={"width": "10%"},
                             ),
                         ],
@@ -114,22 +117,32 @@ class HomePage:
             prevent_initial_call=True,
         )
         def filter_fts(click, value):
-            if value:
+            if value and click:
                 print("Showing modal")
                 self.station_comments = self.fet.search_comment(value)
-                return self.build_fts_table(self.station_comments, value), True
+                return self.build_fts_table(self.station_comments), True
             print("No value, hiding modal")
-            return html.Div(), False
+            return None, False
 
         @self.app.callback(
-            Output("modal-fts", "opened"),
-            Output("url-store", "href", allow_duplicate=True),
-            [Input({"type": "fts-anchor", "index": ALL}, "n_clicks")],
+            [
+                Output("modal-fts", "opened"),
+                Output("url-store", "href", allow_duplicate=True),
+            ],
+            [
+                Input({"type": "fts-anchor", "index": ALL}, "n_clicks"),
+                Input("modal-close-button", "n_clicks"),
+            ],
             State("modal-fts", "opened"),
             prevent_initial_call=True,
         )
-        def hide_modal(n_clicks, opened):
-            print(f"Attemting to hide modal")
+        def hide_modal(n_clicks, n_clicks1, opened):
+            if (
+                dash.callback_context.triggered[0]["prop_id"].split(".")[0]
+                == "modal-close-button"
+            ):
+                print("Closing due to close button")
+                return False, None
             if any(n_clicks):
                 print(f"Hiding modal with value {n_clicks} {self.station_comments}")
                 return False, "/station?id=" + str(
@@ -153,7 +166,11 @@ class HomePage:
 
         def add_autofilters():
             self.page.add_autofilter(
-                "timestamp", multi=True, label="Select date range", custom=False
+                "timestamp",
+                multi=True,
+                label="Select date range",
+                custom=False,
+                **{"description": "Filter by date of message emmission"},
             )
             self.page.add_autofilter(
                 "country",
@@ -167,14 +184,30 @@ class HomePage:
                 multi=True,
                 label="Select type of station",
                 custom=False,
-                **{"searchable": True, "clearable": True, "ordered": True},
+                **{
+                    "searchable": True,
+                    "clearable": True,
+                    "ordered": True,
+                    "description": "Filter stations by their ssid",
+                },
             )
+
             self.page.add_autofilter(
                 "station",
                 multi=True,
                 label="Select station",
                 custom=False,
-                **{"searchable": True, "clearable": True, "ordered": True},
+                **{
+                    "searchable": True,
+                    "clearable": True,
+                    "ordered": True,
+                    "description": "Select one or more callsigns",
+                },
+            )
+
+            self.page.add_search_stations(
+                "Search messages",
+                "Search all comments, ignoring case, with fuzzy matching for relevant terms",
             )
 
         add_autofilters()

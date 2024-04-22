@@ -39,6 +39,8 @@ class Recolector:
                 report[key] = value.to_dict()
             elif isinstance(value, (list, tuple, dict)):
                 report[key] = value
+            elif not value:
+                continue
             else:
                 print("Invalid recolection type")
         return report
@@ -83,8 +85,7 @@ class Recolector:
             )
         if qrz:
             qrz_data = self.qrz.get_station(self.target)
-            if qrz_data:
-                self.recolection["qrz"] = qrz_data
+            self.recolection["qrz"] = qrz_data
 
     def analyze_timestamps(self, timestamps):
         if timestamps.empty:
@@ -267,6 +268,8 @@ class Recolector:
         return fig
 
     def analyze_loc_temporal(self, locations_timestamp):
+        if locations_timestamp.empty:
+            return None
         locations_timestamp["timestamp"].apply(lambda x: pd.to_datetime(x))
         coordinates = list(
             zip(locations_timestamp["latitude"], locations_timestamp["longitude"])
@@ -399,6 +402,10 @@ class QRZ:
             print("Daily limit reached")
             self.account_usage[self.login_data] = 25
             return self.get_station(station)
+
+        if "no results" in self.response.text:
+            print("No results found for station: ", station)
+            return None
 
         soup = BeautifulSoup(self.response.content, "html.parser")
         try:
