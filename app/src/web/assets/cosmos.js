@@ -18771,7 +18771,7 @@ var _d = class {
       && (this._axisGroup.style(
         "transform",
         `translate(${this._config.padding.left}px, ${
-          this._config.padding.top + this._config.axisTickHeight + 1
+          5 + this._config.padding.top + this._config.axisTickHeight + 1
           + this._config.selectionPadding / 2
         }px)`,
       ).call(this._isNumericTimeline ? this._numAxis : this._timeAxis).call(e =>

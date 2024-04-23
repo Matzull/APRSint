@@ -68,14 +68,17 @@ class Recolector:
             self.recolection["timestamps"] = self.analyze_timestamps(
                 self.station_locations["timestamp"]
             )
+
         if locations:
             self.recolection["locations"] = self.analyze_locations(
                 self.station_locations[["latitude", "longitude"]].values.tolist()
             )
+
         if loc_temporal:
             self.recolection["loc_temporal"] = self.analyze_loc_temporal(
                 self.station_locations[["latitude", "longitude", "timestamp"]]
             )
+
         if comments:
             self.station_messages_src = self.alchemy_interface.select_obj(
                 Messages, "*", df=True, **{"src_station": self.target}
@@ -83,6 +86,7 @@ class Recolector:
             self.recolection["comments"] = self.analyze_comment(
                 self.station_messages_src["comment"]
             )
+
         if qrz:
             qrz_data = self.qrz.get_station(self.target)
             self.recolection["qrz"] = qrz_data
@@ -91,36 +95,42 @@ class Recolector:
         if timestamps.empty:
             return None
         timestamps = pd.to_datetime(timestamps)
+        analysis_results = {}
+        if len(timestamps) > 1:
+            # Frequency calculations
+            time_diffs = timestamps.diff()
+            median_freq = time_diffs.median()
+            std_diff = time_diffs.std()
 
-        # Frequency calculations
-        time_diffs = timestamps.diff()
-        median_freq = time_diffs.median()
-        std_diff = time_diffs.std()
+            time_diffs = time_diffs.reindex(timestamps.index, method="ffill")
 
-        time_diffs = time_diffs.reindex(timestamps.index, method="ffill")
+            max_accepted_gap = median_freq + std_diff * 2
+            gaps = timestamps[time_diffs > max_accepted_gap]
 
-        max_accepted_gap = median_freq + std_diff * 2
-        gaps = timestamps[time_diffs > max_accepted_gap]
-
-        mean_freq = time_diffs.mean()
-        min_freq = time_diffs.min()
-        max_freq = time_diffs.max()
+            mean_freq = time_diffs.mean()
+            min_freq = time_diffs.min()
+            max_freq = time_diffs.max()
+            analysis_results.update(
+                {
+                    "mean_frequency": mean_freq,
+                    "median_frequency": median_freq,
+                    "min_frequency": min_freq,
+                    "max_frequency": max_freq,
+                    "gaps": gaps,
+                }
+            )
         start_date = timestamps.min()
         end_date = timestamps.max()
         num_timestamps = len(timestamps)
         total_duration = end_date - start_date
-
-        analysis_results = {
-            "mean_frequency": mean_freq,
-            "median_frequency": median_freq,
-            "min_frequency": min_freq,
-            "max_frequency": max_freq,
-            "start_date": start_date,
-            "end_date": end_date,
-            "gaps": gaps,
-            "num_timestamps": num_timestamps,
-            "recorded_time": total_duration,
-        }
+        analysis_results.update(
+            {
+                "start_date": start_date,
+                "end_date": end_date,
+                "num_timestamps": num_timestamps,
+                "recorded_time": total_duration,
+            }
+        )
 
         return analysis_results
 
@@ -483,12 +493,14 @@ class QRZ:
             except Exception:
                 print("Error parsing field: ", field)
 
-        qrz_data["date_joined"] = self.format_date(
-            qrz_data["date_joined"], "%Y-%m-%d %H:%M:%S"
-        )
-        qrz_data["last_update"] = self.format_date(
-            qrz_data["last_update"], "%Y-%m-%d %H:%M:%S"
-        )
+        if qrz_data.get("date_joined"):
+            qrz_data["date_joined"] = self.format_date(
+                qrz_data["date_joined"], "%Y-%m-%d %H:%M:%S"
+            )
+        if qrz_data.get("last_update"):
+            qrz_data["last_update"] = self.format_date(
+                qrz_data["last_update"], "%Y-%m-%d %H:%M:%S"
+            )
         profile = QRZProfiles(station=station, data=qrz_data)
         self.alchemy_interface.insert_alchemy_obj(profile)
         return qrz_data

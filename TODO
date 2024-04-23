@@ -3,12 +3,14 @@ Highlight word no funciona cuando hay comas --------------------------- 90% revi
 Colorear puntos por otro criterio (Por volumen de mensajes)
 
 Station
-QRZ cambiar las keys para mas intuitivas
-Modificar tamaños de cosas
-Corregir cuando no se encuentra la estacion qrz/Bd -------------------- 50%
+QRZ cambiar las keys para mas intuitivas------------------------------- 90% -> review + añadir mas
+Modificar tamaños de cosas -------------------------------------------- 90% -> review
+Corregir cuando no se encuentra la estacion qrz/Bd -------------------- 90% -> review
+Mostrar todos los mensajes en card de mapa
+Poner nombre de la estacion en el top de la pagina
 
 Grafo
-Explicacion
+Explicacion------------------------------------------------------------ 65% -> prettify and improve message
 
 Global
 Hide filters
@@ -17,4 +19,13 @@ Logo (RANITA HASMEL OGO POLX)
 airflow data update
 
 
+Stations with bugs
+
+SP5ATT -> Average emmision frequency empty
+EC4DA -> Slider no filtra bien
+
 EA4GKQ
+DG1FBA
+
+
+K2MRS

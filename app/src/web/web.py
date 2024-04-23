@@ -29,7 +29,7 @@ graph_page.create_layout()
 def hide_filters(pathname):
     if pathname == "/":
         return False
-    elif pathname == "/station":
+    elif pathname == "/station" or pathname == "/graph":
         return True
     else:
         return False

@@ -5,6 +5,7 @@ from fetch_data_web import StationFetcher
 import dash_mantine_components as dmc
 from datetime import datetime
 from inteligence import Recolector
+from name_mapping import name_mapping
 from datetime import timedelta
 from dash_iconify import DashIconify
 from urllib.parse import urlparse, parse_qs
@@ -24,22 +25,6 @@ class StationPage:
         )
         self.station = None
         self.rec = None
-
-    names = {
-        "mean_frequency": "Average emmision frequency",
-        "median_frequency": "Average emmision frequency",
-        "start_date": "First recorded emmision",
-        "end_date": "Last recorded emmision",
-        "recorded_time": "Total recorded time",
-        # "total_time_elapsed": total_time_elapsed,
-        # "visit_frequency": visit_frequency,
-        # "first_visit": first_visit,
-        # "last_visit": last_visit,
-        # "total_stay_duration": total_stay_duration,
-        "Comment": "Comment",
-        "Freq": "Frecuency of the message",
-        "URL": "Found urls",
-    }
 
     def format_time(self, value):
         if isinstance(value, datetime):
@@ -62,6 +47,16 @@ class StationPage:
         else:
             return str(value)
 
+    def get_aliases(self, aliases):
+        return dmc.List(
+            [
+                dmc.ListItem(
+                    dmc.Anchor(alias, href=link, underline=False, target="_blank")
+                )
+                for alias, link in aliases.items()
+            ]
+        )
+
     def create_table(self, data, keys=None, table_key=None, exclude_keys=None):
         def create_cell(key, text):
             if isinstance(text, (datetime, timedelta)):
@@ -74,11 +69,18 @@ class StationPage:
                     value = dmc.Anchor(value, href=value, underline=False)
                 else:
                     value = "No urls found"
+            elif key == "alias":
+                value = self.get_aliases(text)
+            elif key == "address":
+                value = dmc.Anchor(
+                    text,
+                    href="https://www.google.es/maps/search/" + text,
+                    underline=False,
+                    target="_blank",
+                )
             else:
                 value = text
-            return html.Td(
-                self.names.get(key) if self.names.get(key) else key
-            ), html.Td(value)
+            return html.Td(name_mapping.get(key, key)), html.Td(value)
 
         if table_key:
             data = data[table_key][0]
@@ -153,26 +155,40 @@ class StationPage:
         if self.rec.report().get("locations"):
             elements.insert(
                 0,
-                dcc.Graph(
-                    id="local-map",
-                    figure=self.rec.plot_map(),
-                    style={"aspectRatio": "16/10"},
+                dmc.Center(
+                    dcc.Graph(
+                        id="local-map",
+                        figure=self.rec.plot_map(),
+                        style={"aspectRatio": "16/10", "maxHeight": "45vh"},
+                    )
                 ),
             )
+        elements.insert(
+            0, dmc.Center(dmc.Title("Location information", order=2, mb="sm"))
+        )
         return dmc.Card(
             children=elements,
             withBorder=True,
             shadow="sm",
             radius="md",
             style={
-                "flex": "0 1 40%",
+                # "flex": "0 1 40%",
                 "height": "fit-content",
                 "maxHeight": "85vh",
                 "overflow": "scroll",
+                "maxWidth": "66%",
+                "minWidth": "30%",
             },
         )
 
-    def create_messages_table(self, data, selected_date):
+    def create_messages_table(self, data, selected_date=[]):
+        def get_path(value):
+            value = value.removeprefix("{").removesuffix("}")
+            return dmc.List(
+                [dmc.ListItem(station) for station in value.split(",")],
+                listStyleType="decimal",
+            )
+
         header = [html.Thead(html.Tr([html.Th(header) for header in data.columns]))]
 
         body = [
@@ -184,15 +200,21 @@ class StationPage:
                                 (
                                     value.strftime("%Y-%m-%d")
                                     if isinstance(value, datetime)
+                                    else get_path(value)
+                                    if index == 5
                                     else value
                                 ),
                                 style={"max_width": "10px"},
                             )
-                            for value in row
+                            for index, value in enumerate(row)
                         ],
                         hidden=(
-                            row.iloc[0] < selected_date[0]
-                            or row.iloc[0] > selected_date[1]
+                            (
+                                row.iloc[0] < selected_date[0]
+                                or row.iloc[0] > selected_date[1]
+                            )
+                            if selected_date
+                            else False
                         ),
                     )
                     for _, row in data.iterrows()
@@ -210,8 +232,7 @@ class StationPage:
 
     def create_date_slider(self, data):
         if data.empty:
-            print("Data is empty")
-            return html.Div(id="slider-callback")
+            return None
         dates = sorted([row.iloc[0] for _, row in data.iterrows()])
         # print(dates)
         self.timeline_dates = dates
@@ -233,10 +254,12 @@ class StationPage:
             return marks
 
         marks = generate_marks(date_values, dates)
-
-        timeline = html.Div(
-            [
-                dmc.Text("Select date range", size="xl", weight=500, mb="sm"),
+        children = []
+        if len(date_values) > 1:
+            children.append(
+                dmc.Center(dmc.Title("Select date range", order=2, mb="sm"))
+            )
+            children.append(
                 dmc.RangeSlider(
                     id="slider-callback",
                     value=[date_values[0], date_values[-1]],
@@ -252,7 +275,10 @@ class StationPage:
                             "transform-origin": "left bottom",
                         },
                     },
-                ),
+                )
+            )
+            children.append(dmc.Title("Messages", order=2, mb="sm"))
+            children.append(
                 html.Div(
                     id="slider-output",
                     style={
@@ -260,12 +286,29 @@ class StationPage:
                         "maxHeight": "70vh",
                         "height": "fit-content",
                     },
-                ),
-            ]
-        )
+                )
+            )
+        else:
+            children.append(dmc.Text("Messages", size="xl", weight=500, mb="sm"))
+            children.append(
+                html.Div(
+                    self.create_messages_table(self.station_messages, []),
+                    style={
+                        "overflow": "scroll",
+                        "maxHeight": "70vh",
+                        "height": "fit-content",
+                    },
+                )
+            )
+
+        timeline = html.Div(children=children)
 
         return dmc.Card(
-            timeline, withBorder=True, shadow="sm", radius="md", style={"height": "75%"}
+            timeline,
+            withBorder=True,
+            shadow="sm",
+            radius="md",
+            style={"height": "75%", "maxWidth": "66%", "minWidth": "30%"},
         )
 
     def qrz_profile(self):
@@ -276,15 +319,19 @@ class StationPage:
         if rep.get("geo"):
             rep["geo"] = str(rep["geo"])
 
-        if rep.get("alias"):
-            rep["alias"] = str(rep["alias"])
-
         return dmc.Card(
             children=[
-                html.Img(
-                    src=self.rec.report()["qrz"]["img"],
-                    alt="Profile picture",
-                    style={"width": "100%"},
+                dmc.Center(
+                    dmc.Stack(
+                        [
+                            dmc.Title("QRZ information", order=2, mb="sm"),
+                            html.Img(
+                                src=self.rec.report()["qrz"]["img"],
+                                alt="Profile picture",
+                                style={"maxHeight": "35vh", "marginBottom": "10px"},
+                            ),
+                        ]
+                    )
                 ),
                 self.create_table(rep, exclude_keys=["img", "biography"]),
             ],
@@ -292,10 +339,12 @@ class StationPage:
             shadow="sm",
             radius="md",
             style={
-                "flex": "0 1 40%",
+                # "flex": "0 1 40%",
                 "maxHeight": "85vh",
                 "height": "fit-content",
                 "overflow": "scroll",
+                "maxWidth": "66%",
+                "minWidth": "30%",
             },
         )
 
@@ -341,12 +390,13 @@ class StationPage:
         )
 
     def create_layout(self):
-        self.page.layout = dmc.SimpleGrid(
-            cols=2,
+        self.page.layout = dmc.Group(
             children=[],
             id="page-content",
-            display="flex",
-            style={"flexDirection": "row", "height": "100%"},
+            position="center",
+            grow=1,
+            align="flex-start",
+            style={"height": "100%", "flexFlow": "nowrap"},
         )
 
         @self.app.callback(
@@ -373,13 +423,14 @@ class StationPage:
         @self.app.callback(
             Output("slider-output", "children"),
             [Input("slider-callback", "value")],
-            prevent_initial_call=True,
+            # prevent_initial_call=True,
         )
         def update_dates_table(values):
             selected_dates = (
                 self.timeline_dates[values[0]],
                 self.timeline_dates[values[1]],
             )
+            print("Callback selected dates")
             print(selected_dates)
             table = self.create_messages_table(self.station_messages, selected_dates)
             return "", table

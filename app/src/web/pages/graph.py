@@ -48,6 +48,45 @@ class GraphPage:
                         "backgroundColor": "#222222",
                     },
                 ),
+                dmc.Affix(
+                    dmc.Tooltip(
+                        multiline=True,
+                        w=500,
+                        label=[
+                            html.Div(
+                                "This page features a directed graph showcasing stations as nodes and messages as edges. Nodes represent stations, with size and brightness indicating message activity. Edges denote message flow between stations, with width and brightness reflecting message volume.",
+                                style={"margin-bottom": "16px"},
+                            ),
+                            html.Div(
+                                "Key Features:",
+                                style={"font-weight": "bold", "margin-bottom": "8px"},
+                            ),
+                            dmc.List(
+                                [
+                                    dmc.ListItem(
+                                        "Directed Graph: Visualizes message flow between stations."
+                                    ),
+                                    dmc.ListItem(
+                                        "Node Attributes: Size and brightness indicate message activity."
+                                    ),
+                                    dmc.ListItem(
+                                        "Edge Attributes: Width and brightness reflect message volume."
+                                    ),
+                                    dmc.ListItem("Search Bar: Easily locate stations."),
+                                    dmc.ListItem(
+                                        "Timeline: Select messages within a specific time interval."
+                                    ),
+                                    dmc.ListItem(
+                                        "Node Click: Redirects to station information page."
+                                    ),
+                                ]
+                            ),
+                        ],
+                        position="right",
+                        children=dmc.Badge("?"),
+                    ),
+                    position={"bottom": 20, "right": 20},
+                ),
             ],
             style={
                 "width": "100%",
