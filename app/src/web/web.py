@@ -12,10 +12,10 @@ app = DashExpress(
         "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.0/sigma.min.js"
     ],
 )
-home_page = home.HomePage(app)
-home_page.create_layout()
-station_page = station.StationPage(app)
-station_page.create_layout()
+# home_page = home.HomePage(app)
+# home_page.create_layout()
+# station_page = station.StationPage(app)
+# station_page.create_layout()
 graph_page = graph.GraphPage(app)
 graph_page.create_layout()
 

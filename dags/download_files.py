@@ -4,7 +4,9 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
+import sys
 
+sys.path.append("/home/matzul/APRSint/")
 from dags.aprsint_dag_params import default_args, CONFIG_PATH, EXEC_PATH
 
 

@@ -4,7 +4,9 @@
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
+import sys
 
+sys.path.append("/home/matzul/APRSint/")
 from dags.aprsint_dag_params import default_args, CONFIG_PATH, EXEC_PATH
 
 ###################################################################################################
@@ -15,7 +17,7 @@ dag = DAG(
     dag_id="db_insert",
     default_args=default_args,
     catchup=False,
-    schedule_interval="0 7 * * *",  # Every day at 3:00am UTC
+    schedule_interval="0 7 * * *",  # Every day at 7:00am UTC
 )
 
 first_task = EmptyOperator(

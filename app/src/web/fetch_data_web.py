@@ -14,7 +14,8 @@ alchemy_interface = AlchemyInterface(config)
 
 
 class HomeFetcher:
-    def __init__(self):
+    def __init__(self, base_dir):
+        self.base_dir = base_dir
         self.cached = False
 
     def count_points_within_radius(self, df, radius):
@@ -33,9 +34,10 @@ class HomeFetcher:
 
         return counts
 
-    def pre_calculate(self):
-        df_sl = alchemy_interface.select_obj(StationLocation, limit=5000, df=True)
-        df_si = alchemy_interface.select_obj(Station, limit=5000, df=True)
+    def pre_calculate(self, base_dir):
+        df_sl = alchemy_interface.select_obj(StationLocation, df=True)  # , limit=5000,
+        df_sl = df_sl.drop_duplicates(subset=["station", "country"])
+        df_si = alchemy_interface.select_obj(Station, df=True)  # , limit=5000,
         df = pd.merge(df_sl, df_si, left_on="station", right_on="station_id")
 
         df = df.dropna(subset=["latitude", "longitude", "timestamp"])
@@ -44,22 +46,32 @@ class HomeFetcher:
             lambda x: x["station"].nunique() == 1
         )
 
-        df["density"] = self.count_points_within_radius(df, 50)
-
-        df.to_feather("./data.feather")
+        # df["density"] = 1#self.count_points_within_radius(df, 50)
+        print(df.shape)
+        df.to_feather(base_dir + "/cache/map_data.feather")
         return df
 
+    def cache_map(self):
+        self.pre_calculate(self.base_dir)
+
+    def cache_graph(self):
+        df_sl = alchemy_interface.select_obj(
+            Messages, columns=["src_station", "dst_station", "timestamp"], df=True
+        )  # , limit=5000
+        df_sl["timestamp"] = df_sl["timestamp"].dt.date
+        unique_stations = pd.concat(
+            [df_sl["src_station"], df_sl["dst_station"]]
+        ).unique()
+        unique_series = pd.Series(unique_stations)
+        unique_series.to_csv(
+            self.base_dir + "/assets/nodes.csv", index=False, header=False
+        )
+        df_sl["count"] = df_sl.groupby(df_sl.columns.tolist()).transform("size")
+        df_sl = df_sl.drop_duplicates()
+        df_sl.to_csv(self.base_dir + "/assets/messages.csv", index=False, header=False)
+
     def fetch_data(self):
-        if os.path.exists("./data.feather"):
-            print("Data exists")
-            df = pd.read_feather("./data.feather")
-            # df_sl = alchemy_interface.select_obj(Messages, columns=["src_station", "dst_station"], limit=5000, df=True)
-            # df_sl.to_csv("./data.csv")
-            return df
-        else:
-            print("Caching")
-            self.cached = True
-            return self.pre_calculate()
+        return pd.read_feather(self.base_dir + "/cache/map_data.feather")
 
     def search_comment(
         self,

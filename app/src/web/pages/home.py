@@ -11,7 +11,7 @@ import re
 class HomePage:
     def __init__(self, app):
         self.app = app
-        self.fet = HomeFetcher()
+        self.fet = HomeFetcher("/home/matzul/APRSint/app/src/web")
         self.page = Page(
             app=app,
             url_path="/",
@@ -27,18 +27,18 @@ class HomePage:
             df,
             lon="longitude",
             lat="latitude",
-            color="density",
-            color_continuous_scale="hot",
+            color_discrete_sequence=["#3b5bdb"],
+            # color_continuous_scale="hot",
             hover_name="station",
             hover_data={
                 "longitude": True,
                 "latitude": True,
-                "density": False,
+                # "density": False,
                 "timestamp": True,
             },
             zoom=2,
         )
-        fig.update_traces(marker={"size": 5})
+        fig.update_traces(marker={"size": 10}, cluster={"enabled": True})
         fig.update_layout(
             hovermode="closest",
             showlegend=False,
@@ -56,11 +56,11 @@ class HomePage:
         return html.Span(
             [
                 (
-                    html.Span(part.split("</b>")[0], style={"color": "#3b5bdb"})
-                    if i % 2 == 1
+                    html.Span(part.split("</b>")[0] + " ", style={"color": "#3b5bdb"})
+                    if "</b>" in part
                     else part
                 )
-                for i, part in enumerate(text.split("<b>"))
+                for part in text.split("<b>")
             ]
         )
 

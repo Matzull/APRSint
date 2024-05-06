@@ -99,4 +99,18 @@ def insert_db(ctx):
     logger.info("success!!!")
 
 
+@cli.command()
+@click.pass_context
+def cache_data(ctx):
+    # pylint: disable=import-outside-toplevel
+    """
+    command
+    """
+    from ..services.cache import cache
+
+    cache()
+
+    logger.info("success!!!")
+
+
 cli(obj={})  # pylint: disable=no-value-for-parameter
