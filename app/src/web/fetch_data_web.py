@@ -97,20 +97,26 @@ class StationFetcher:
 
         data_location = alchemy_interface.select_obj(
             StationLocation,
-            ["timestamp", "latitude", "longitude", "country"],
-            limit=10,
+            ["sync_id", "timestamp", "latitude", "longitude", "country"],
             df=True,
             **{"station": self.station_id},
         )
 
         data_messages = alchemy_interface.select_obj(
             Messages,
-            ["dst_station", "path", "timestamp", "comment"],
-            limit=10,
+            ["sync_id", "dst_station", "path", "timestamp", "comment"],
             df=True,
             **{"src_station": self.station_id},
         )
 
-        packets = pd.merge(data_location, data_messages, on="timestamp", how="right")
-
+        packets = (
+            pd.merge(data_location, data_messages, on="sync_id", how="right")
+            .dropna(subset=["latitude", "longitude", "timestamp_y"])
+            .sort_values(by="timestamp_x")
+            .tail(10)
+            .drop(["sync_id", "timestamp_y"], axis=1)
+            .rename(columns={"timestamp_x": "timestamp"})
+            .reset_index()
+            .drop("index", axis=1)
+        )
         return data_station, packets

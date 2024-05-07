@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, DDL, select, and_, column, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.dialects.postgresql import insert
 import pandas as pd
+from time import sleep
 
 ###################################################################################################
 # CLASSES

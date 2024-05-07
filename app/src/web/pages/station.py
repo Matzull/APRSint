@@ -138,20 +138,6 @@ class StationPage:
             return None
         elements = [*inteligence_tables]
 
-        if data:
-            elements.insert(
-                0,
-                dmc.Group(
-                    [
-                        dmc.Text(data[-1][0], weight=500),
-                        dmc.Badge(data[-1][-1], color="red", variant="light"),
-                    ],
-                    position="apart",
-                    mt="md",
-                    mb="xs",
-                ),
-            )
-
         if self.rec.report().get("locations"):
             elements.insert(
                 0,
@@ -174,14 +160,14 @@ class StationPage:
             style={
                 # "flex": "0 1 40%",
                 "height": "fit-content",
-                "maxHeight": "85vh",
+                "maxHeight": "78vh",
                 "overflow": "scroll",
                 "maxWidth": "66%",
                 "minWidth": "30%",
             },
         )
 
-    def create_messages_table(self, data, selected_date=[]):
+    def create_messages_table(self, data, selected_indices=[]):
         def get_path(value):
             value = value.removeprefix("{").removesuffix("}")
             return dmc.List(
@@ -210,14 +196,14 @@ class StationPage:
                         ],
                         hidden=(
                             (
-                                row.iloc[0] < selected_date[0]
-                                or row.iloc[0] > selected_date[1]
+                                row_index < selected_indices[0]
+                                or row_index > selected_indices[1]
                             )
-                            if selected_date
+                            if selected_indices
                             else False
                         ),
                     )
-                    for _, row in data.iterrows()
+                    for row_index, row in data.iterrows()
                 ]
             )
         ]
@@ -234,7 +220,6 @@ class StationPage:
         if data.empty:
             return None
         dates = sorted([row.iloc[0] for _, row in data.iterrows()])
-        # print(dates)
         self.timeline_dates = dates
         self.station_messages = data
         date_values = list(range(len(dates)))
@@ -262,7 +247,7 @@ class StationPage:
             children.append(
                 dmc.RangeSlider(
                     id="slider-callback",
-                    value=[date_values[0], date_values[-1]],
+                    value=[0, len(date_values) - 1],
                     marks=marks,
                     max=len(date_values) - 1,
                     min=0,
@@ -283,7 +268,7 @@ class StationPage:
                     id="slider-output",
                     style={
                         "overflow": "scroll",
-                        "maxHeight": "70vh",
+                        "maxHeight": "57.5vh",
                         "height": "fit-content",
                     },
                 )
@@ -340,7 +325,7 @@ class StationPage:
             radius="md",
             style={
                 # "flex": "0 1 40%",
-                "maxHeight": "85vh",
+                "maxHeight": "78vh",
                 "height": "fit-content",
                 "overflow": "scroll",
                 "maxWidth": "66%",
@@ -348,10 +333,37 @@ class StationPage:
             },
         )
 
+    def build_banner(self, data):
+        return dmc.Group(
+            [
+                dmc.Group(
+                    [
+                        dmc.Title("CALLSIGN: ", order=4),
+                        dmc.Badge(
+                            dmc.Title(data[-1][0], order=4),
+                            color="red",
+                            variant="light",
+                        ),
+                    ]
+                ),
+                dmc.Group(
+                    [
+                        dmc.Title("SYMBOL: ", order=4),
+                        dmc.Badge(
+                            dmc.Title(data[-1][-1], order=4),
+                            color="blue",
+                            variant="light",
+                        ),
+                    ]
+                ),
+            ],
+            position="apart",
+        )
+
     def populate_layout(self, station, exists):
         print(f"Populating layout with station {station} exists?: {exists}")
         if not exists:
-            return dmc.Center(
+            return None, dmc.Center(
                 dmc.Card(
                     children=[
                         dmc.Text(
@@ -384,23 +396,37 @@ class StationPage:
         fet = StationFetcher(station)
         data = fet.fetch_data()
         return (
-            self.qrz_profile(),
-            self.create_message_inteligence_card(data[0]),
-            self.create_date_slider(data[1]),
+            dmc.Center(
+                dmc.Card(
+                    self.build_banner(data[0]),
+                    id="banner-id",
+                    withBorder=True,
+                    shadow="sm",
+                    radius="md",
+                    style={"width": "35vw"},
+                )
+            ),
+            dmc.Group(
+                children=[
+                    self.qrz_profile(),
+                    self.create_message_inteligence_card(data[0]),
+                    self.create_date_slider(data[1]),
+                ],
+                id="page-content",
+                position="center",
+                grow=1,
+                align="flex-start",
+                style={"height": "100%", "flexFlow": "nowrap"},
+            ),
         )
 
     def create_layout(self):
-        self.page.layout = dmc.Group(
-            children=[],
-            id="page-content",
-            position="center",
-            grow=1,
-            align="flex-start",
-            style={"height": "100%", "flexFlow": "nowrap"},
+        self.page.layout = dmc.Stack(
+            id="page-layout",
         )
 
         @self.app.callback(
-            Output("page-content", "children"),
+            Output("page-layout", "children"),
             [Input("url-store", "href")],
             # prevent_initial_call=True,
         )
@@ -426,13 +452,11 @@ class StationPage:
             # prevent_initial_call=True,
         )
         def update_dates_table(values):
-            selected_dates = (
-                self.timeline_dates[values[0]],
-                self.timeline_dates[values[1]],
+            selected_indices = (
+                values[0],
+                values[1],
             )
-            print("Callback selected dates")
-            print(selected_dates)
-            table = self.create_messages_table(self.station_messages, selected_dates)
+            table = self.create_messages_table(self.station_messages, selected_indices)
             return "", table
 
         return self.page

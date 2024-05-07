@@ -9,13 +9,13 @@ app = DashExpress(
     suppress_callback_exceptions=True,
     compress=True,
     external_scripts=[
-        "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/1.2.0/sigma.min.js"
+        "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"
     ],
 )
-# home_page = home.HomePage(app)
-# home_page.create_layout()
-# station_page = station.StationPage(app)
-# station_page.create_layout()
+home_page = home.HomePage(app)
+home_page.create_layout()
+station_page = station.StationPage(app)
+station_page.create_layout()
 graph_page = graph.GraphPage(app)
 graph_page.create_layout()
 
@@ -35,5 +35,5 @@ def hide_filters(pathname):
         return False
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+# if __name__ == "__main__":
+#     app.run()

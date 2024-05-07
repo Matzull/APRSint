@@ -54,7 +54,7 @@ class GraphPage:
                         w=500,
                         label=[
                             html.Div(
-                                "This page features a directed graph showcasing stations as nodes and messages as edges. Nodes represent stations, with size and brightness indicating message activity. Edges denote message flow between stations, with width and brightness reflecting message volume.",
+                                "This page features a directed graph, nodes represent stations, with size and brightness indicating message activity. Edges denote message flow between stations, with width and brightness reflecting message volume.",
                                 style={"margin-bottom": "16px"},
                             ),
                             html.Div(
@@ -63,15 +63,6 @@ class GraphPage:
                             ),
                             dmc.List(
                                 [
-                                    dmc.ListItem(
-                                        "Directed Graph: Visualizes message flow between stations."
-                                    ),
-                                    dmc.ListItem(
-                                        "Node Attributes: Size and brightness indicate message activity."
-                                    ),
-                                    dmc.ListItem(
-                                        "Edge Attributes: Width and brightness reflect message volume."
-                                    ),
                                     dmc.ListItem("Search Bar: Easily locate stations."),
                                     dmc.ListItem(
                                         "Timeline: Select messages within a specific time interval."
@@ -120,8 +111,8 @@ class GraphPage:
                             nodes.push({ id: line });
                         });
                     }).catch(error => console.error('Error fetching node data:', error));
-
                 const link_count = {};
+                
                 fetch('/assets/messages.csv') // Ruta al archivo en el servidor
                     .then(response => response.text())
                     .then(data => {
@@ -129,10 +120,10 @@ class GraphPage:
                         lines.forEach(function (line, index) {
                             var cols = line.split(',');
                             if (cols.length === 4) {
-                                var src = cols[0].trim();
-                                var dst = cols[1].trim();
-                                var timestamp = cols[2].trim();
-                                var ocurrences = cols[3].trim();
+                                var src = cols[0];
+                                var dst = cols[1];
+                                var timestamp = cols[2];
+                                var ocurrences = cols[3];
 
                                 //Parse timestamp
                                 const [datePart, timePart] = timestamp.split(' ');

@@ -2,7 +2,7 @@
 # IMPORTS
 
 from sqlalchemy import String, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import JSONB, NUMERIC, TSVECTOR
+from sqlalchemy.dialects.postgresql import JSONB, NUMERIC, TSVECTOR, UUID
 from sqlalchemy import Column, Integer
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -56,9 +56,16 @@ class StationLocation(Base):
 
     __tablename__ = "station_locations"
     __table_args__ = {"schema": SCHEMA}
-    __columns__ = ["station", "timestamp", "latitude", "longitude", "country"]
+    __columns__ = [
+        "sync_id",
+        "station",
+        "timestamp",
+        "latitude",
+        "longitude",
+        "country",
+    ]
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    sync_id = Column(UUID(as_uuid=True), primary_key=True)
     timestamp = Column(DateTime, primary_key=True)
     station = Column(String(15), ForeignKey(Station.station_id), primary_key=True)
     latitude = Column(NUMERIC(9, 5))
@@ -70,6 +77,7 @@ class StationLocation(Base):
 
     def as_dict(self):
         return {
+            "sync_id": self.sync_id,
             "callsign": self.station,
             "latitude": self.latitude,
             "longitude": self.longitude,
@@ -86,6 +94,7 @@ class Messages(Base):
     __tablename__ = "messages"
     __table_args__ = {"schema": SCHEMA}
     __columns__ = [
+        "sync_id",
         "src_station",
         "dst_station",
         "path",
@@ -94,7 +103,7 @@ class Messages(Base):
         "raw_packet",
     ]
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    sync_id = Column(UUID(as_uuid=True), primary_key=True)
     timestamp = Column(DateTime, primary_key=True)
     src_station = Column(String(15), ForeignKey(Station.station_id))  # Station callsign
     dst_station = Column(String(15), ForeignKey(Station.station_id))
@@ -103,10 +112,13 @@ class Messages(Base):
     raw_packet = Column(JSONB())
 
     def __str__(self):
-        return f"{self.id} | {self.src_station} | {self.timestamp} | {self.comment}"
+        return (
+            f"{self.sync_id} | {self.src_station} | {self.timestamp} | {self.comment}"
+        )
 
     def as_dict(self):
         return {
+            "sync_id": self.sync_id,
             "src_station": self.src_station,
             "dst_station": self.dst_station,
             "path": self.path,

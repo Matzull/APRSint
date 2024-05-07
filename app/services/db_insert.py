@@ -7,6 +7,7 @@ from app.db.schema import Station, StationLocation, Messages
 import geopandas as gpd
 import pandas as pd
 from tqdm import tqdm
+import uuid
 from decimal import Decimal
 
 logger = logging.getLogger(__name__)
@@ -66,9 +67,11 @@ def db_insert(base, delete=False):
                     )
                 )
                 now = datetime.datetime.now()
+                id = uuid.uuid4()
                 if packet_json.get("latitude"):
                     locations.append(
                         {
+                            "sync_id": id,
                             "station": callsign[0],
                             "timestamp": (
                                 (
@@ -89,6 +92,7 @@ def db_insert(base, delete=False):
                     )
                 messages.append(
                     {
+                        "sync_id": id,
                         "src_station": callsign[0],
                         "dst_station": packet_json.get("to").split("-")[0],
                         "path": packet_json.get("path"),
