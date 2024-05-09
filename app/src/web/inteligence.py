@@ -20,7 +20,7 @@ sys.path.append(os.path.join(os.path.dirname(os.getcwd())))
 class Recolector:
     def __init__(self, target):
         self.c_parser = configparser.ConfigParser()
-        self.c_parser.read("./config.ini")
+        self.c_parser.read("/home/matzul/APRSint/config.ini")
         self.target = target
         self.alchemy_interface = AlchemyInterface({"db": dict(self.c_parser["db"])})
         self.qrz = QRZ(self.alchemy_interface)
@@ -347,7 +347,7 @@ class Recolector:
 class QRZ:
     def __init__(self, alchemy_interface):
         config = configparser.ConfigParser()
-        config.read("./config.ini")
+        config.read("/home/matzul/APRSint/config.ini")
         self.account_usage = {}
         for section in config.sections():
             if section.startswith("qrz_"):

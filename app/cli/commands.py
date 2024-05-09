@@ -56,7 +56,7 @@ def reset_db(ctx, drop):
 def upload_s3(ctx):
     # pylint: disable=import-outside-toplevel
     """
-    command
+    updates the s3 bucket with the latest files
     """
     from ..services.s3 import upload_files
 
@@ -71,7 +71,7 @@ def upload_s3(ctx):
 def download_s3(ctx):
     # pylint: disable=import-outside-toplevel
     """
-    command
+    downloads the latest files from s3 bucket
     """
     from ..services.s3 import download_files
 
@@ -86,7 +86,7 @@ def download_s3(ctx):
 def insert_db(ctx):
     # pylint: disable=import-outside-toplevel
     """
-    command
+    insert data into the database
     """
     from ..base import Base
     from ..services.db_insert import db_insert
@@ -104,7 +104,7 @@ def insert_db(ctx):
 def cache_data(ctx):
     # pylint: disable=import-outside-toplevel
     """
-    command
+    cache data from the database to speedup the dashboard
     """
     from ..services.cache import cache
 

@@ -367,7 +367,7 @@ class StationPage:
                 dmc.Card(
                     children=[
                         dmc.Text(
-                            "Please select a valid station to analyze.",
+                            "Please select a valid station to analyzes.",
                             style={"marginBottom": 25},
                         ),
                         dmc.Center(
