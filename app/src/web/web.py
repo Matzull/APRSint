@@ -3,15 +3,12 @@ from pages import home, station, graph
 from dash.dependencies import Input, Output
 
 app = DashExpress(
-    logo={"dark": "/assets/logo.svg", "light": "/assets/logo.svg"},
+    logo={"dark": "/assets/logo.png", "light": "/assets/logo.png"},
     cache=True,
     default_cache_timeout=3600,
     suppress_callback_exceptions=True,
     compress=True,
     title="APRSint",
-    external_scripts=[
-        "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"
-    ],
 )
 
 

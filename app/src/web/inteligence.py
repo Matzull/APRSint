@@ -46,11 +46,13 @@ class Recolector:
         return report
 
     def get_station_info(self):
-        station_info = self.alchemy_interface.select_obj(
-            Station, ["station_id"], df=False, **{"station_id": self.target}
+        station_info_src = self.alchemy_interface.select_obj(
+            Messages, ["sync_id"], df=False, **{"src_station": self.target}
         )
-        print("This is", station_info)
-        return station_info
+        station_info_dst = self.alchemy_interface.select_obj(
+            Messages, ["sync_id"], df=False, **{"dst_station": self.target}
+        )
+        return station_info_src, station_info_dst
 
     def recolect(
         self,

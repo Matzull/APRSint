@@ -360,14 +360,18 @@ class StationPage:
             position="apart",
         )
 
-    def populate_layout(self, station, exists):
-        print(f"Populating layout with station {station} exists?: {exists}")
-        if not exists:
+    def populate_layout(self, station, exists, real=False):
+        if not real:
             return None, dmc.Center(
                 dmc.Card(
                     children=[
                         dmc.Text(
-                            "Please select a valid station to analyzes.",
+                            "Please select a valid station to analyze.",
+                            style={"marginBottom": 25},
+                        )
+                        if not exists
+                        else dmc.Text(
+                            "There is no information about this station.",
                             style={"marginBottom": 25},
                         ),
                         dmc.Center(
@@ -392,7 +396,6 @@ class StationPage:
                 style={"height": "80vh", "width": "100%"},
             )
 
-        print(f"Populating layout with station {station}")
         fet = StationFetcher(station)
         data = fet.fetch_data()
         return (
@@ -441,10 +444,13 @@ class StationPage:
             if station:
                 self.rec = Recolector(self.station)
                 # Does the station exist?
-                exists = len(self.rec.get_station_info()) > 1
+                src, dst = self.rec.get_station_info()
+                exists = (len(dst) > 1) or (len(src) > 1)
+                real = len(src) > 1
             else:
                 exists = False
-            return self.populate_layout(self.station, exists)
+                real = False
+            return self.populate_layout(self.station, exists, real)
 
         @self.app.callback(
             Output("slider-output", "children"),

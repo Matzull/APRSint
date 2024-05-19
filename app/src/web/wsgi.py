@@ -9,4 +9,4 @@ import web
 
 application = web.app.server
 if __name__ == "__main__":
-    application.run(debug=True)
+    application.run()

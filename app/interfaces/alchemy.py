@@ -4,7 +4,7 @@
 import logging
 from urllib.parse import quote_plus
 from tqdm import tqdm
-from sqlalchemy import create_engine, DDL, select, and_, column, text
+from sqlalchemy import create_engine, DDL, select, and_, or_, column, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.dialects.postgresql import insert
 import pandas as pd
@@ -148,7 +148,9 @@ class AlchemyInterface:
     def adapt_data(self, data):
         return ("'" + data + "'") if isinstance(data, str) else data
 
-    def select_obj(self, table, columns=None, limit=None, df=False, **filters):
+    def select_obj(
+        self, table, columns=None, limit=None, df=False, filter_mode="and", **filters
+    ):
         if not columns or columns == "*":
             selected_columns = [column(col) for col in table.__columns__]
         else:
@@ -159,6 +161,13 @@ class AlchemyInterface:
         if filters:
             statement = statement.where(
                 and_(
+                    *[
+                        text(f"{col} = {self.adapt_data(value)}")
+                        for col, value in filters.items()
+                    ]
+                )
+                if filter_mode == "and"
+                else or_(
                     *[
                         text(f"{col} = {self.adapt_data(value)}")
                         for col, value in filters.items()
