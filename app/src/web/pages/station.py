@@ -83,8 +83,17 @@ class StationPage:
             return html.Td(name_mapping.get(key, key)), html.Td(value)
 
         if table_key:
-            data = data[table_key][0]
+            max_freq = 0
+            new_data = None
+            for item in data[table_key]:
+                
+                if item.get("Freq") >= max_freq and item.get("Comment"):
+                    max_freq = item.get("Freq")
+                    new_data = item
+            data = new_data
+            
 
+            
         body = html.Tbody(
             [
                 html.Tr([*create_cell(key, value)])
@@ -145,7 +154,7 @@ class StationPage:
                     dcc.Graph(
                         id="local-map",
                         figure=self.rec.plot_map(),
-                        style={"aspectRatio": "16/10", "maxHeight": "45vh"},
+                        style={"aspectRatio": "16/10", "maxHeight": "45vh", "maxWidth": "95%", "margin":"10px"},
                     )
                 ),
             )
@@ -162,7 +171,7 @@ class StationPage:
                 "height": "fit-content",
                 "maxHeight": "78vh",
                 "overflow": "scroll",
-                "maxWidth": "66%",
+                "maxWidth": "32vw",
                 "minWidth": "30%",
             },
         )
@@ -176,7 +185,6 @@ class StationPage:
             )
 
         header = [html.Thead(html.Tr([html.Th(header) for header in data.columns]))]
-
         body = [
             html.Tbody(
                 [
@@ -293,7 +301,7 @@ class StationPage:
             withBorder=True,
             shadow="sm",
             radius="md",
-            style={"height": "75%", "maxWidth": "66%", "minWidth": "30%"},
+            style={"height": "75%", "maxWidth": "32vw", "minWidth": "30%"},
         )
 
     def qrz_profile(self):
@@ -318,7 +326,7 @@ class StationPage:
                         ]
                     )
                 ),
-                self.create_table(rep, exclude_keys=["img", "biography"]),
+                self.create_table(dict(sorted(rep.items())), exclude_keys=["img", "biography"]),
             ],
             withBorder=True,
             shadow="sm",
@@ -328,7 +336,7 @@ class StationPage:
                 "maxHeight": "78vh",
                 "height": "fit-content",
                 "overflow": "scroll",
-                "maxWidth": "66%",
+                "maxWidth": "32vw",
                 "minWidth": "30%",
             },
         )

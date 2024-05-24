@@ -23,7 +23,7 @@ name_mapping = {
     "start_date": "First recorded emmision",
     "end_date": "Last recorded emmision",
     "recorded_time": "Total recorded time",
-    "Comment": "Comment",
+    "Comment": "Top comment",
     "Freq": "Frecuency of the message",
     "URL": "Found urls",
     "born": "Born in",

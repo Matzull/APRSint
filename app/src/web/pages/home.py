@@ -170,7 +170,7 @@ class HomePage:
                 multi=True,
                 label="Select date range",
                 custom=False,
-                **{"description": "Filter by date of message emmission"},
+                **{"description": "Filter by date of message emission"},
             )
             self.page.add_autofilter(
                 "country",

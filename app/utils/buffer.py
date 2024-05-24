@@ -28,12 +28,10 @@ class Buffer:
         self.data.append(data)
 
     def get_last_file(self) -> int:
-        files = os.listdir(self.base_dir)
-        if files:
-            files.sort(reverse=True)
-            last_file = files[0]
-            index = int(last_file.split("_")[1].split(".")[0])
-            return index + 1
+        indexes = list(map(lambda x: int(x[5:-3]), os.listdir(self.base_dir)))
+        if indexes:
+            indexes.sort(reverse=True)
+            return indexes[0]
         return 0
 
     def write_to_file(self):

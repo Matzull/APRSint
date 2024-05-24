@@ -232,18 +232,18 @@ class Recolector:
             )
         )
 
-        for point, name in zip(
-            [northernmost, southernmost, easternmost, westernmost, midpoint],
-            ["Northernmost", "Southernmost", "Easternmost", "Westernmost", "Midpoint"],
-        ):
-            fig.add_trace(
-                go.Scattermapbox(
-                    lon=[point[1]],
-                    lat=[point[0]],
-                    mode="markers",
-                    marker=go.scattermapbox.Marker(size=5, color="black"),
-                )
-            )
+        # for point, name in zip(
+        #     [northernmost, southernmost, easternmost, westernmost, midpoint],
+        #     ["Northernmost", "Southernmost", "Easternmost", "Westernmost", "Midpoint"],
+        # ):
+        #     fig.add_trace(
+        #         go.Scattermapbox(
+        #             lon=[point[1]],
+        #             lat=[point[0]],
+        #             mode="markers",
+        #             marker=go.scattermapbox.Marker(size=5, color="black"),
+        #         )
+        #     )
 
         fig.update_layout(
             mapbox_style="open-street-map",
@@ -259,8 +259,8 @@ class Recolector:
                 lon=lons,
                 lat=lats,
                 mode="markers+lines",
-                line=go.scattermapbox.Line(color="black"),
-                marker=go.scattermapbox.Marker(size=10, color="blue"),
+                line=go.scattermapbox.Line(color="rgba(193, 93, 152, 0.5)"),
+                marker=go.scattermapbox.Marker(size=5, color="white"),
                 hoverinfo="text",
                 hovertext=hovertexts,
             )
