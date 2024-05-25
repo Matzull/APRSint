@@ -3,7 +3,7 @@ from pages import home, station, graph
 from dash.dependencies import Input, Output
 
 app = DashExpress(
-    logo={"dark": "/assets/logo.png", "light": "/assets/logo.png"},
+    logo={"dark": "/assets/logo_black.png", "light": "/assets/logo_white.png"},
     cache=True,
     default_cache_timeout=3600,
     suppress_callback_exceptions=True,

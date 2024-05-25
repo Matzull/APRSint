@@ -5,8 +5,8 @@ Colorear puntos por otro criterio (Por volumen de mensajes) ----------- 100%
 Station
 QRZ cambiar las keys para mas intuitivas------------------------------- 100% -> review + añadir mas
 Modificar tamaños de cosas -------------------------------------------- 90% -> review
-Corregir cuando no se encuentra la estacion qrz/Bd -------------------- 90% -> review
-Mostrar todos los mensajes en card de mapa
+Corregir cuando no se encuentra la estacion qrz/Bd -------------------- 100% -> review
+Mostrar todos los mensajes en card de mapa ---------------------------- 100% -> Se muestra el mensaje top
 Poner nombre de la estacion en el top de la pagina -------------------- 100%
 
 Grafo
@@ -15,7 +15,7 @@ Explicacion------------------------------------------------------------ 100% -> 
 Global
 Hide filters
 Hide filter-toggle-button
-Logo (RANITA HASMEL OGO POLX)
+Logo (RANITA HASMEL OGO POLX) ----------------------------------------- 100%
 airflow data update --------------------------------------------------- 100%
 
 

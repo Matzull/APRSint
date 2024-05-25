@@ -86,14 +86,11 @@ class StationPage:
             max_freq = 0
             new_data = None
             for item in data[table_key]:
-                
                 if item.get("Freq") >= max_freq and item.get("Comment"):
                     max_freq = item.get("Freq")
                     new_data = item
             data = new_data
-            
 
-            
         body = html.Tbody(
             [
                 html.Tr([*create_cell(key, value)])
@@ -154,7 +151,12 @@ class StationPage:
                     dcc.Graph(
                         id="local-map",
                         figure=self.rec.plot_map(),
-                        style={"aspectRatio": "16/10", "maxHeight": "45vh", "maxWidth": "95%", "margin":"10px"},
+                        style={
+                            "aspectRatio": "16/10",
+                            "maxHeight": "45vh",
+                            "maxWidth": "95%",
+                            "margin": "10px",
+                        },
                     )
                 ),
             )
@@ -317,7 +319,7 @@ class StationPage:
                 dmc.Center(
                     dmc.Stack(
                         [
-                            dmc.Title("QRZ information", order=2, mb="sm"),
+                            dmc.Center(dmc.Title("QRZ information", order=2, mb="sm")),
                             html.Img(
                                 src=self.rec.report()["qrz"]["img"],
                                 alt="Profile picture",
@@ -326,7 +328,9 @@ class StationPage:
                         ]
                     )
                 ),
-                self.create_table(dict(sorted(rep.items())), exclude_keys=["img", "biography"]),
+                self.create_table(
+                    dict(sorted(rep.items())), exclude_keys=["img", "biography"]
+                ),
             ],
             withBorder=True,
             shadow="sm",

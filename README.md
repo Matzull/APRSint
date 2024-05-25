@@ -18,37 +18,98 @@
 
 ## Getting Started
 
-1. **Installation**: Download and install APRSint from our [website](link_to_download).
+1. **Installation**: Clone or download the APRSint repository on your computer. You can download the latest version of APRSint from [here](https://github.com/Matzull/APRSint)
 
-2. **Setup**: Follow the on-screen setup instructions to configure APRSint for your specific needs.
+2. **Setup**: Navigate to the folder using 
+```bash
+cd APRSint
+``` 
 
-3. **Launch**: Once installed, launch APRSint and start receiving and analyzing APRS signals.
+Install the project dependencies by running the following command in your terminal:
 
-## Usage
+```bash
+pip install .
+```
 
-- Open the APRSint application.
-- Configure your receiver settings to listen to APRS signals.
-- APRSint will automatically start decoding and extracting data from incoming APRS signals.
-- Use the map view and analysis tools to gain insights from the data.
+3. **Launch**: Once installed, APRSint is ready to use. Run the following command to start the application:
 
-For more detailed information on how to use APRSint, check out our [User Guide](link_to_user_guide).
+```bash
+aprsint --help
+```
 
-## Contributing
-
-We welcome contributions from the community. If you'd like to improve APRSint or report issues, please see our [Contribution Guidelines](link_to_contributing).
-
+## Project Structure
+``` bash
+📦APRSint
+ ┣━ 📂app
+ ┃ ┣━ 📂cli
+ ┃ ┃ ┗━ 📜commands.py
+ ┃ ┣━ 📂commons
+ ┃ ┃ ┗━ 📜parameters.py
+ ┃ ┣━ 📂db
+ ┃ ┃ ┗━ 📜schema.py
+ ┃ ┣━ 📂interfaces
+ ┃ ┃ ┣━ 📜alchemy.py
+ ┃ ┃ ┣━ 📜aws.py
+ ┃ ┃ ┗━ 📜progress.py
+ ┃ ┣━ 📂services
+ ┃ ┃ ┣━ 📜aprs_client.py
+ ┃ ┃ ┣━ 📜cache.py
+ ┃ ┃ ┣━ 📜client_daemon.py
+ ┃ ┃ ┣━ 📜db_insert.py
+ ┃ ┃ ┗━ 📜s3.py
+ ┃ ┣━ 📂shapefiles
+ ┃ ┃ ┗━ 📜world.feather
+ ┃ ┣━ 📂src
+ ┃ ┃ ┣━ 📂web
+ ┃ ┃ ┃ ┣━ 📂cache
+ ┃ ┃ ┃ ┃ ┗━ 📜map_data.feather
+ ┃ ┃ ┃ ┣━ 📂pages
+ ┃ ┃ ┃ ┃ ┣━ 📜graph.py
+ ┃ ┃ ┃ ┃ ┣━ 📜home.py
+ ┃ ┃ ┃ ┃ ┗━ 📜station.py
+ ┃ ┃ ┃ ┣━ 📜aprsint.sock
+ ┃ ┃ ┃ ┣━ 📜fetch_data_web.py
+ ┃ ┃ ┃ ┣━ 📜inteligence.py
+ ┃ ┃ ┃ ┣━ 📜name_mapping.py
+ ┃ ┃ ┃ ┣━ 📜web.py
+ ┃ ┃ ┃ ┗━ 📜wsgi.py
+ ┃ ┃ ┣━ 📜inteligence.ipynb
+ ┃ ┃ ┗━ 📜interpret.ipynb
+ ┃ ┣━ 📂utils
+ ┃ ┃ ┣━ 📜buffer.py
+ ┃ ┃ ┣━ 📜data_types.py
+ ┃ ┃ ┗━ 📜utils.py
+ ┃ ┗━ 📜base.py
+ ┣━ 📂cache
+ ┣━ 📂dags
+ ┃ ┣━ 📜aprsint_dag_params.py
+ ┃ ┣━ 📜aprsint_dag_params.template.py
+ ┃ ┣━ 📜cache_data.py
+ ┃ ┣━ 📜download_files.py
+ ┃ ┣━ 📜insert_database.py
+ ┃ ┗━ 📜upload_files.py
+ ┣━ 📂media
+ ┃ ┣━ 📜logo.png
+ ┃ ┣━ 📜logo.svg
+ ┃ ┗━ 📜logo1.png
+ ┣━ 📂notebooks
+ ┃ ┣━ 📜parse.ipynb
+ ┃ ┣━ 📜template.ipynb
+ ┃ ┗━ 📜test_s3.ipynb
+ ┣━ 📂scripts
+ ┃ ┣━ 📜ci.sh
+ ┃ ┗━ 📜deploy.sh
+ ┣━ 📂testing
+ ┃ ┣━ 📜cos.js
+ ┃ ┣━ 📜cosmos.py
+ ┃ ┣━ 📜network.py
+ ┃ ┣━ 📜plot.py
+ ┃ ┣━ 📜sigma.py
+ ┃ ┗━ 📜test.ipynb
+ ┣━ 📜.gitignore
+ ┣━ 📜README.md
+ ┗━ 📜setup.py
+```
 ## License
 
-APRSint is licensed under the [MIT License](link_to_license). Feel free to use and modify it for your needs.
-
-## Contact
-
-If you have any questions, feedback, or need support, please reach out to us at [support@aprsintapp.com](mailto:support@aprsintapp.com).
-
-For updates and announcements, follow us on [Twitter](link_to_twitter) and [Facebook](link_to_facebook).
-
-Thank you for choosing APRSint!
-
----
-
-Please replace the placeholder text (e.g., `link_to_logo`, `link_to_download`, `link_to_user_guide`, etc.) with the actual links and information relevant to your application. You can also customize the content further to reflect your application's unique features and branding.
+This project is licensed under the GPL 3.0 License - see the [LICENSE](LICENSE) file for details.
